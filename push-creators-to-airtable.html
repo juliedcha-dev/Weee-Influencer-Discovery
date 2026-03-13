@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Push Creators to Airtable</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #faf7f2; font-family: 'Instrument Sans', sans-serif; font-size: 15px; color: #1a1714; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+  .card { background: #fff; border: 1px solid #e8e2d9; border-radius: 20px; padding: 40px; max-width: 540px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+  .logo { font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; font-weight: 800; color: #1a1714; margin-bottom: 6px; }
+  .subtitle { font-size: 14px; color: #7a7269; margin-bottom: 32px; }
+  .info-box { background: #f0ece5; border-radius: 12px; padding: 16px 18px; margin-bottom: 24px; font-size: 13px; color: #5a5248; line-height: 1.6; }
+  .info-box strong { color: #1a1714; }
+  .push-btn {
+    width: 100%; background: #e8401c; color: #fff; border: none; border-radius: 12px;
+    padding: 16px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px;
+    font-weight: 700; cursor: pointer; transition: opacity 0.15s; margin-bottom: 16px;
+  }
+  .push-btn:hover { opacity: 0.88; }
+  .push-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .clear-btn {
+    width: 100%; background: none; color: #7a7269; border: 1.5px solid #e8e2d9;
+    border-radius: 12px; padding: 12px; font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px; cursor: pointer; transition: all 0.15s; margin-bottom: 24px;
+  }
+  .clear-btn:hover { border-color: #e8401c; color: #e8401c; }
+  .log { background: #1a1714; border-radius: 12px; padding: 20px; font-family: monospace; font-size: 13px; min-height: 120px; max-height: 280px; overflow-y: auto; }
+  .log-line { margin-bottom: 6px; }
+  .log-line.success { color: #3cd48a; }
+  .log-line.error   { color: #ff6b6b; }
+  .log-line.info    { color: #9a9088; }
+  .log-line.done    { color: #f5a623; font-weight: bold; }
+  .progress { margin-bottom: 16px; }
+  .progress-bar-wrap { background: #f0ece5; border-radius: 100px; height: 8px; margin-top: 8px; overflow: hidden; }
+  .progress-bar { background: #e8401c; height: 100%; border-radius: 100px; width: 0%; transition: width 0.3s; }
+  .progress-label { font-size: 12px; color: #7a7269; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">Weee! 🥢</div>
+  <div class="subtitle">Push all 14 creators directly into your Airtable Creators table</div>
+
+  <div class="info-box">
+    <strong>Before clicking:</strong> Make sure your Airtable <strong>Creators</strong> table is empty (delete any existing rows). This will add all 14 creators in one click — no CSV, no Terminal needed.
+  </div>
+
+  <button class="push-btn" id="pushBtn" onclick="pushAll()">🚀 Push 14 Creators to Airtable</button>
+  <button class="clear-btn" onclick="clearLog()">Clear log</button>
+
+  <div class="progress" id="progressWrap" style="display:none">
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="progress-label" id="progressLabel">0 / 14 creators pushed</div>
+  </div>
+
+  <div class="log" id="log">
+    <div class="log-line info">// Ready — click the button above to start</div>
+  </div>
+</div>
+
+<script>
+const AT_TOKEN = 'patlvCVxDkb5VkNFX';
+const AT_BASE  = 'appkLHAYKQ0iV1gJW';
+
+const CREATORS = [
+  { Name:"Jisu Park", Handle:"@jisueats", Followers:"72K", Engagement:"9.4%", "Avg Views":"380K", "Cost Est":"$700–1200", Culture:"korean", Size:"micro", Platforms:"tiktok youtube", Niches:"food cultural", "Food Content":"Kimchi making, Doenjang jjigae, Korean grocery hauls, Banchan recipes", Campaigns:"lunar springpicnic thanksgiving holidayseason", "Match Score":99, Location:"Los Angeles CA", Why:"Jisu's Korean grocery haul and banchan recipe series regularly hits 300K+ views on TikTok. Her audience is deeply Korean-American diaspora.", "Outreach Template":"Jisu! Your banchan series is genuinely one of the best on TikTok. We're launching a food delivery app specializing in Korean ingredients and would love to partner with you.", "Photo URL":"https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Kevin Cho", Handle:"@kevinchoeats", Followers:"185K", Engagement:"5.2%", "Avg Views":"120K", "Cost Est":"$2000–3500", Culture:"korean", Size:"mid", Platforms:"youtube instagram", Niches:"food lifestyle cultural", "Food Content":"Korean BBQ reviews, KBBQ at home, Tteokbokki, Korean fried chicken", Campaigns:"lunar memorial fourthjuly thanksgiving", "Match Score":96, Location:"New York NY", Why:"Kevin's Korean BBQ content reaches a broad audience of both Korean-Americans and non-Korean food enthusiasts curious about authentic KBBQ.", "Outreach Template":"Kevin — the KBBQ at home videos are what got me hooked. We're building a food delivery service focused on authentic Korean ingredients.", "Photo URL":"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Mina Yoon", Handle:"@minasmadeit", Followers:"8.4K", Engagement:"17.8%", "Avg Views":"52K", "Cost Est":"$150–300", Culture:"korean", Size:"nano", Platforms:"tiktok instagram", Niches:"food cultural student", "Food Content":"Korean dorm cooking, Ramyeon upgrades, Tteok recipes, Korean convenience snacks", Campaigns:"backtoschool valentines lunar springpicnic", "Match Score":94, Location:"San Jose CA", Why:"Mina's 17.8% engagement rate is extraordinary. Her college-focused Korean cooking content resonates powerfully with Korean-American students.", "Outreach Template":"Mina!! The ramyeon upgrades are genius. We're launching a food delivery app targeting Korean-American students who want real Korean ingredients fast.", "Photo URL":"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Soyeon Han", Handle:"@soyeonkitchen", Followers:"43K", Engagement:"8.1%", "Avg Views":"95K", "Cost Est":"$500–900", Culture:"korean", Size:"micro", Platforms:"youtube instagram tiktok", Niches:"food wellness cultural", "Food Content":"Korean wellness food, Fermented foods, Doenjang, Temple food, Healthy Korean cooking", Campaigns:"lunar springpicnic mothersday holidayseason", "Match Score":92, Location:"San Francisco CA", Why:"Soyeon focuses on the health and wellness angle of Korean food reaching health-conscious Korean and non-Korean Americans who value quality sourcing.", "Outreach Template":"Soyeon! Your fermented food content is so educational. We're launching a food delivery service focused on authentic quality Korean ingredients.", "Photo URL":"https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Tyler Kim", Handle:"@tylerhungry", Followers:"67K", Engagement:"7.9%", "Avg Views":"250K", "Cost Est":"$700–1100", Culture:"korean", Size:"micro", Platforms:"tiktok instagram youtube", Niches:"food student lifestyle cultural", "Food Content":"Korean-American fusion, Delivery challenges, Food reviews, Korean snacks", Campaigns:"lunar fourthjuly backtoschool memorial holidayseason", "Match Score":97, Location:"New York NY", Why:"Tyler is a triple-platform creator. His delivery challenge format is tailor-made for a launch campaign and his Korean-American background gives him natural authority.", "Outreach Template":"Tyler!! The only delivery for a week videos are genius. We want to be part of the next one. We're launching a food delivery app and would love to be your featured app.", "Photo URL":"https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Maya Chen", Handle:"@mayaeats", Followers:"84K", Engagement:"6.2%", "Avg Views":"210K", "Cost Est":"$800–1200", Culture:"chinese", Size:"micro", Platforms:"tiktok instagram", Niches:"food lifestyle", "Food Content":"Delivery unboxings, Restaurant reviews, Quick weeknight meals", Campaigns:"lunar valentines springpicnic holidayseason", "Match Score":95, Location:"San Francisco CA", Why:"Maya's TikTok food content averages 210K views well above her follower count. Her delivery unboxing series resonates perfectly with first-order campaigns.", "Outreach Template":"Hi Maya! We're launching a food delivery app in SF and would love to partner with you — your delivery content is exactly what we need.", "Photo URL":"https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Lin Wei", Handle:"@linweikitchen", Followers:"91K", Engagement:"6.8%", "Avg Views":"200K", "Cost Est":"$900–1500", Culture:"chinese", Size:"micro", Platforms:"youtube tiktok", Niches:"food cultural", "Food Content":"Dumpling making, Cantonese cooking, Chinese pantry hauls, Hot pot prep, Dim sum at home", Campaigns:"lunar springpicnic mothersday holidayseason thanksgiving", "Match Score":94, Location:"San Gabriel CA", Why:"Lin's dumpling and Cantonese cooking content is deeply authentic. Her dim sum at home series is a natural fit for promoting Chinese ingredient delivery.", "Outreach Template":"Lin! Your dumpling-making videos are incredible. We're launching a food delivery service with authentic Chinese pantry ingredients — would love to chat about a collab.", "Photo URL":"https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Yuki Tanaka", Handle:"@yukicooks_jp", Followers:"55K", Engagement:"7.3%", "Avg Views":"140K", "Cost Est":"$600–1000", Culture:"japanese", Size:"micro", Platforms:"instagram youtube tiktok", Niches:"food cultural lifestyle", "Food Content":"Bento making, Onigiri varieties, Japanese curry, Ramen from scratch, Japanese pantry essentials", Campaigns:"lunar springpicnic mothersday holidayseason", "Match Score":95, Location:"Seattle WA", Why:"Yuki's bento and pantry content reaches Japanese-American audiences seeking authentic ingredients. Her pantry essentials series drives strong product discovery.", "Outreach Template":"Yuki! Your bento content is some of the most beautiful food content on the platform. We'd love to partner for a stock your Japanese pantry style video.", "Photo URL":"https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Priya Nair", Handle:"@priyacooks", Followers:"210K", Engagement:"3.8%", "Avg Views":"95K", "Cost Est":"$2000–3500", Culture:"indian", Size:"mid", Platforms:"instagram youtube", Niches:"food wellness cultural", "Food Content":"South Indian recipes, Dosa from scratch, Curry leaf cooking, Lentil dishes", Campaigns:"lunar mothersday thanksgiving holidayseason", "Match Score":87, Location:"Los Angeles CA", Why:"Priya's large Instagram following skews 25-35 and values quality food. Her South Indian cooking content reaches Indian-American audiences seeking specialty ingredients.", "Outreach Template":"Hi Priya! Your South Indian recipe content is beautiful. We're launching a delivery service with authentic Indian pantry staples and would love a paid partnership.", "Photo URL":"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Jordan Torres", Handle:"@jordanliveson", Followers:"52K", Engagement:"8.4%", "Avg Views":"180K", "Cost Est":"$500–900", Culture:"mexican", Size:"micro", Platforms:"tiktok instagram youtube", Niches:"student lifestyle", "Food Content":"Late-night food runs, Student meal prep, Cheap eats reviews", Campaigns:"backtoschool fourthjuly memorial springpicnic", "Match Score":92, Location:"Berkeley CA", Why:"Jordan's college lifestyle content reaches an 18-24 audience ideal for your student referral campaign. He has strong ties to the Berkeley campus community.", "Outreach Template":"Hey Jordan! We're building a food delivery app for students and want you as our first Berkeley campus ambassador. Exclusive promo code and free meals.", "Photo URL":"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=face" },
+  { Name:"DeShawn Morales", Handle:"@deshawnlatenight", Followers:"38K", Engagement:"11.2%", "Avg Views":"320K", "Cost Est":"$400–700", Culture:"", Size:"micro", Platforms:"tiktok", Niches:"student lifestyle food", "Food Content":"Late-night snacks, Fast food reviews, Delivery hauls", Campaigns:"fourthjuly memorial backtoschool thanksgiving", "Match Score":93, Location:"Austin TX", Why:"DeShawn's 11.2% engagement rate is exceptional. His late-night food content hits at exactly the right moment when delivery orders spike.", "Outreach Template":"DeShawn! The late night snack TikToks are elite. We're launching a food delivery app and you're exactly who we want to kick things off. Free food + flat rate.", "Photo URL":"https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Rosa Mendoza", Handle:"@rosamakestacos", Followers:"7.1K", Engagement:"19.2%", "Avg Views":"60K", "Cost Est":"$100–250", Culture:"mexican", Size:"nano", Platforms:"tiktok instagram", Niches:"food cultural lifestyle", "Food Content":"Homemade tortillas, Regional Mexican cooking, Specialty chiles, Mole from scratch", Campaigns:"memorial fourthjuly thanksgiving mothersday", "Match Score":91, Location:"East Los Angeles CA", Why:"Rosa's 19.2% engagement rate is among the highest in our database. Her authentic Mexican regional cooking reaches an audience that actively sources specialty ingredients.", "Outreach Template":"Rosa! Your mole content is genuinely one of a kind. We're launching a food delivery service with authentic Mexican pantry ingredients and you're who we want to feature first.", "Photo URL":"https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Sofia Reyes", Handle:"@sofiafreestyle", Followers:"9.2K", Engagement:"14.5%", "Avg Views":"45K", "Cost Est":"$150–300", Culture:"mexican", Size:"nano", Platforms:"instagram tiktok", Niches:"lifestyle student", "Food Content":"Mexican home cooking, Tortilla making, Salsa recipes, Street food", Campaigns:"mothersday memorial thanksgiving springpicnic", "Match Score":88, Location:"San Diego CA", Why:"Sofia's nano-influencer status means hyper-engaged followers who trust her like a friend — ideal for referral campaigns targeting authentic Mexican food communities.", "Outreach Template":"Sofia! Your content feels so real. We're building a food delivery app and want to test a referral program with you — pay per sign-up and your audience gets $10 off.", "Photo URL":"https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=120&h=120&fit=crop&crop=face" },
+  { Name:"Aisha Okafor", Handle:"@aishaeats.sf", Followers:"6.8K", Engagement:"16.2%", "Avg Views":"28K", "Cost Est":"$100–250", Culture:"", Size:"nano", Platforms:"instagram tiktok", Niches:"food wellness", "Food Content":"Wellness food, Healthy delivery reviews, Nutritious meal unboxings", Campaigns:"springpicnic valentines mothersday holidayseason", "Match Score":89, Location:"San Francisco CA", Why:"Aisha's 16% engagement rate is exceptional. Her small but highly loyal SF food community responds intensely to her recommendations.", "Outreach Template":"Aisha! Your SF food content is some of the most authentic I've seen. We're launching in SF and would love a paid partnership highlighting our healthy options.", "Photo URL":"https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&fit=crop&crop=face" }
+];
+
+function log(msg, type='info') {
+  const el = document.getElementById('log');
+  const line = document.createElement('div');
+  line.className = `log-line ${type}`;
+  line.textContent = msg;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+function clearLog() {
+  document.getElementById('log').innerHTML = '<div class="log-line info">// Log cleared</div>';
+}
+
+function setProgress(done, total) {
+  document.getElementById('progressBar').style.width = `${(done/total)*100}%`;
+  document.getElementById('progressLabel').textContent = `${done} / ${total} creators pushed`;
+}
+
+async function pushAll() {
+  const btn = document.getElementById('pushBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Pushing…';
+  document.getElementById('progressWrap').style.display = 'block';
+  document.getElementById('log').innerHTML = '';
+
+  log('Starting push to Airtable…', 'info');
+
+  let pushed = 0;
+  const total = CREATORS.length;
+
+  // Push in batches of 10
+  const batches = [];
+  for (let i = 0; i < CREATORS.length; i += 10) batches.push(CREATORS.slice(i, i + 10));
+
+  for (const batch of batches) {
+    try {
+      const res = await fetch('https://cheerful-chebakia-0dac0e.netlify.app/.netlify/functions/airtable?table=Creators', {
+        method: 'POST',
+        headers: {
+          // token handled by Netlify function
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ records: batch.map(fields => ({ fields })) })
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        log(`✗ Error: ${data.error.message || JSON.stringify(data.error)}`, 'error');
+      } else {
+        pushed += data.records.length;
+        data.records.forEach(r => log(`✓ Added: ${r.fields.Name}`, 'success'));
+        setProgress(pushed, total);
+      }
+    } catch(e) {
+      log(`✗ Network error: ${e.message}`, 'error');
+    }
+  }
+
+  if (pushed === total) {
+    log(``, 'info');
+    log(`🎉 All ${pushed} creators pushed successfully!`, 'done');
+    log(`→ Open your tool and hit ↻ Refresh to see them`, 'done');
+    btn.textContent = '✓ Done!';
+    btn.style.background = '#1a7a4a';
+  } else {
+    log(`Pushed ${pushed}/${total} — check errors above`, 'error');
+    btn.disabled = false;
+    btn.textContent = '🚀 Push 14 Creators to Airtable';
+  }
+}
+</script>
+</body>
+</html>
