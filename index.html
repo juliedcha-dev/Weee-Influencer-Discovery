@@ -16,21 +16,23 @@
 /* ── HOME PAGE STYLES ──────────────────────────────────── */
 
   :root {
-    --bg: #faf7f2;
-    --ink: #1a1714;
-    --muted: #7a7269;
+    --bg: #f0f6fb;
+    --ink: #0f1923;
+    --muted: #5a7a96;
     --accent: #e8401c;
     --accent2: #f5a623;
     --green: #1a7a4a;
     --green-bg: #e8f5ee;
-    --blue: #1a4f8a;
-    --blue-bg: #e8f0fa;
-    --border: #e8e2d9;
+    --blue: #469CCB;
+    --blue-dark: #0f1923;
+    --blue-mid: #1a2535;
+    --blue-light: #d6eaf6;
+    --border: #ccdde9;
     --surface: #fff;
-    --tag-bg: #f0ece5;
+    --tag-bg: #e4f0f8;
     --radius: 16px;
-    --shadow: 0 2px 16px rgba(0,0,0,0.07);
-    --shadow-lg: 0 12px 48px rgba(0,0,0,0.10);
+    --shadow: 0 2px 16px rgba(15,25,35,0.08);
+    --shadow-lg: 0 12px 48px rgba(15,25,35,0.14);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,27 +42,245 @@
   /* NAV */
   nav {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(250,247,242,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    background: #469CCB;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
     padding: 0 48px;
     display: flex; align-items: center; justify-content: space-between;
     height: 64px;
   }
   .nav-logo svg { display: block; }
   .nav-right { display: flex; align-items: center; gap: 24px; }
-  .nav-link { font-size: 13px; color: var(--muted); text-decoration: none; font-weight: 500; transition: color 0.15s; }
-  .nav-link:hover { color: var(--ink); }
+  .nav-link { font-size: 13px; color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 700; font-family: 'Bricolage Grotesque', sans-serif; letter-spacing: 0.01em; transition: color 0.15s; }
+  .nav-link:hover { color: #fff; }
   .nav-cta {
-    background: var(--ink); color: #fff;
+    background: #fff; color: var(--ink);
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 13px; font-weight: 700;
     padding: 9px 20px; border-radius: 100px;
     text-decoration: none;
-    transition: background 0.18s, transform 0.1s;
+    transition: background 0.18s, transform 0.1s, box-shadow 0.18s;
     letter-spacing: 0.01em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
   }
-  .nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+  .nav-cta:hover { background: var(--accent); color: #fff; transform: translateY(-1px); }
+
+  /* LOGIN BUTTON IN NAV */
+  .nav-login-btn {
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.3);
+    color: #fff; font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 13px; font-weight: 700;
+    padding: 8px 16px; border-radius: 100px;
+    cursor: pointer; transition: all 0.18s;
+  }
+  .nav-login-btn:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.5); }
+
+  /* AUTH MODAL OVERLAY */
+  .auth-overlay {
+    position: fixed; inset: 0;
+    background: rgba(15,12,10,0.6);
+    backdrop-filter: blur(8px);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .auth-overlay.open { opacity: 1; pointer-events: all; }
+
+  .auth-modal {
+    background: var(--surface);
+    border-radius: 24px;
+    width: 100%; max-width: 420px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+    overflow: hidden;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .auth-overlay.open .auth-modal { transform: translateY(0) scale(1); }
+
+  .auth-modal-top {
+    background: linear-gradient(135deg, #1a1714 0%, #2d2520 100%);
+    padding: 32px 32px 28px;
+    position: relative; overflow: hidden;
+  }
+  .auth-modal-top::before {
+    content: '';
+    position: absolute; top: -50px; right: -50px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(232,64,28,0.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .auth-modal-top::after {
+    content: '';
+    position: absolute; bottom: -30px; left: 60px;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, rgba(245,166,35,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .auth-modal-logo { margin-bottom: 16px; position: relative; z-index: 1; }
+  .auth-modal-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 22px; font-weight: 800;
+    color: #fff; letter-spacing: -0.02em;
+    line-height: 1.2; position: relative; z-index: 1;
+  }
+  .auth-modal-sub { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 5px; position: relative; z-index: 1; }
+
+  .auth-modal-body { padding: 28px 32px 32px; }
+
+  /* TABS */
+  .auth-tabs {
+    display: flex; gap: 4px;
+    background: var(--tag-bg);
+    border-radius: 10px; padding: 4px;
+    margin-bottom: 24px;
+  }
+  .auth-tab {
+    flex: 1; text-align: center;
+    padding: 8px 12px; border-radius: 7px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 13px; font-weight: 700;
+    cursor: pointer; border: none; background: none;
+    color: var(--muted); transition: all 0.18s;
+  }
+  .auth-tab.active {
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+  }
+
+  /* FORM */
+  .auth-form { display: flex; flex-direction: column; gap: 14px; }
+  .auth-form-panel { display: none; }
+  .auth-form-panel.active { display: flex; flex-direction: column; gap: 14px; }
+
+  .auth-field { display: flex; flex-direction: column; gap: 5px; }
+  .auth-label {
+    font-size: 12px; font-weight: 600; color: var(--ink);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .auth-input {
+    background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 11px 14px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px; color: var(--ink);
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .auth-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(232,64,28,0.1); }
+  .auth-input::placeholder { color: var(--muted); }
+
+  .auth-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .auth-team-select {
+    background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 11px 14px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px; color: var(--ink);
+    outline: none; cursor: pointer;
+    transition: border-color 0.2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237a7269' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  .auth-team-select:focus { border-color: var(--accent); }
+
+  .auth-submit {
+    background: var(--accent); color: #fff;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 14px; font-weight: 800;
+    padding: 13px; border-radius: 10px;
+    border: none; cursor: pointer;
+    transition: opacity 0.18s, transform 0.1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 16px rgba(232,64,28,0.25);
+    margin-top: 4px;
+  }
+  .auth-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+  .auth-submit:active { transform: scale(0.98); }
+
+  .auth-divider {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--muted); margin: 4px 0;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  .auth-google-btn {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 11px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px; font-weight: 500; color: var(--ink);
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: border-color 0.18s, box-shadow 0.18s;
+  }
+  .auth-google-btn:hover { border-color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+  .auth-footer-note {
+    text-align: center; font-size: 11px; color: var(--muted);
+    margin-top: 10px; line-height: 1.5;
+  }
+  .auth-footer-note a { color: var(--accent); text-decoration: none; }
+
+  .auth-error {
+    background: #fff0ee; border: 1px solid #fcc;
+    border-radius: 8px; padding: 9px 12px;
+    font-size: 12px; color: #c0392b; display: none;
+  }
+  .auth-error.visible { display: block; }
+
+  .auth-success {
+    text-align: center; padding: 20px 0 8px;
+    display: none; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .auth-success.visible { display: flex; }
+  .auth-success-icon {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--green-bg); color: var(--green);
+    font-size: 22px; display: flex; align-items: center; justify-content: center;
+    margin-bottom: 4px;
+  }
+  .auth-success-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 18px; font-weight: 800; color: var(--ink);
+  }
+  .auth-success-sub { font-size: 13px; color: var(--muted); }
+
+  /* LOGGED-IN STATE in nav */
+  .nav-user-chip {
+    display: none; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: 100px; padding: 5px 14px 5px 6px;
+    cursor: pointer; transition: all 0.18s;
+  }
+  .nav-user-chip:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.5); }
+  .nav-user-chip.visible { display: flex; }
+  .nav-user-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    flex-shrink: 0;
+  }
+  .nav-user-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .nav-user-team { font-size: 11px; color: rgba(255,255,255,0.65); }
+
+  /* TEAM BADGE shown inside tool */
+  .tool-user-bar {
+    display: none;
+    background: var(--green-bg); border-bottom: 1px solid rgba(26,122,74,0.15);
+    padding: 8px 40px;
+    align-items: center; justify-content: space-between;
+    font-size: 12px; color: var(--green);
+    font-weight: 600;
+  }
+  .tool-user-bar.visible { display: flex; }
 
   /* HERO */
   .hero {
@@ -74,15 +294,15 @@
   }
   .hero-eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(232,64,28,0.08);
-    border: 1px solid rgba(232,64,28,0.2);
-    color: var(--accent);
+    background: rgba(70,156,203,0.12);
+    border: 1px solid rgba(70,156,203,0.3);
+    color: var(--blue);
     font-size: 12px; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.1em;
     padding: 5px 12px; border-radius: 100px;
     margin-bottom: 22px;
   }
-  .hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 1.5s infinite; }
+  .hero-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); animation: pulse 1.5s infinite; }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
   .hero-title {
     font-family: 'Bricolage Grotesque', sans-serif;
@@ -91,7 +311,7 @@
     color: var(--ink);
     margin-bottom: 22px;
   }
-  .hero-title em { font-style: normal; color: var(--accent); }
+  .hero-title em { font-style: normal; color: var(--blue); }
   .hero-sub {
     font-size: 17px; color: var(--muted);
     line-height: 1.7; margin-bottom: 36px;
@@ -99,14 +319,14 @@
   }
   .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
   .btn-primary {
-    background: var(--accent); color: #fff;
+    background: var(--blue); color: #fff;
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 15px; font-weight: 700;
     padding: 14px 28px; border-radius: 12px;
     text-decoration: none;
     display: inline-flex; align-items: center; gap: 8px;
     transition: opacity 0.18s, transform 0.12s;
-    box-shadow: 0 4px 20px rgba(232,64,28,0.25);
+    box-shadow: 0 4px 20px rgba(70,156,203,0.35);
   }
   .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
   .btn-secondary {
@@ -171,14 +391,14 @@
 
   /* STATS STRIP */
   .stats-strip {
-    background: var(--ink);
+    background: linear-gradient(135deg, #0f1923 0%, #1a2535 100%);
     padding: 28px 48px;
     display: flex; align-items: center; justify-content: center;
     gap: 64px; flex-wrap: wrap;
   }
   .stat-item { text-align: center; }
-  .stat-val { font-family: 'Bricolage Grotesque', sans-serif; font-size: 32px; font-weight: 800; color: var(--accent2); }
-  .stat-label { font-size: 12px; color: #6a6058; margin-top: 2px; }
+  .stat-val { font-family: 'Bricolage Grotesque', sans-serif; font-size: 32px; font-weight: 800; color: #469CCB; }
+  .stat-label { font-size: 12px; color: #4a6a86; margin-top: 2px; }
 
   /* SECTIONS */
   section { max-width: 1100px; margin: 0 auto; padding: 80px 48px; }
@@ -187,7 +407,7 @@
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 11px; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.12em;
-    color: var(--accent); margin-bottom: 12px;
+    color: var(--blue); margin-bottom: 12px;
   }
   .section-title {
     font-family: 'Bricolage Grotesque', sans-serif;
@@ -214,14 +434,14 @@
   .how-number {
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 11px; font-weight: 700;
-    color: var(--accent); letter-spacing: 0.1em;
+    color: var(--blue); letter-spacing: 0.1em;
     text-transform: uppercase; margin-bottom: 16px;
     display: flex; align-items: center; gap: 8px;
   }
   .how-number::before {
     content: '';
     display: block; width: 24px; height: 2px;
-    background: var(--accent);
+    background: var(--blue);
   }
   .how-icon {
     width: 48px; height: 48px; border-radius: 12px;
@@ -256,7 +476,7 @@
 
   /* CTA BANNER */
   .cta-banner {
-    background: var(--ink);
+    background: linear-gradient(135deg, #469CCB 0%, #1a6a9a 100%);
     border-radius: 24px;
     padding: 64px 64px;
     display: flex; align-items: center; justify-content: space-between;
@@ -268,14 +488,14 @@
     content: '';
     position: absolute; top: -60px; right: -60px;
     width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(232,64,28,0.25) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
     pointer-events: none;
   }
   .cta-banner::after {
     content: '';
     position: absolute; bottom: -40px; left: 100px;
     width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(245,166,35,0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(15,25,35,0.15) 0%, transparent 70%);
     pointer-events: none;
   }
   .cta-title {
@@ -284,7 +504,7 @@
     color: #fff; letter-spacing: -0.02em;
     line-height: 1.15;
   }
-  .cta-sub { font-size: 15px; color: #9a9088; margin-top: 8px; }
+  .cta-sub { font-size: 15px; color: rgba(255,255,255,0.7); margin-top: 8px; }
   .btn-cta-white {
     background: #fff; color: var(--ink);
     font-family: 'Bricolage Grotesque', sans-serif;
@@ -293,14 +513,15 @@
     text-decoration: none; white-space: nowrap;
     display: inline-flex; align-items: center; gap: 10px;
     transition: transform 0.12s, box-shadow 0.15s;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     position: relative; z-index: 1;
   }
-  .btn-cta-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+  .btn-cta-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
 
   /* FOOTER */
   footer {
     border-top: 1px solid var(--border);
+    background: var(--surface);
     padding: 28px 48px;
     display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 12px;
@@ -624,12 +845,20 @@
 <!-- NAV -->
 <nav>
   <a href="#" onclick="showHome();return false;" class="nav-logo">
-    <svg width="100" height="29" viewBox="0 0 472 139" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M178.083 0.0130858C189.254 0.0130858 190.822 5.39134 190.822 11.5155C190.822 21.6816 180.265 43.3128 169.178 66.0328L169.174 66.04L169.164 66.0602C168.182 68.0726 167.196 70.0935 166.213 72.1157C149.56 106.374 129.888 138.343 97.4908 138.343C69.9658 138.343 81.8752 105.838 81.8752 105.838C81.8752 105.838 85.9832 77.8342 84.6354 77.8342C83.5117 77.8342 81.7023 81.7474 79.0039 87.5835C71.0914 104.696 55.5343 138.343 27.201 138.343C16.7949 138.343 11.7798 133.096 10.4191 117.131C9.92117 111.238 10.2617 99.5713 10.642 86.54C11.3604 61.9228 12.221 32.4363 7.84022 27.8073C7.22715 27.1609 6.6091 26.5462 6.0034 25.9439L6.00305 25.9435L6.0029 25.9434C2.83184 22.7896 0 19.9731 0 14.7215C0 8.4665 12.2981 0.0130858 23.715 0.0130858C28.5358 0.0130858 36.6222 0.523431 39.8231 10.2593C42.4797 18.2939 43.8663 43.9813 44.1773 58.8991C44.1903 59.4901 44.2016 60.4259 44.2161 61.623L44.2161 61.6235V61.6239V61.624C44.3324 71.2409 44.6527 97.7115 47.6374 97.7115H47.7281C50.2811 97.2797 64.0565 67.9937 67.6591 59.8675C71.2617 51.7412 78.4799 31.2096 79.3222 19.0267C79.3222 19.0267 77.9356 16.8283 77.9356 13.7793C77.9356 3.66402 93.8882 0 99.0589 0C111.409 0 114.117 10.7173 115.361 24.5882C116.091 32.6544 115.459 48.142 114.842 63.2581V63.2583V63.2584C114.012 83.6023 113.209 103.273 115.789 103.273C118.368 103.273 126.014 87.4523 134.022 66.5019C136.937 58.8751 139.959 50.5044 142.825 42.566L142.825 42.5653C148.752 26.1507 154.011 11.5844 156.273 9.26473C160.744 4.68471 169.206 0.0130858 178.083 0.0130858ZM387.609 96.9773C389.515 92.7361 390.735 90.0201 394.583 90.017C398.26 90.0203 400.603 92.925 400.603 98.2218C400.603 111.87 383.03 138.395 353.121 138.395C341.302 138.395 327.268 133.357 318.443 122.601C310.304 131.316 298.162 138.395 282.714 138.395C270.896 138.395 256.861 133.357 248.036 122.601C239.898 131.316 227.755 138.395 212.308 138.395C193.466 138.395 168.986 125.597 168.986 97.2927C168.986 76.5125 181.841 56.1903 208.07 56.1903C220.265 56.1903 232.485 63.3482 232.485 79.038C232.485 105 204.714 112.525 204.714 112.525C204.714 112.525 208.874 118.138 217.531 118.138C227.004 118.138 235.44 113.781 240.611 107.63C239.833 104.451 239.405 101.009 239.405 97.2927C239.405 76.5125 252.261 56.1903 278.49 56.1903C290.684 56.1903 302.905 63.3482 302.905 79.038C302.905 105 275.133 112.525 275.133 112.525C275.133 112.525 279.293 118.138 287.95 118.138C297.423 118.138 305.859 113.781 311.03 107.63C310.252 104.451 309.825 101.009 309.825 97.2927C309.825 76.5125 322.68 56.1903 348.909 56.1903C361.104 56.1903 373.324 63.3482 373.324 79.038C373.324 105 345.553 112.525 345.553 112.525C345.553 112.525 349.713 118.138 358.369 118.138C368.918 118.138 378.21 112.747 383.095 105.458C385.225 102.284 386.528 99.3851 387.609 96.9773ZM195.021 85.7641C193.686 92.0322 195.63 94.898 197.988 95.4084C204.26 96.7693 211.401 88.0672 213.034 80.3859C214.019 75.7797 212.178 73.0186 208.576 72.2334C205.725 71.6184 197.392 74.602 195.021 85.7641ZM265.427 85.7641C264.092 92.0322 266.036 94.898 268.395 95.4084C274.667 96.7693 281.807 88.0672 283.44 80.3859C284.425 75.7797 282.585 73.0186 278.982 72.2334C276.131 71.6184 267.799 74.602 265.427 85.7641ZM335.834 85.7641C334.499 92.0322 336.443 94.898 338.801 95.4084C345.073 96.7693 352.214 88.0672 353.847 80.3859C354.831 75.7797 352.991 73.0186 349.389 72.2334C346.538 71.6184 338.205 74.602 335.834 85.7641ZM452.465 0.0131712C428.464 0.0131712 410.983 48.2343 410.983 76.5388C410.983 88.0674 418.849 97.2667 428.283 97.2667C433.337 97.2667 437.134 94.4009 438.819 85.869C440.325 77.8487 445.001 67.7513 449.456 58.1291L449.457 58.1284L450.002 56.9494C454.787 46.6024 459.474 39.6343 463.24 34.0338C468.125 26.7717 471.462 21.8091 471.462 14.7608C471.462 8.06093 463.454 0.0262566 452.478 0.0262566L452.465 0.0131712ZM436.188 121.763C436.188 130.927 428.831 138.356 419.756 138.356C410.681 138.356 403.324 130.927 403.324 121.763C403.324 112.599 410.681 105.17 419.756 105.17C428.831 105.17 436.188 112.599 436.188 121.763Z" fill="#1a1714"/></svg>
+    <svg width="100" height="29" viewBox="0 0 472 139" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M178.083 0.0130858C189.254 0.0130858 190.822 5.39134 190.822 11.5155C190.822 21.6816 180.265 43.3128 169.178 66.0328L169.174 66.04L169.164 66.0602C168.182 68.0726 167.196 70.0935 166.213 72.1157C149.56 106.374 129.888 138.343 97.4908 138.343C69.9658 138.343 81.8752 105.838 81.8752 105.838C81.8752 105.838 85.9832 77.8342 84.6354 77.8342C83.5117 77.8342 81.7023 81.7474 79.0039 87.5835C71.0914 104.696 55.5343 138.343 27.201 138.343C16.7949 138.343 11.7798 133.096 10.4191 117.131C9.92117 111.238 10.2617 99.5713 10.642 86.54C11.3604 61.9228 12.221 32.4363 7.84022 27.8073C7.22715 27.1609 6.6091 26.5462 6.0034 25.9439L6.00305 25.9435L6.0029 25.9434C2.83184 22.7896 0 19.9731 0 14.7215C0 8.4665 12.2981 0.0130858 23.715 0.0130858C28.5358 0.0130858 36.6222 0.523431 39.8231 10.2593C42.4797 18.2939 43.8663 43.9813 44.1773 58.8991C44.1903 59.4901 44.2016 60.4259 44.2161 61.623L44.2161 61.6235V61.6239V61.624C44.3324 71.2409 44.6527 97.7115 47.6374 97.7115H47.7281C50.2811 97.2797 64.0565 67.9937 67.6591 59.8675C71.2617 51.7412 78.4799 31.2096 79.3222 19.0267C79.3222 19.0267 77.9356 16.8283 77.9356 13.7793C77.9356 3.66402 93.8882 0 99.0589 0C111.409 0 114.117 10.7173 115.361 24.5882C116.091 32.6544 115.459 48.142 114.842 63.2581V63.2583V63.2584C114.012 83.6023 113.209 103.273 115.789 103.273C118.368 103.273 126.014 87.4523 134.022 66.5019C136.937 58.8751 139.959 50.5044 142.825 42.566L142.825 42.5653C148.752 26.1507 154.011 11.5844 156.273 9.26473C160.744 4.68471 169.206 0.0130858 178.083 0.0130858ZM387.609 96.9773C389.515 92.7361 390.735 90.0201 394.583 90.017C398.26 90.0203 400.603 92.925 400.603 98.2218C400.603 111.87 383.03 138.395 353.121 138.395C341.302 138.395 327.268 133.357 318.443 122.601C310.304 131.316 298.162 138.395 282.714 138.395C270.896 138.395 256.861 133.357 248.036 122.601C239.898 131.316 227.755 138.395 212.308 138.395C193.466 138.395 168.986 125.597 168.986 97.2927C168.986 76.5125 181.841 56.1903 208.07 56.1903C220.265 56.1903 232.485 63.3482 232.485 79.038C232.485 105 204.714 112.525 204.714 112.525C204.714 112.525 208.874 118.138 217.531 118.138C227.004 118.138 235.44 113.781 240.611 107.63C239.833 104.451 239.405 101.009 239.405 97.2927C239.405 76.5125 252.261 56.1903 278.49 56.1903C290.684 56.1903 302.905 63.3482 302.905 79.038C302.905 105 275.133 112.525 275.133 112.525C275.133 112.525 279.293 118.138 287.95 118.138C297.423 118.138 305.859 113.781 311.03 107.63C310.252 104.451 309.825 101.009 309.825 97.2927C309.825 76.5125 322.68 56.1903 348.909 56.1903C361.104 56.1903 373.324 63.3482 373.324 79.038C373.324 105 345.553 112.525 345.553 112.525C345.553 112.525 349.713 118.138 358.369 118.138C368.918 118.138 378.21 112.747 383.095 105.458C385.225 102.284 386.528 99.3851 387.609 96.9773ZM195.021 85.7641C193.686 92.0322 195.63 94.898 197.988 95.4084C204.26 96.7693 211.401 88.0672 213.034 80.3859C214.019 75.7797 212.178 73.0186 208.576 72.2334C205.725 71.6184 197.392 74.602 195.021 85.7641ZM265.427 85.7641C264.092 92.0322 266.036 94.898 268.395 95.4084C274.667 96.7693 281.807 88.0672 283.44 80.3859C284.425 75.7797 282.585 73.0186 278.982 72.2334C276.131 71.6184 267.799 74.602 265.427 85.7641ZM335.834 85.7641C334.499 92.0322 336.443 94.898 338.801 95.4084C345.073 96.7693 352.214 88.0672 353.847 80.3859C354.831 75.7797 352.991 73.0186 349.389 72.2334C346.538 71.6184 338.205 74.602 335.834 85.7641ZM452.465 0.0131712C428.464 0.0131712 410.983 48.2343 410.983 76.5388C410.983 88.0674 418.849 97.2667 428.283 97.2667C433.337 97.2667 437.134 94.4009 438.819 85.869C440.325 77.8487 445.001 67.7513 449.456 58.1291L449.457 58.1284L450.002 56.9494C454.787 46.6024 459.474 39.6343 463.24 34.0338C468.125 26.7717 471.462 21.8091 471.462 14.7608C471.462 8.06093 463.454 0.0262566 452.478 0.0262566L452.465 0.0131712ZM436.188 121.763C436.188 130.927 428.831 138.356 419.756 138.356C410.681 138.356 403.324 130.927 403.324 121.763C403.324 112.599 410.681 105.17 419.756 105.17C428.831 105.17 436.188 112.599 436.188 121.763Z" fill="#ffffff"/></svg>
   </a>
   <div class="nav-right">
     <a href="#" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'});return false;" class="nav-link">How it works</a>
     <a href="#" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'});return false;" class="nav-link">Features</a>
-    <a href="#" onclick="showTool();return false;" class="nav-cta">Open Tool →</a>
+    <button class="nav-login-btn" id="navLoginBtn" onclick="openAuthModal('login')">Log in</button>
+    <div class="nav-user-chip" id="navUserChip" onclick="openAuthModal('profile')">
+      <div class="nav-user-avatar" id="navUserAvatar">--</div>
+      <div>
+        <div class="nav-user-name" id="navUserName">--</div>
+        <div class="nav-user-team" id="navUserTeam">--</div>
+      </div>
+    </div>
+    <a href="#" onclick="handleToolOpen();return false;" class="nav-cta">Open Tool →</a>
   </div>
 </nav>
 
@@ -640,7 +869,7 @@
     <h1 class="hero-title">Find the right creators for every <em>campaign</em></h1>
     <p class="hero-sub">A purpose-built tool for Weee!'s marketing team to discover, evaluate, and shortlist multicultural food creators — matched to your seasonal campaigns by AI.</p>
     <div class="hero-actions">
-      <a href="#" onclick="showTool();return false;" class="btn-primary">Open the Tool →</a>
+      <a href="#" onclick="handleToolOpen();return false;" class="btn-primary">Open the Tool →</a>
       <a href="#" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'});return false;" class="btn-secondary">See how it works ↓</a>
     </div>
   </div>
@@ -713,19 +942,19 @@
       <div class="how-number">Step 01</div>
       <div class="how-icon" style="background:#fff0ed">🎯</div>
       <div class="how-card-title">Filter by campaign & culture</div>
-      <div class="how-card-body">Select a seasonal campaign (Lunar New Year, Thanksgiving, etc.) and a cultural market to instantly surface the most relevant creators for that moment.</div>
+      <div class="how-card-body">Select a campaign and culture to instantly surface top creators.</div>
     </div>
     <div class="how-card fade-in" style="transition-delay:0.1s">
       <div class="how-number">Step 02</div>
       <div class="how-icon" style="background:#e8f5ee">✦</div>
       <div class="how-card-title">Use AI to match creators</div>
-      <div class="how-card-body">Type a plain-language brief into the AI Campaign Matcher — it reads your creator database and recommends the best fits with specific cultural and content reasoning.</div>
+      <div class="how-card-body">Describe your campaign - AI finds the right creator recommendations with cultural context.</div>
     </div>
     <div class="how-card fade-in" style="transition-delay:0.2s">
       <div class="how-number">Step 03</div>
       <div class="how-icon" style="background:#e8f0fa">📋</div>
-      <div class="how-card-title">Shortlist & generate outreach</div>
-      <div class="how-card-body">Click a creator card to shortlist them — it auto-saves to Airtable. Then generate a personalized AI outreach DM tailored to their content style and campaign.</div>
+      <div class="how-card-title">Shortlist & Personalize Outreach</div>
+      <div class="how-card-body">Auto-save to Airtable and instantly generate personalized AI outreach.</div>
     </div>
   </div>
 </section>
@@ -734,14 +963,14 @@
 <section id="features" style="padding-top:0">
   <div class="section-eyebrow">Features</div>
   <h2 class="section-title">Everything your team needs</h2>
-  <p class="section-sub">Built specifically for Weee!'s multicultural food delivery campaigns — not a generic influencer tool.</p>
+  <p class="section-sub">Built for Weee!'s multicultural campaigns, not generic influencer marketing.</p>
 
   <div class="features-grid" style="margin-top:48px">
     <div class="feature-card fade-in">
       <div class="feature-icon" style="background:#fff0ed">🌏</div>
       <div>
-        <div class="feature-title">Multicultural market filters</div>
-        <div class="feature-body">Filter by Korean, Chinese, Mexican, Indian, and Japanese markets. Each market includes a cultural context card with key food items, audience insights, and trending content topics.</div>
+        <div class="feature-title">Ethnic Market Filters</div>
+        <div class="feature-body">Filter by Korean, Chinese, Mexican, Indian, and Japanese markets—each with cultural insights, key foods, and trending content.</div>
       </div>
     </div>
     <div class="feature-card fade-in" style="transition-delay:0.1s">
@@ -781,7 +1010,7 @@
     <div class="cta-title">Ready to find your next creator?</div>
     <div class="cta-sub">Browse 14 pre-vetted multicultural food creators and start building your campaign roster.</div>
   </div>
-  <a href="#" onclick="showTool();return false;" class="btn-cta-white">Open the Tool →</a>
+  <a href="#" onclick="handleToolOpen();return false;" class="btn-cta-white">Open the Tool →</a>
 </div>
 
 <!-- FOOTER -->
@@ -791,7 +1020,113 @@
 </footer>
 </div>
 
-<!-- ══ TOOL PAGE ══════════════════════════════════════════ -->
+<!-- ══ AUTH MODAL ════════════════════════════════════════ -->
+<div class="auth-overlay" id="authOverlay" onclick="handleAuthOverlayClick(event)">
+  <div class="auth-modal" id="authModal">
+    <div class="auth-modal-top">
+      <div class="auth-modal-logo">
+        <svg width="72" height="21" viewBox="0 0 472 139" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M178.083 0.0130858C189.254 0.0130858 190.822 5.39134 190.822 11.5155C190.822 21.6816 180.265 43.3128 169.178 66.0328L169.174 66.04L169.164 66.0602C168.182 68.0726 167.196 70.0935 166.213 72.1157C149.56 106.374 129.888 138.343 97.4908 138.343C69.9658 138.343 81.8752 105.838 81.8752 105.838C81.8752 105.838 85.9832 77.8342 84.6354 77.8342C83.5117 77.8342 81.7023 81.7474 79.0039 87.5835C71.0914 104.696 55.5343 138.343 27.201 138.343C16.7949 138.343 11.7798 133.096 10.4191 117.131C9.92117 111.238 10.2617 99.5713 10.642 86.54C11.3604 61.9228 12.221 32.4363 7.84022 27.8073C7.22715 27.1609 6.6091 26.5462 6.0034 25.9439L6.00305 25.9435L6.0029 25.9434C2.83184 22.7896 0 19.9731 0 14.7215C0 8.4665 12.2981 0.0130858 23.715 0.0130858C28.5358 0.0130858 36.6222 0.523431 39.8231 10.2593C42.4797 18.2939 43.8663 43.9813 44.1773 58.8991C44.1903 59.4901 44.2016 60.4259 44.2161 61.623L44.2161 61.6235V61.6239V61.624C44.3324 71.2409 44.6527 97.7115 47.6374 97.7115H47.7281C50.2811 97.2797 64.0565 67.9937 67.6591 59.8675C71.2617 51.7412 78.4799 31.2096 79.3222 19.0267C79.3222 19.0267 77.9356 16.8283 77.9356 13.7793C77.9356 3.66402 93.8882 0 99.0589 0C111.409 0 114.117 10.7173 115.361 24.5882C116.091 32.6544 115.459 48.142 114.842 63.2581V63.2583V63.2584C114.012 83.6023 113.209 103.273 115.789 103.273C118.368 103.273 126.014 87.4523 134.022 66.5019C136.937 58.8751 139.959 50.5044 142.825 42.566L142.825 42.5653C148.752 26.1507 154.011 11.5844 156.273 9.26473C160.744 4.68471 169.206 0.0130858 178.083 0.0130858ZM387.609 96.9773C389.515 92.7361 390.735 90.0201 394.583 90.017C398.26 90.0203 400.603 92.925 400.603 98.2218C400.603 111.87 383.03 138.395 353.121 138.395C341.302 138.395 327.268 133.357 318.443 122.601C310.304 131.316 298.162 138.395 282.714 138.395C270.896 138.395 256.861 133.357 248.036 122.601C239.898 131.316 227.755 138.395 212.308 138.395C193.466 138.395 168.986 125.597 168.986 97.2927C168.986 76.5125 181.841 56.1903 208.07 56.1903C220.265 56.1903 232.485 63.3482 232.485 79.038C232.485 105 204.714 112.525 204.714 112.525C204.714 112.525 208.874 118.138 217.531 118.138C227.004 118.138 235.44 113.781 240.611 107.63C239.833 104.451 239.405 101.009 239.405 97.2927C239.405 76.5125 252.261 56.1903 278.49 56.1903C290.684 56.1903 302.905 63.3482 302.905 79.038C302.905 105 275.133 112.525 275.133 112.525C275.133 112.525 279.293 118.138 287.95 118.138C297.423 118.138 305.859 113.781 311.03 107.63C310.252 104.451 309.825 101.009 309.825 97.2927C309.825 76.5125 322.68 56.1903 348.909 56.1903C361.104 56.1903 373.324 63.3482 373.324 79.038C373.324 105 345.553 112.525 345.553 112.525C345.553 112.525 349.713 118.138 358.369 118.138C368.918 118.138 378.21 112.747 383.095 105.458C385.225 102.284 386.528 99.3851 387.609 96.9773ZM195.021 85.7641C193.686 92.0322 195.63 94.898 197.988 95.4084C204.26 96.7693 211.401 88.0672 213.034 80.3859C214.019 75.7797 212.178 73.0186 208.576 72.2334C205.725 71.6184 197.392 74.602 195.021 85.7641ZM265.427 85.7641C264.092 92.0322 266.036 94.898 268.395 95.4084C274.667 96.7693 281.807 88.0672 283.44 80.3859C284.425 75.7797 282.585 73.0186 278.982 72.2334C276.131 71.6184 267.799 74.602 265.427 85.7641ZM335.834 85.7641C334.499 92.0322 336.443 94.898 338.801 95.4084C345.073 96.7693 352.214 88.0672 353.847 80.3859C354.831 75.7797 352.991 73.0186 349.389 72.2334C346.538 71.6184 338.205 74.602 335.834 85.7641ZM452.465 0.0131712C428.464 0.0131712 410.983 48.2343 410.983 76.5388C410.983 88.0674 418.849 97.2667 428.283 97.2667C433.337 97.2667 437.134 94.4009 438.819 85.869C440.325 77.8487 445.001 67.7513 449.456 58.1291L449.457 58.1284L450.002 56.9494C454.787 46.6024 459.474 39.6343 463.24 34.0338C468.125 26.7717 471.462 21.8091 471.462 14.7608C471.462 8.06093 463.454 0.0262566 452.478 0.0262566L452.465 0.0131712ZM436.188 121.763C436.188 130.927 428.831 138.356 419.756 138.356C410.681 138.356 403.324 130.927 403.324 121.763C403.324 112.599 410.681 105.17 419.756 105.17C428.831 105.17 436.188 112.599 436.188 121.763Z" fill="rgba(255,255,255,0.4)"/></svg>
+      </div>
+      <div class="auth-modal-title" id="authModalTitle">Welcome back</div>
+      <div class="auth-modal-sub" id="authModalSub">Sign in to your marketing team account</div>
+    </div>
+
+    <div class="auth-modal-body">
+      <!-- TABS -->
+      <div class="auth-tabs" id="authTabs">
+        <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Log In</button>
+        <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Create Account</button>
+      </div>
+
+      <!-- ERROR -->
+      <div class="auth-error" id="authError"></div>
+
+      <!-- SUCCESS STATE -->
+      <div class="auth-success" id="authSuccess">
+        <div class="auth-success-icon">✓</div>
+        <div class="auth-success-title" id="authSuccessTitle">Welcome!</div>
+        <div class="auth-success-sub" id="authSuccessSub">Redirecting you to the tool...</div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div class="auth-form-panel active" id="loginPanel">
+        <div class="auth-field">
+          <label class="auth-label">Work Email</label>
+          <input class="auth-input" id="loginEmail" type="email" placeholder="you@sayweee.com" />
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Password</label>
+          <input class="auth-input" id="loginPassword" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')submitLogin()" />
+        </div>
+        <button class="auth-submit" onclick="submitLogin()">
+          <span id="loginBtnText">Sign In →</span>
+        </button>
+        <div style="text-align:center;margin-top:2px">
+          <a href="#" style="font-size:12px;color:var(--muted);text-decoration:none;" onclick="return false;">Forgot password?</a>
+        </div>
+        <div class="auth-divider">or</div>
+        <button class="auth-google-btn" onclick="submitGoogleLogin()">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Continue with Google
+        </button>
+        <div class="auth-footer-note">Internal tool — Weee! marketing teams only</div>
+      </div>
+
+      <!-- SIGNUP FORM -->
+      <div class="auth-form-panel" id="signupPanel">
+        <div class="auth-row">
+          <div class="auth-field">
+            <label class="auth-label">First Name</label>
+            <input class="auth-input" id="signupFirst" type="text" placeholder="Jane" />
+          </div>
+          <div class="auth-field">
+            <label class="auth-label">Last Name</label>
+            <input class="auth-input" id="signupLast" type="text" placeholder="Smith" />
+          </div>
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Work Email</label>
+          <input class="auth-input" id="signupEmail" type="email" placeholder="you@weee.com" />
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Marketing Team</label>
+          <select class="auth-team-select" id="signupTeam">
+            <option value="">Select your market team...</option>
+            <option value="🇰🇷 Korean Market">🇰🇷 Korean Market</option>
+            <option value="🇨🇳 Chinese Market">🇨🇳 Chinese Market</option>
+            <option value="🇮🇳 Indian Market">🇮🇳 Indian Market</option>
+            <option value="🇵🇭 Filipino Market">🇵🇭 Filipino Market</option>
+            <option value="🇻🇳 Vietnamese Market">🇻🇳 Vietnamese Market</option>
+            <option value="🇲🇽 Mexican Market">🇲🇽 Mexican Market</option>
+          </select>
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Password</label>
+          <input class="auth-input" id="signupPassword" type="password" placeholder="Create a password" onkeydown="if(event.key==='Enter')submitSignup()" />
+        </div>
+        <button class="auth-submit" onclick="submitSignup()">
+          <span id="signupBtnText">Create Account →</span>
+        </button>
+        <div class="auth-footer-note">By creating an account you agree to Weee!'s internal tool <a href="#">usage policy</a>.</div>
+      </div>
+
+      <!-- PROFILE / LOGOUT STATE -->
+      <div class="auth-form-panel" id="profilePanel">
+        <div style="display:flex;align-items:center;gap:14px;padding:8px 0 16px;border-bottom:1px solid var(--border);margin-bottom:16px;">
+          <div style="width:48px;height:48px;border-radius:50%;background:var(--accent);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;" id="profileAvatarLarge">--</div>
+          <div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:17px;font-weight:800;" id="profileName">--</div>
+            <div style="font-size:12px;color:var(--muted);" id="profileEmail">--</div>
+            <div style="font-size:11px;font-weight:600;color:var(--accent);margin-top:2px;" id="profileTeam">--</div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:16px;">You're logged in. Access the discovery tool to find and manage influencer partnerships for your campaigns.</div>
+        <button class="auth-submit" onclick="closeAuthAndOpenTool()" style="margin-bottom:10px;">Go to Tool →</button>
+        <button onclick="logOut()" style="width:100%;background:none;border:1.5px solid var(--border);border-radius:10px;padding:11px;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);transition:all 0.18s;" onmouseover="this.style.borderColor='#c0392b';this.style.color='#c0392b'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">Log Out</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="tool-page">
 <header>
   <div class="header-left">
@@ -809,6 +1144,12 @@
   </div>
   </div>
 </header>
+
+<!-- LOGGED-IN USER BAR (shown inside tool) -->
+<div class="tool-user-bar" id="toolUserBar">
+  <span id="toolUserGreeting">👋 Welcome back!</span>
+  <span id="toolUserTeamBadge" style="background:rgba(26,122,74,0.15);padding:3px 10px;border-radius:100px;font-size:11px;">--</span>
+</div>
 
 <!-- ETHNIC MARKET SELECTOR -->
 <div class="culture-bar">
@@ -955,6 +1296,175 @@
 </div>
 
 <script>
+/* ── AUTH SYSTEM ───────────────────────────────────────── */
+
+// Simple in-memory user store (in a real app this would be a backend)
+const USERS_DB = JSON.parse(localStorage.getItem('weee_users') || '{}');
+let currentUser = JSON.parse(localStorage.getItem('weee_current_user') || 'null');
+
+function saveUsers() { localStorage.setItem('weee_users', JSON.stringify(USERS_DB)); }
+function saveCurrentUser() { localStorage.setItem('weee_current_user', JSON.stringify(currentUser)); }
+
+function getInitials(name) {
+  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+}
+
+function updateNavState() {
+  const loginBtn = document.getElementById('navLoginBtn');
+  const userChip = document.getElementById('navUserChip');
+  if (currentUser) {
+    loginBtn.style.display = 'none';
+    userChip.classList.add('visible');
+    document.getElementById('navUserAvatar').textContent = getInitials(currentUser.name);
+    document.getElementById('navUserName').textContent = currentUser.name.split(' ')[0];
+    document.getElementById('navUserTeam').textContent = currentUser.team;
+    // Update tool user bar
+    const bar = document.getElementById('toolUserBar');
+    bar.classList.add('visible');
+    document.getElementById('toolUserGreeting').textContent = `👋 Logged in as ${currentUser.name}`;
+    document.getElementById('toolUserTeamBadge').textContent = currentUser.team;
+  } else {
+    loginBtn.style.display = 'flex';
+    userChip.classList.remove('visible');
+    document.getElementById('toolUserBar').classList.remove('visible');
+  }
+}
+
+function openAuthModal(mode) {
+  const overlay = document.getElementById('authOverlay');
+  overlay.classList.add('open');
+  document.getElementById('authError').classList.remove('visible');
+  document.getElementById('authSuccess').classList.remove('visible');
+
+  if (mode === 'profile' && currentUser) {
+    // Show profile panel
+    document.getElementById('authTabs').style.display = 'none';
+    document.getElementById('authModalTitle').textContent = 'Your Account';
+    document.getElementById('authModalSub').textContent = 'Manage your team profile';
+    document.getElementById('loginPanel').classList.remove('active');
+    document.getElementById('signupPanel').classList.remove('active');
+    document.getElementById('profilePanel').classList.add('active');
+    document.getElementById('profileAvatarLarge').textContent = getInitials(currentUser.name);
+    document.getElementById('profileName').textContent = currentUser.name;
+    document.getElementById('profileEmail').textContent = currentUser.email;
+    document.getElementById('profileTeam').textContent = currentUser.team;
+  } else {
+    document.getElementById('authTabs').style.display = 'flex';
+    document.getElementById('authModalTitle').textContent = 'Welcome back';
+    document.getElementById('authModalSub').textContent = 'Sign in to your marketing team account';
+    switchTab('login');
+  }
+}
+
+function closeAuthModal() {
+  document.getElementById('authOverlay').classList.remove('open');
+}
+
+function handleAuthOverlayClick(e) {
+  if (e.target === document.getElementById('authOverlay')) closeAuthModal();
+}
+
+function switchTab(tab) {
+  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
+  document.getElementById('loginPanel').classList.toggle('active', tab === 'login');
+  document.getElementById('signupPanel').classList.toggle('active', tab === 'signup');
+  document.getElementById('profilePanel').classList.remove('active');
+  document.getElementById('authError').classList.remove('visible');
+  document.getElementById('authSuccess').classList.remove('visible');
+  if (tab === 'login') {
+    document.getElementById('authModalTitle').textContent = 'Welcome back';
+    document.getElementById('authModalSub').textContent = 'Sign in to your marketing team account';
+  } else {
+    document.getElementById('authModalTitle').textContent = 'Join your team';
+    document.getElementById('authModalSub').textContent = 'Create your Weee! marketing account';
+  }
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('authError');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+
+function showAuthSuccess(title, sub, then) {
+  document.getElementById('loginPanel').classList.remove('active');
+  document.getElementById('signupPanel').classList.remove('active');
+  document.getElementById('authTabs').style.display = 'none';
+  document.getElementById('authError').classList.remove('visible');
+  const s = document.getElementById('authSuccess');
+  document.getElementById('authSuccessTitle').textContent = title;
+  document.getElementById('authSuccessSub').textContent = sub;
+  s.classList.add('visible');
+  setTimeout(() => { closeAuthModal(); then && then(); }, 1600);
+}
+
+function submitLogin() {
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const password = document.getElementById('loginPassword').value;
+  const btn = document.getElementById('loginBtnText');
+
+  if (!email || !password) { showAuthError('Please fill in all fields.'); return; }
+
+  const user = USERS_DB[email];
+  if (!user) { showAuthError('No account found with that email. Try creating one!'); return; }
+  if (user.password !== btoa(password)) { showAuthError('Incorrect password. Please try again.'); return; }
+
+  currentUser = { name: user.name, email, team: user.team };
+  saveCurrentUser();
+  updateNavState();
+  showAuthSuccess(`Welcome back, ${user.name.split(' ')[0]}! 👋`, 'Opening the tool...', () => showTool());
+}
+
+function submitGoogleLogin() {
+  // Simulate Google SSO — auto-create a demo account
+  const demoUser = { name: 'Marketing User', email: 'demo@weee.com', team: 'Influencer Partnerships' };
+  currentUser = demoUser;
+  saveCurrentUser();
+  updateNavState();
+  showAuthSuccess('Signed in with Google! 👋', 'Opening the tool...', () => showTool());
+}
+
+function submitSignup() {
+  const first = document.getElementById('signupFirst').value.trim();
+  const last = document.getElementById('signupLast').value.trim();
+  const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+  const team = document.getElementById('signupTeam').value;
+  const password = document.getElementById('signupPassword').value;
+
+  if (!first || !last || !email || !team || !password) { showAuthError('Please fill in all fields.'); return; }
+  if (!email.includes('@')) { showAuthError('Please enter a valid email address.'); return; }
+  if (password.length < 6) { showAuthError('Password must be at least 6 characters.'); return; }
+  if (USERS_DB[email]) { showAuthError('An account with this email already exists. Try logging in!'); return; }
+
+  USERS_DB[email] = { name: `${first} ${last}`, team, password: btoa(password) };
+  saveUsers();
+  currentUser = { name: `${first} ${last}`, email, team };
+  saveCurrentUser();
+  updateNavState();
+  showAuthSuccess(`Account created! Welcome, ${first}! 🎉`, 'Opening the tool...', () => showTool());
+}
+
+function logOut() {
+  currentUser = null;
+  localStorage.removeItem('weee_current_user');
+  updateNavState();
+  closeAuthModal();
+  document.getElementById('authTabs').style.display = 'flex';
+}
+
+function closeAuthAndOpenTool() {
+  closeAuthModal();
+  showTool();
+}
+
+function handleToolOpen() {
+  showTool();
+}
+
+// Init nav state on load
+updateNavState();
+
 /* ── PAGE NAVIGATION ───────────────────────────────────── */
 function showTool() {
   document.getElementById('home-page').classList.add('hidden');
