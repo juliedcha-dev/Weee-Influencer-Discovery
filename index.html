@@ -53,16 +53,16 @@
   .nav-link { font-size: 13px; color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 700; font-family: 'Bricolage Grotesque', sans-serif; letter-spacing: 0.01em; transition: color 0.15s; }
   .nav-link:hover { color: #fff; }
   .nav-cta {
-    background: #fff; color: var(--ink);
+    background: #f5a623; color: #1a1714;
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 13px; font-weight: 700;
     padding: 9px 20px; border-radius: 100px;
     text-decoration: none;
     transition: background 0.18s, transform 0.1s, box-shadow 0.18s;
     letter-spacing: 0.01em;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    box-shadow: 0 2px 12px rgba(245,166,35,0.4);
   }
-  .nav-cta:hover { background: var(--accent); color: #fff; transform: translateY(-1px); }
+  .nav-cta:hover { background: #e8961a; color: #1a1714; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,166,35,0.5); }
 
   /* LOGIN BUTTON IN NAV */
   .nav-login-btn {
@@ -282,6 +282,36 @@
   }
   .tool-user-bar.visible { display: flex; }
 
+  /* SLIM STATS BAR */
+  .stats-bar {
+    background: linear-gradient(135deg, #0f1923 0%, #1a2535 100%);
+    border-bottom: 1px solid rgba(70,156,203,0.2);
+    padding: 8px 48px;
+  }
+  .stats-bar-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; flex-wrap: wrap;
+  }
+  .stats-bar-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 4px 28px;
+  }
+  .stats-bar-val {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 15px; font-weight: 800;
+    color: #469CCB;
+  }
+  .stats-bar-label {
+    font-size: 12px; color: #4a6a86;
+    font-weight: 500;
+  }
+  .stats-bar-divider {
+    width: 1px; height: 18px;
+    background: rgba(70,156,203,0.2);
+    flex-shrink: 0;
+  }
+
   /* HERO */
   .hero {
     padding: 100px 48px 80px;
@@ -319,16 +349,16 @@
   }
   .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
   .btn-primary {
-    background: var(--blue); color: #fff;
+    background: #f5a623; color: #1a1714;
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 15px; font-weight: 700;
     padding: 14px 28px; border-radius: 12px;
     text-decoration: none;
     display: inline-flex; align-items: center; gap: 8px;
-    transition: opacity 0.18s, transform 0.12s;
-    box-shadow: 0 4px 20px rgba(70,156,203,0.35);
+    transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+    box-shadow: 0 4px 20px rgba(245,166,35,0.4);
   }
-  .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+  .btn-primary:hover { background: #e8961a; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(245,166,35,0.5); }
   .btn-secondary {
     color: var(--muted); font-size: 14px; font-weight: 500;
     text-decoration: none;
@@ -388,17 +418,6 @@
   .hero-float-pill.pill-1 { bottom: -20px; left: -24px; animation-delay: 0.2s; }
   .hero-float-pill.pill-2 { top: 40px; right: -32px; animation-delay: 0.35s; }
   .pill-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
-  /* STATS STRIP */
-  .stats-strip {
-    background: linear-gradient(135deg, #0f1923 0%, #1a2535 100%);
-    padding: 28px 48px;
-    display: flex; align-items: center; justify-content: center;
-    gap: 64px; flex-wrap: wrap;
-  }
-  .stat-item { text-align: center; }
-  .stat-val { font-family: 'Bricolage Grotesque', sans-serif; font-size: 32px; font-weight: 800; color: #469CCB; }
-  .stat-label { font-size: 12px; color: #4a6a86; margin-top: 2px; }
 
   /* SECTIONS */
   section { max-width: 1100px; margin: 0 auto; padding: 80px 48px; }
@@ -506,17 +525,17 @@
   }
   .cta-sub { font-size: 15px; color: rgba(255,255,255,0.7); margin-top: 8px; }
   .btn-cta-white {
-    background: #fff; color: var(--ink);
+    background: #f5a623; color: #1a1714;
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 15px; font-weight: 800;
     padding: 16px 32px; border-radius: 12px;
     text-decoration: none; white-space: nowrap;
     display: inline-flex; align-items: center; gap: 10px;
-    transition: transform 0.12s, box-shadow 0.15s;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    transition: transform 0.12s, box-shadow 0.15s, background 0.18s;
+    box-shadow: 0 4px 20px rgba(245,166,35,0.4);
     position: relative; z-index: 1;
   }
-  .btn-cta-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+  .btn-cta-white:hover { background: #e8961a; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(245,166,35,0.5); }
 
   /* FOOTER */
   footer {
@@ -551,25 +570,26 @@
 /* ── TOOL PAGE STYLES ──────────────────────────────────── */
 
   :root {
-    --bg: #faf7f2;
+    --bg: #f0f6fb;
     --surface: #fff;
     --card: #ffffff;
-    --border: #e8e2d9;
-    --border2: #d4ccc0;
-    --ink: #1a1714;
-    --muted: #7a7269;
-    --accent: #e8401c;
+    --border: #ccdde9;
+    --border2: #aac8db;
+    --ink: #0f1923;
+    --muted: #5a7a96;
+    --accent: #469CCB;
     --accent2: #f5a623;
     --green: #1a7a4a;
     --green-bg: #e8f5ee;
-    --blue: #1a4f8a;
-    --blue-bg: #e8f0fa;
+    --blue: #469CCB;
+    --blue-bg: #d6eaf6;
+    --blue-dark: #0f1923;
     --purple: #6b3fa0;
     --purple-bg: #f3eeff;
-    --tag-bg: #f0ece5;
+    --tag-bg: #e4f0f8;
     --radius: 14px;
-    --shadow: 0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+    --shadow: 0 2px 12px rgba(15,25,35,0.08), 0 1px 3px rgba(15,25,35,0.05);
+    --shadow-lg: 0 8px 32px rgba(15,25,35,0.12), 0 2px 8px rgba(15,25,35,0.06);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--ink); font-family: 'Instrument Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
@@ -577,15 +597,15 @@
   /* HEADER */
   header { background: #469CCB; padding: 28px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
   .header-left { display: flex; align-items: center; gap: 16px; }
-  .phase-pill { background: var(--accent); color: #fff; font-family: 'Bricolage Grotesque', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 100px; }
+  .phase-pill { background: #f5a623; color: #0f1923; font-family: 'Bricolage Grotesque', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 100px; }
   .header-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
-  .header-sub { font-size: 13px; color: #9a9088; margin-top: 1px; }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 1px; }
   .header-stat { display: flex; gap: 24px; }
   .hstat { text-align: right; }
-  .back-link { display: flex; align-items: center; gap: 6px; color: #fff; font-size: 12px; font-weight: 500; text-decoration: none; padding: 6px 12px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.3); background: #0f1923; transition: all 0.18s; white-space: nowrap; font-family: 'Instrument Sans', sans-serif; }
-  .back-link:hover { background: #1a2535; border-color: rgba(255,255,255,0.5); }
+  .back-link { display: flex; align-items: center; gap: 6px; color: #1a1714; font-size: 12px; font-weight: 700; text-decoration: none; padding: 6px 12px; border-radius: 100px; border: none; background: #f5a623; transition: all 0.18s; white-space: nowrap; font-family: 'Bricolage Grotesque', sans-serif; box-shadow: 0 2px 10px rgba(245,166,35,0.35); }
+  .back-link:hover { background: #e8961a; box-shadow: 0 4px 16px rgba(245,166,35,0.5); }
   .hstat-val { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; color: #fff; }
-  .hstat-label { font-size: 11px; color: #0f1923; font-weight: 600; }
+  .hstat-label { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 600; }
 
   /* ETHNIC MARKET BANNER */
   .culture-bar {
@@ -623,8 +643,8 @@
     min-width: 240px; justify-content: space-between;
     white-space: nowrap;
   }
-  .culture-dropdown-trigger:hover { border-color: var(--accent2); color: var(--accent2); }
-  .culture-dropdown-trigger.active-culture { border-color: var(--accent2); background: rgba(245,166,35,0.15); color: var(--accent2); font-weight: 600; }
+  .culture-dropdown-trigger:hover { border-color: #f5a623; color: #f5a623; }
+  .culture-dropdown-trigger.active-culture { border-color: #f5a623; background: rgba(245,166,35,0.15); color: #f5a623; font-weight: 600; }
   .culture-dropdown-trigger .chevron { font-size: 10px; color: #8a9ab0; transition: transform 0.2s; flex-shrink: 0; }
   .culture-dropdown-trigger.open .chevron { transform: rotate(180deg); }
   .culture-dropdown-menu {
@@ -643,14 +663,8 @@
     font-family: 'Instrument Sans', sans-serif;
   }
   .culture-dropdown-item:hover { background: var(--tag-bg); }
-  .culture-dropdown-item.selected { background: rgba(245,166,35,0.1); color: #b07a00; font-weight: 600; }
-  .culture-new {
-    font-size: 9px; font-weight: 800;
-    background: var(--accent); color: #fff;
-    padding: 1px 5px; border-radius: 4px;
-    letter-spacing: 0.05em; text-transform: uppercase;
-    margin-left: auto;
-  }
+  .culture-dropdown-item.selected { background: rgba(70,156,203,0.1); color: #1a6a9a; font-weight: 600; }
+  .culture-new { font-size: 9px; font-weight: 800; background: #f5a623; color: #0f1923; padding: 1px 5px; border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase; margin-left: auto; }
 
   /* CAMPAIGN BAR */
   .campaign-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 40px; display: flex; align-items: center; gap: 12px; }
@@ -658,25 +672,42 @@
   .campaign-dropdown-wrap { position: relative; }
   .campaign-dropdown-trigger { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1.5px solid var(--border); color: var(--ink); font-family: 'Instrument Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 10px; cursor: pointer; transition: all 0.18s; min-width: 220px; justify-content: space-between; }
   .campaign-dropdown-trigger:hover { border-color: var(--accent); }
-  .campaign-dropdown-trigger.active-campaign { border-color: var(--accent); background: rgba(232,64,28,0.06); color: var(--accent); font-weight: 600; }
+  .campaign-dropdown-trigger.active-campaign { border-color: #f5a623; background: rgba(245,166,35,0.15); color: #f5a623; font-weight: 600; }
   .campaign-dropdown-trigger .chevron { font-size: 10px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
   .campaign-dropdown-trigger.open .chevron { transform: rotate(180deg); }
   .campaign-dropdown-menu { position: absolute; top: calc(100% + 6px); left: 0; min-width: 240px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); z-index: 50; overflow: hidden; display: none; }
   .campaign-dropdown-menu.open { display: block; animation: fadeUp 0.15s ease; }
   .campaign-dropdown-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 13px; color: var(--ink); cursor: pointer; transition: background 0.12s; border: none; background: none; width: 100%; text-align: left; font-family: 'Instrument Sans', sans-serif; }
   .campaign-dropdown-item:hover { background: var(--tag-bg); }
-  .campaign-dropdown-item.selected { background: rgba(232,64,28,0.08); color: var(--accent); font-weight: 600; }
+  .campaign-dropdown-item.selected { background: rgba(70,156,203,0.1); color: var(--accent); font-weight: 600; }
   .campaign-dropdown-divider { height: 1px; background: var(--border); margin: 4px 0; }
   .campaign-add-btn { display: flex; align-items: center; gap: 8px; padding: 10px 14px; font-size: 13px; color: var(--accent); cursor: pointer; font-weight: 600; font-family: 'Instrument Sans', sans-serif; background: none; border: none; width: 100%; text-align: left; }
-  .campaign-add-btn:hover { background: rgba(232,64,28,0.06); }
+  .campaign-add-btn:hover { background: rgba(70,156,203,0.06); }
   .campaign-add-input-row { padding: 8px 14px 12px; display: none; gap: 8px; align-items: center; }
   .campaign-add-input-row.visible { display: flex; }
   .campaign-add-input { flex: 1; border: 1.5px solid var(--border); border-radius: 8px; padding: 7px 10px; font-size: 13px; font-family: 'Instrument Sans', sans-serif; outline: none; color: var(--ink); background: var(--bg); }
   .campaign-add-input:focus { border-color: var(--accent); }
-  .campaign-add-confirm { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: 'Bricolage Grotesque', sans-serif; }
+  .campaign-add-confirm { background: #f5a623; color: #0f1923; border: none; border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: 'Bricolage Grotesque', sans-serif; }
 
   /* MAIN LAYOUT */
   .main { display: grid; grid-template-columns: 290px 1fr; gap: 0; min-height: calc(100vh - 200px); }
+
+  .platform-icon { display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0; }
+  .tiktok-icon { background: #000; color: #fff; }
+  .instagram-icon { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
+  .youtube-icon { background: #ff0000; color: #fff; }
+
+  .platform-tiktok.active { background: rgba(0,0,0,0.06); color: #000; font-weight: 600; }
+  .platform-tiktok.active .filter-check { background: #000; border-color: #000; }
+  .platform-tiktok.active .filter-count { background: rgba(0,0,0,0.08); color: #000; }
+
+  .platform-instagram.active { background: rgba(193,53,132,0.08); color: #c13584; font-weight: 600; }
+  .platform-instagram.active .filter-check { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); border-color: #c13584; }
+  .platform-instagram.active .filter-count { background: rgba(193,53,132,0.12); color: #c13584; }
+
+  .platform-youtube.active { background: rgba(255,0,0,0.07); color: #cc0000; font-weight: 600; }
+  .platform-youtube.active .filter-check { background: #ff0000; border-color: #ff0000; }
+  .platform-youtube.active .filter-count { background: rgba(255,0,0,0.1); color: #cc0000; }
 
   /* SIDEBAR */
   .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 24px 20px; display: flex; flex-direction: column; gap: 20px; }
@@ -684,11 +715,11 @@
   .filter-group { display: flex; flex-direction: column; gap: 6px; }
   .filter-option { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 8px; cursor: pointer; transition: background 0.15s; font-size: 13px; }
   .filter-option:hover { background: var(--tag-bg); }
-  .filter-option.active { background: rgba(232,64,28,0.08); color: var(--accent); font-weight: 500; }
+  .filter-option.active { background: rgba(70,156,203,0.1); color: var(--accent); font-weight: 500; }
   .filter-check { width: 16px; height: 16px; border: 2px solid var(--border2); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; transition: all 0.15s; }
   .filter-option.active .filter-check { background: var(--accent); border-color: var(--accent); color: #fff; }
   .filter-count { margin-left: auto; background: var(--tag-bg); color: var(--muted); font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 100px; }
-  .filter-option.active .filter-count { background: rgba(232,64,28,0.15); color: var(--accent); }
+  .filter-option.active .filter-count { background: rgba(70,156,203,0.15); color: var(--accent); }
   .divider { height: 1px; background: var(--border); }
   .range-slider { width: 100%; }
   .range-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
@@ -745,7 +776,7 @@
   .influencer-grid { display: grid; gap: 14px; }
   .influencer-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow); transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; cursor: pointer; position: relative; overflow: hidden; }
   .influencer-card:hover { border-color: var(--accent); box-shadow: var(--shadow-lg); transform: translateY(-1px); }
-  .influencer-card.selected { border-color: var(--accent); background: #fff9f7; }
+  .influencer-card.selected { border-color: var(--accent); background: #f0f8fd; }
 
   /* CULTURAL BADGE ON CARD */
   .cultural-identity-badge {
@@ -793,9 +824,89 @@
 
   .card-why { margin-top: 12px; background: var(--blue-bg); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: var(--blue); line-height: 1.5; display: none; border-left: 3px solid var(--blue); }
   .influencer-card.selected .card-why { display: block; }
-  .outreach-btn { margin-top: 12px; width: 100%; background: var(--ink); color: #fff; border: none; border-radius: 8px; padding: 10px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; display: none; transition: background 0.2s; letter-spacing: 0.02em; }
+
+  .card-actions { margin-top: 12px; display: flex; gap: 8px; }
+  .contact-btn {
+    flex-shrink: 0;
+    background: #469CCB; color: #fff;
+    border: none; border-radius: 100px; padding: 4px 12px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 11px; font-weight: 700;
+    cursor: pointer; transition: background 0.2s;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .contact-btn:hover { background: #357aab; }
+  .outreach-btn { flex: 1; background: #f5a623; color: #0f1923; border: none; border-radius: 8px; padding: 10px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; display: none; transition: background 0.2s; letter-spacing: 0.02em; }
   .influencer-card.selected .outreach-btn { display: block; }
-  .outreach-btn:hover { background: var(--accent); }
+  .outreach-btn:hover { background: #e8961a; }
+
+  /* VIDEO THUMBNAILS — D layout + C overlay */
+  .video-thumbnails { display: grid; grid-template-columns: 1.6fr 1fr; gap: 5px; margin-top: 10px; height: 120px; max-width: 60%; }
+  .video-thumb-main {
+    border-radius: 6px; overflow: hidden;
+    position: relative; height: 100%;
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .video-thumb-main:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
+  .video-thumb-side { display: flex; flex-direction: column; gap: 5px; }
+  .video-thumb-sm {
+    border-radius: 6px; overflow: hidden;
+    position: relative; flex: 1;
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    border: 1px solid rgba(0,0,0,0.08);
+    min-height: 0;
+  }
+  .video-thumb-sm:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
+  .vt-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .vt-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 5px 6px;
+  }
+  .vt-play {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -55%);
+    width: 20px; height: 20px; border-radius: 50%;
+    background: rgba(255,255,255,0.88);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  }
+  .vt-play-sm {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -55%);
+    width: 14px; height: 14px; border-radius: 50%;
+    background: rgba(255,255,255,0.88);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .vt-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 8.5px; font-weight: 700;
+    color: #fff; line-height: 1.25;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  .vt-title-sm {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 7.5px; font-weight: 700;
+    color: #fff; line-height: 1.2;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  .vt-views {
+    font-size: 7.5px; color: rgba(255,255,255,0.8);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    margin-top: 1px;
+  }
+  .vt-views-sm { font-size: 7px; color: rgba(255,255,255,0.75); font-family: 'Bricolage Grotesque', sans-serif; margin-top: 1px; }
+  .vt-platform {
+    position: absolute; top: 4px; left: 4px;
+    width: 16px; height: 16px; border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .vt-platform.tiktok { background: #000; }
+  .vt-platform.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+  .vt-platform.youtube { background: #ff0000; }
 
   /* EMPTY */
   .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); display: none; }
@@ -862,12 +973,23 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- SLIM STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stats-bar-item"><span class="stats-bar-val">14</span><span class="stats-bar-label">Pre-vetted creators</span></div>
+    <div class="stats-bar-divider"></div>
+    <div class="stats-bar-item"><span class="stats-bar-val">5</span><span class="stats-bar-label">Ethnic markets</span></div>
+    <div class="stats-bar-divider"></div>
+    <div class="stats-bar-item"><span class="stats-bar-val">9</span><span class="stats-bar-label">Seasonal campaigns</span></div>
+    <div class="stats-bar-divider"></div>
+    <div class="stats-bar-item"><span class="stats-bar-val">✦ AI</span><span class="stats-bar-label">Powered outreach</span></div>
+  </div>
+</div>
 <div class="hero">
   <div class="hero-left">
     <div class="hero-eyebrow"><div class="hero-eyebrow-dot"></div> Influencer Discovery Platform</div>
     <h1 class="hero-title">Find the right creators for every <em>campaign</em></h1>
-    <p class="hero-sub">A purpose-built tool for Weee!'s marketing team to discover, evaluate, and shortlist multicultural food creators — matched to your seasonal campaigns by AI.</p>
+    <p class="hero-sub">Find authentic ethnic market creators and launch campaigns faster with AI.</p>
     <div class="hero-actions">
       <a href="#" onclick="handleToolOpen();return false;" class="btn-primary">Open the Tool →</a>
       <a href="#" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'});return false;" class="btn-secondary">See how it works ↓</a>
@@ -911,96 +1033,80 @@
   </div>
 </div>
 
-<!-- STATS STRIP -->
-<div class="stats-strip">
-  <div class="stat-item">
-    <div class="stat-val">14</div>
-    <div class="stat-label">Pre-vetted creators</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-val">5</div>
-    <div class="stat-label">Ethnic markets covered</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-val">9</div>
-    <div class="stat-label">Seasonal campaigns</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-val">AI</div>
-    <div class="stat-label">Powered outreach drafts</div>
-  </div>
-</div>
-
 <!-- HOW IT WORKS -->
-<section id="how-it-works">
-  <div class="section-eyebrow">How it works</div>
-  <h2 class="section-title">From discovery to outreach in minutes</h2>
-  <p class="section-sub">The tool handles the heavy lifting — filtering, matching, and writing — so your team can focus on building relationships.</p>
+<section id="how-it-works" style="background: linear-gradient(135deg, #0f1923 0%, #1a2535 100%); max-width: 100%; padding: 80px 0;">
+  <div style="max-width: 1100px; margin: 0 auto; padding: 0 48px;">
+  <div class="section-eyebrow" style="color: #469CCB;">How it works</div>
+  <h2 class="section-title" style="color: #fff;">From discovery to outreach in minutes</h2>
+  <p class="section-sub" style="color: #fff;">The tool handles the heavy lifting — filtering, matching, and writing — so your team can focus on building relationships.</p>
 
   <div class="how-grid">
-    <div class="how-card fade-in">
-      <div class="how-number">Step 01</div>
-      <div class="how-icon" style="background:#fff0ed">🎯</div>
-      <div class="how-card-title">Filter by campaign & culture</div>
-      <div class="how-card-body">Select a campaign and culture to instantly surface top creators.</div>
+    <div class="how-card fade-in" style="background: #fff; border-color: #e8e2d9;">
+      <div class="how-number" style="color: #f5a623;">Step 01</div>
+      <div class="how-icon" style="background:rgba(245,166,35,0.12)">🎯</div>
+      <div class="how-card-title" style="color: #0f1923;">Filter by campaign & culture</div>
+      <div class="how-card-body" style="color: #5a7a96;">Select a campaign and culture to instantly surface top creators.</div>
     </div>
-    <div class="how-card fade-in" style="transition-delay:0.1s">
-      <div class="how-number">Step 02</div>
-      <div class="how-icon" style="background:#e8f5ee">✦</div>
-      <div class="how-card-title">Use AI to match creators</div>
-      <div class="how-card-body">Describe your campaign - AI finds the right creator recommendations with cultural context.</div>
+    <div class="how-card fade-in" style="background: #fff; border-color: #e8e2d9; transition-delay:0.1s">
+      <div class="how-number" style="color: #f5a623;">Step 02</div>
+      <div class="how-icon" style="background:rgba(245,166,35,0.12)">✦</div>
+      <div class="how-card-title" style="color: #0f1923;">Use AI to match creators</div>
+      <div class="how-card-body" style="color: #5a7a96;">Describe your campaign - AI finds the right creator recommendations with cultural context.</div>
     </div>
-    <div class="how-card fade-in" style="transition-delay:0.2s">
-      <div class="how-number">Step 03</div>
-      <div class="how-icon" style="background:#e8f0fa">📋</div>
-      <div class="how-card-title">Shortlist & Personalize Outreach</div>
-      <div class="how-card-body">Auto-save to Airtable and instantly generate personalized AI outreach.</div>
+    <div class="how-card fade-in" style="background: #fff; border-color: #e8e2d9; transition-delay:0.2s">
+      <div class="how-number" style="color: #f5a623;">Step 03</div>
+      <div class="how-icon" style="background:rgba(245,166,35,0.12)">📋</div>
+      <div class="how-card-title" style="color: #0f1923;">Shortlist & Personalize Outreach</div>
+      <div class="how-card-body" style="color: #5a7a96;">Auto-save to Airtable and instantly generate personalized AI outreach.</div>
     </div>
+  </div>
   </div>
 </section>
 
 <!-- FEATURES -->
-<section id="features" style="padding-top:0">
+<section id="features" style="background: #e8f3fa; max-width: 100%; padding: 80px 0;">
+  <div style="max-width: 1100px; margin: 0 auto; padding: 0 48px;">
   <div class="section-eyebrow">Features</div>
   <h2 class="section-title">Everything your team needs</h2>
   <p class="section-sub">Built for Weee!'s multicultural campaigns, not generic influencer marketing.</p>
 
   <div class="features-grid" style="margin-top:48px">
     <div class="feature-card fade-in">
-      <div class="feature-icon" style="background:#fff0ed">🌏</div>
+      <div class="feature-icon" style="background:#d6eaf6">🌏</div>
       <div>
         <div class="feature-title">Ethnic Market Filters</div>
         <div class="feature-body">Filter by Korean, Chinese, Mexican, Indian, and Japanese markets—each with cultural insights, key foods, and trending content.</div>
       </div>
     </div>
     <div class="feature-card fade-in" style="transition-delay:0.1s">
-      <div class="feature-icon" style="background:#e8f5ee">📊</div>
+      <div class="feature-icon" style="background:#d6eaf6">📊</div>
       <div>
         <div class="feature-title">Creator stats at a glance</div>
         <div class="feature-body">Every creator card shows followers, engagement rate, average views, and estimated cost — so you can evaluate fit and budget without leaving the tool.</div>
       </div>
     </div>
     <div class="feature-card fade-in" style="transition-delay:0.15s">
-      <div class="feature-icon" style="background:#f3eeff">✦</div>
+      <div class="feature-icon" style="background:#d6eaf6">✦</div>
       <div>
         <div class="feature-title">AI campaign matcher</div>
         <div class="feature-body">Describe your campaign in plain English and the AI recommends 2–3 creators with specific reasoning around cultural fit, food content alignment, and seasonal timing.</div>
       </div>
     </div>
     <div class="feature-card fade-in" style="transition-delay:0.2s">
-      <div class="feature-icon" style="background:#e8f0fa">✉</div>
+      <div class="feature-icon" style="background:#d6eaf6">✉</div>
       <div>
         <div class="feature-title">Personalized outreach drafts</div>
         <div class="feature-body">Generate a tailored DM for any creator in one click — referencing their actual content, cultural background, and campaign fit. Sounds human, not templated.</div>
       </div>
     </div>
     <div class="feature-card fade-in wide" style="transition-delay:0.25s">
-      <div class="feature-icon" style="background:#fff8e0">🗄</div>
+      <div class="feature-icon" style="background:#d6eaf6">🗄</div>
       <div>
         <div class="feature-title">Auto-syncs to Airtable</div>
         <div class="feature-body">Every creator you shortlist is automatically saved to your Airtable "Creators" base with their name, handle, platform, and status. When you copy an outreach message, the message is saved and status updates to "Contacted" — keeping your whole team in sync without any manual data entry.</div>
       </div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -1008,7 +1114,7 @@
 <div class="cta-banner fade-in">
   <div>
     <div class="cta-title">Ready to find your next creator?</div>
-    <div class="cta-sub">Browse 14 pre-vetted multicultural food creators and start building your campaign roster.</div>
+    <div class="cta-sub">Discover 14 creators across Korean, Chinese, Mexican, Indian, and Japanese markets.</div>
   </div>
   <a href="#" onclick="handleToolOpen();return false;" class="btn-cta-white">Open the Tool →</a>
 </div>
@@ -1151,7 +1257,7 @@
   <span id="toolUserTeamBadge" style="background:rgba(26,122,74,0.15);padding:3px 10px;border-radius:100px;font-size:11px;">--</span>
 </div>
 
-<!-- ETHNIC MARKET SELECTOR -->
+<!-- COMBINED FILTER BAR -->
 <div class="culture-bar">
   <div class="culture-label">🌏 Ethnic Market:</div>
   <div class="culture-dropdown-wrap" id="cultureDropdownWrap">
@@ -1161,22 +1267,21 @@
     </button>
     <div class="culture-dropdown-menu" id="cultureDropdownMenu">
       <button class="culture-dropdown-item selected" data-id="all" onclick="setCulture('all', this)">🌐 All Markets</button>
-      <button class="culture-dropdown-item" data-id="korean" onclick="setCulture('korean', this)">🇰🇷 Korean / Korean-American <span class="culture-new">NEW</span></button>
+      <button class="culture-dropdown-item" data-id="korean" onclick="setCulture('korean', this)">🇰🇷 Korean / Korean-American</button>
       <button class="culture-dropdown-item" data-id="chinese" onclick="setCulture('chinese', this)">🇨🇳 Chinese / Chinese-American</button>
       <button class="culture-dropdown-item" data-id="mexican" onclick="setCulture('mexican', this)">🇲🇽 Mexican / Mexican-American</button>
       <button class="culture-dropdown-item" data-id="indian" onclick="setCulture('indian', this)">🇮🇳 Indian / Indian-American</button>
       <button class="culture-dropdown-item" data-id="japanese" onclick="setCulture('japanese', this)">🇯🇵 Japanese / Japanese-American</button>
     </div>
   </div>
-</div>
 
-<!-- CAMPAIGN SELECTOR -->
-<div class="campaign-bar">
-  <div class="campaign-label">Campaign:</div>
+  <div style="width:1px;height:24px;background:rgba(255,255,255,0.15);margin:0 6px;flex-shrink:0;"></div>
+
+  <div class="culture-label">📋 Campaign:</div>
   <div class="campaign-dropdown-wrap" id="campaignDropdownWrap">
-    <button class="campaign-dropdown-trigger" id="campaignTrigger" onclick="toggleCampaignDropdown()">
+    <button class="campaign-dropdown-trigger" id="campaignTrigger" onclick="toggleCampaignDropdown()" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);color:#e0e0e0;min-width:200px;">
       <span id="campaignTriggerLabel">📋 All Campaigns</span>
-      <span class="chevron">▼</span>
+      <span class="chevron" style="color:#8a9ab0;">▼</span>
     </button>
     <div class="campaign-dropdown-menu" id="campaignDropdownMenu">
       <button class="campaign-dropdown-item selected" data-id="all" onclick="setCampaign('all', this)">📋 All Campaigns</button>
@@ -1206,9 +1311,27 @@
       <div class="sidebar-section-title">Platform</div>
       <div class="filter-group" id="platform-filters">
         <div class="filter-option active" onclick="toggleFilter(this,'platform','all')" data-val="all"><div class="filter-check">✓</div> All Platforms <span class="filter-count" id="fc-plat-all">14</span></div>
-        <div class="filter-option" onclick="toggleFilter(this,'platform','tiktok')" data-val="tiktok"><div class="filter-check"></div> TikTok <span class="filter-count">10</span></div>
-        <div class="filter-option" onclick="toggleFilter(this,'platform','instagram')" data-val="instagram"><div class="filter-check"></div> Instagram <span class="filter-count">12</span></div>
-        <div class="filter-option" onclick="toggleFilter(this,'platform','youtube')" data-val="youtube"><div class="filter-check"></div> YouTube <span class="filter-count">7</span></div>
+        <div class="filter-option platform-tiktok" onclick="toggleFilter(this,'platform','tiktok')" data-val="tiktok">
+          <div class="filter-check"></div>
+          <span class="platform-icon tiktok-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.84 1.56V6.8a4.85 4.85 0 0 1-1.07-.11z"/></svg>
+          </span>
+          TikTok <span class="filter-count">12</span>
+        </div>
+        <div class="filter-option platform-instagram" onclick="toggleFilter(this,'platform','instagram')" data-val="instagram">
+          <div class="filter-check"></div>
+          <span class="platform-icon instagram-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </span>
+          Instagram <span class="filter-count">11</span>
+        </div>
+        <div class="filter-option platform-youtube" onclick="toggleFilter(this,'platform','youtube')" data-val="youtube">
+          <div class="filter-check"></div>
+          <span class="platform-icon youtube-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </span>
+          YouTube <span class="filter-count">8</span>
+        </div>
       </div>
     </div>
     <div class="divider"></div>
@@ -1217,8 +1340,8 @@
       <div class="filter-group" id="size-filters">
         <div class="filter-option active" onclick="toggleFilter(this,'size','all')" data-val="all"><div class="filter-check">✓</div> All Sizes <span class="filter-count">14</span></div>
         <div class="filter-option" onclick="toggleFilter(this,'size','nano')" data-val="nano"><div class="filter-check"></div> Nano (1K–10K) <span class="filter-count">4</span></div>
-        <div class="filter-option" onclick="toggleFilter(this,'size','micro')" data-val="micro"><div class="filter-check"></div> Micro (10K–100K) <span class="filter-count">7</span></div>
-        <div class="filter-option" onclick="toggleFilter(this,'size','mid')" data-val="mid"><div class="filter-check"></div> Mid (100K–500K) <span class="filter-count">3</span></div>
+        <div class="filter-option" onclick="toggleFilter(this,'size','micro')" data-val="micro"><div class="filter-check"></div> Micro (10K–100K) <span class="filter-count">8</span></div>
+        <div class="filter-option" onclick="toggleFilter(this,'size','mid')" data-val="mid"><div class="filter-check"></div> Mid (100K–500K) <span class="filter-count">2</span></div>
       </div>
     </div>
     <div class="divider"></div>
@@ -1226,19 +1349,19 @@
       <div class="sidebar-section-title">Content Niche</div>
       <div class="filter-group" id="niche-filters">
         <div class="filter-option active" onclick="toggleFilter(this,'niche','all')" data-val="all"><div class="filter-check">✓</div> All Niches <span class="filter-count">14</span></div>
-        <div class="filter-option" onclick="toggleFilter(this,'niche','food')" data-val="food"><div class="filter-check"></div> Food & Cooking <span class="filter-count">10</span></div>
-        <div class="filter-option" onclick="toggleFilter(this,'niche','lifestyle')" data-val="lifestyle"><div class="filter-check"></div> Lifestyle <span class="filter-count">7</span></div>
-        <div class="filter-option" onclick="toggleFilter(this,'niche','student')" data-val="student"><div class="filter-check"></div> College / Student <span class="filter-count">4</span></div>
+        <div class="filter-option" onclick="toggleFilter(this,'niche','foodie')" data-val="foodie"><div class="filter-check"></div> Foodie <span class="filter-count">12</span></div>
+        <div class="filter-option" onclick="toggleFilter(this,'niche','lifestyle')" data-val="lifestyle"><div class="filter-check"></div> Lifestyle <span class="filter-count">8</span></div>
+        <div class="filter-option" onclick="toggleFilter(this,'niche','dorm')" data-val="dorm"><div class="filter-check"></div> Dorm Cooking <span class="filter-count">5</span></div>
         <div class="filter-option" onclick="toggleFilter(this,'niche','wellness')" data-val="wellness"><div class="filter-check"></div> Health & Wellness <span class="filter-count">3</span></div>
-        <div class="filter-option" onclick="toggleFilter(this,'niche','cultural')" data-val="cultural"><div class="filter-check"></div> Cultural Food <span class="filter-count">6</span></div>
+        <div class="filter-option" onclick="toggleFilter(this,'niche','mom')" data-val="mom"><div class="filter-check"></div> Mom <span class="filter-count">5</span></div>
       </div>
     </div>
     <div class="divider"></div>
     <div>
       <div class="sidebar-section-title">Min. Engagement Rate</div>
       <div class="range-slider">
-        <div class="range-label"><span>Minimum</span><span id="engVal">2%</span></div>
-        <input type="range" min="1" max="10" value="2" step="0.5" oninput="document.getElementById('engVal').textContent=this.value+'%'">
+        <div class="range-label"><span>Minimum</span><span id="engVal">1%</span></div>
+        <input type="range" min="1" max="20" value="1" step="0.5" oninput="updateEngFilter(this.value)">
       </div>
     </div>
   </div>
@@ -1547,9 +1670,14 @@ const INFLUENCERS = [
     engagement: "9.4%",
     avgViews: "380K",
     costEst: "$700–1,200",
-    niches: ["food","cultural"],
+    niches: ["foodie","mom"],
     culture: "korean",
     foodContent: ["Kimchi making", "Doenjang jjigae", "Korean grocery hauls", "Banchan recipes"],
+    videos: [
+      { title: "Making kimchi from scratch 🥬", views: "2.1M", platform: "tiktok", color: "#e8401c" },
+      { title: "Full banchan spread for Mom's birthday", views: "890K", platform: "youtube", color: "#1a7a4a" },
+      { title: "Korean grocery haul (everything from Weee!)", views: "540K", platform: "tiktok", color: "#6b3fa0" }
+    ],
   // Jisu Park - Korean female
     photo: "https://i.pravatar.cc/100?img=47",
     campaigns: ["all","lunar","backtoschool","mothersday","holidayseason"],
@@ -1570,9 +1698,14 @@ const INFLUENCERS = [
     engagement: "5.2%",
     avgViews: "120K",
     costEst: "$2,000–3,500",
-    niches: ["food","lifestyle","cultural"],
+    niches: ["foodie","lifestyle"],
     culture: "korean",
     foodContent: ["Korean BBQ reviews", "KBBQ at home", "Tteokbokki", "Korean fried chicken"],
+    videos: [
+      { title: "KBBQ night at home — full setup guide", views: "320K", platform: "youtube", color: "#b8401a" },
+      { title: "Best tteokbokki I've ever made 🌶️", views: "180K", platform: "instagram", color: "#e8401c" },
+      { title: "Korean fried chicken vs delivery — who wins?", views: "210K", platform: "youtube", color: "#1a4f8a" }
+    ],
     photo: "https://i.pravatar.cc/100?img=12",
     campaigns: ["all","lunar","springpicnic","backtoschool","thanksgiving"],
     matchScore: 96,
@@ -1592,9 +1725,14 @@ const INFLUENCERS = [
     engagement: "17.8%",
     avgViews: "52K",
     costEst: "$150–300",
-    niches: ["food","cultural","student"],
+    niches: ["foodie","dorm"],
     culture: "korean",
     foodContent: ["Korean dorm cooking", "Ramyeon upgrades", "Tteok recipes", "Korean convenience snacks"],
+    videos: [
+      { title: "Ramyeon upgrade that changed my life 🍜", views: "95K", platform: "tiktok", color: "#6b3fa0" },
+      { title: "Dorm room Korean feast under $10", views: "62K", platform: "tiktok", color: "#e8401c" },
+      { title: "Rating every Korean convenience snack", views: "48K", platform: "instagram", color: "#1a7a4a" }
+    ],
     photo: "https://i.pravatar.cc/100?img=45",
     campaigns: ["all","backtoschool","valentines","lunar","springpicnic"],
     matchScore: 94,
@@ -1614,9 +1752,14 @@ const INFLUENCERS = [
     engagement: "8.1%",
     avgViews: "95K",
     costEst: "$500–900",
-    niches: ["food","wellness","cultural"],
+    niches: ["foodie","wellness","mom"],
     culture: "korean",
     foodContent: ["Korean wellness food", "Fermented foods", "Doenjang", "Temple food", "Healthy Korean cooking"],
+    videos: [
+      { title: "Korean temple food — healing from the inside", views: "140K", platform: "youtube", color: "#1a4f8a" },
+      { title: "How I make doenjang jjigae every week", views: "88K", platform: "tiktok", color: "#1a7a4a" },
+      { title: "Fermented foods for gut health 🥒", views: "72K", platform: "instagram", color: "#6b3fa0" }
+    ],
     photo: "https://i.pravatar.cc/100?img=49",
     campaigns: ["all","lunar","springpicnic","mothersday","holidayseason"],
     matchScore: 92,
@@ -1638,9 +1781,14 @@ const INFLUENCERS = [
     engagement: "6.2%",
     avgViews: "210K",
     costEst: "$800–1,200",
-    niches: ["food","lifestyle"],
+    niches: ["foodie","lifestyle"],
     culture: "chinese",
     foodContent: ["Delivery unboxings", "Restaurant reviews", "Quick weeknight meals"],
+    videos: [
+      { title: "Unboxing my entire weekly grocery delivery 📦", views: "380K", platform: "tiktok", color: "#d4631a" },
+      { title: "Best Chinese delivery in SF — ranked", views: "210K", platform: "tiktok", color: "#1a4f8a" },
+      { title: "15-minute weeknight noodles using delivery", views: "160K", platform: "instagram", color: "#1a7a4a" }
+    ],
     photo: "https://i.pravatar.cc/100?img=44",
     campaigns: ["all","lunar","valentines","springpicnic","holidayseason"],
     matchScore: 95,
@@ -1660,9 +1808,14 @@ const INFLUENCERS = [
     engagement: "8.4%",
     avgViews: "180K",
     costEst: "$500–900",
-    niches: ["student","lifestyle"],
+    niches: ["dorm","lifestyle"],
     culture: "mexican",
     foodContent: ["Late-night food runs", "Student meal prep", "Cheap eats reviews"],
+    videos: [
+      { title: "2am food run tier list 🌙", views: "290K", platform: "tiktok", color: "#2a5fa8" },
+      { title: "Meal prepping on a college budget", views: "175K", platform: "youtube", color: "#1a7a4a" },
+      { title: "Best cheap eats in Berkeley — full guide", views: "130K", platform: "instagram", color: "#e8401c" }
+    ],
     photo: "https://i.pravatar.cc/100?img=15",
     campaigns: ["all","backtoschool","fourthjuly","memorial","springpicnic"],
     matchScore: 92,
@@ -1682,9 +1835,14 @@ const INFLUENCERS = [
     engagement: "11.2%",
     avgViews: "320K",
     costEst: "$400–700",
-    niches: ["student","lifestyle","food"],
+    niches: ["dorm","lifestyle","foodie"],
     culture: null,
     foodContent: ["Late-night snacks", "Fast food reviews", "Delivery hauls"],
+    videos: [
+      { title: "Every delivery app at midnight — reviewed", views: "580K", platform: "tiktok", color: "#5a3a8a" },
+      { title: "Late night snack haul (I spent too much)", views: "340K", platform: "tiktok", color: "#e8401c" },
+      { title: "Fast food at 3am tier list 🌙", views: "290K", platform: "tiktok", color: "#1a4f8a" }
+    ],
     photo: "https://i.pravatar.cc/100?img=8",
     campaigns: ["all","fourthjuly","springpicnic","backtoschool","thanksgiving"],
     matchScore: 93,
@@ -1704,9 +1862,14 @@ const INFLUENCERS = [
     engagement: "14.5%",
     avgViews: "45K",
     costEst: "$150–300",
-    niches: ["lifestyle","student"],
+    niches: ["lifestyle","dorm"],
     culture: "mexican",
     foodContent: ["Mexican home cooking", "Tortilla making", "Salsa recipes", "Street food"],
+    videos: [
+      { title: "Making tortillas from scratch like abuela 🫓", views: "78K", platform: "tiktok", color: "#2a7a52" },
+      { title: "My family's salsa verde recipe (finally!)", views: "52K", platform: "instagram", color: "#e8401c" },
+      { title: "Mexican street food at home 🌮", views: "41K", platform: "tiktok", color: "#c06820" }
+    ],
     photo: "https://i.pravatar.cc/100?img=56",
     campaigns: ["all","mothersday","fourthjuly","backtoschool","springpicnic"],
     matchScore: 88,
@@ -1726,9 +1889,14 @@ const INFLUENCERS = [
     engagement: "3.8%",
     avgViews: "95K",
     costEst: "$2,000–3,500",
-    niches: ["food","wellness","cultural"],
+    niches: ["foodie","wellness","mom"],
     culture: "indian",
     foodContent: ["South Indian recipes", "Dosa from scratch", "Curry leaf cooking", "Lentil dishes"],
+    videos: [
+      { title: "Perfect dosa batter — the secret ratio", views: "180K", platform: "youtube", color: "#c0522a" },
+      { title: "South Indian thali from scratch 🍛", views: "140K", platform: "instagram", color: "#1a7a4a" },
+      { title: "Every lentil dish my mom taught me", views: "95K", platform: "youtube", color: "#6b3fa0" }
+    ],
     photo: "https://i.pravatar.cc/100?img=41",
     campaigns: ["all","springpicnic","mothersday","backtoschool","holidayseason"],
     matchScore: 87,
@@ -1748,9 +1916,14 @@ const INFLUENCERS = [
     engagement: "7.9%",
     avgViews: "250K",
     costEst: "$700–1,100",
-    niches: ["food","student","lifestyle","cultural"],
+    niches: ["foodie","dorm","lifestyle"],
     culture: "korean",
     foodContent: ["Korean-American fusion", "Delivery challenges", "Food reviews", "Korean snacks"],
+    videos: [
+      { title: "I only ate delivery for 7 days straight 📦", views: "480K", platform: "tiktok", color: "#b8401a" },
+      { title: "Korean snack tier list — every flavor ranked", views: "320K", platform: "youtube", color: "#e8401c" },
+      { title: "Korean-American fusion tacos (you need this)", views: "250K", platform: "instagram", color: "#1a4f8a" }
+    ],
     photo: "https://i.pravatar.cc/100?img=11",
     campaigns: ["all","lunar","fourthjuly","backtoschool","memorial","holidayseason"],
     matchScore: 97,
@@ -1770,9 +1943,14 @@ const INFLUENCERS = [
     engagement: "7.3%",
     avgViews: "140K",
     costEst: "$600–1,000",
-    niches: ["food","cultural","lifestyle"],
+    niches: ["foodie","lifestyle","mom"],
     culture: "japanese",
     foodContent: ["Bento making", "Onigiri varieties", "Japanese curry", "Ramen from scratch", "Japanese pantry essentials"],
+    videos: [
+      { title: "Building the perfect bento box 🍱", views: "260K", platform: "instagram", color: "#1a5a8a" },
+      { title: "Ramen from scratch — 12 hour broth", views: "195K", platform: "youtube", color: "#e8401c" },
+      { title: "Japanese pantry essentials you need at home", views: "140K", platform: "tiktok", color: "#1a7a4a" }
+    ],
     photo: "https://i.pravatar.cc/100?img=48",
     campaigns: ["all","lunar","springpicnic","mothersday","holidayseason"],
     matchScore: 95,
@@ -1792,9 +1970,14 @@ const INFLUENCERS = [
     engagement: "6.8%",
     avgViews: "200K",
     costEst: "$900–1,500",
-    niches: ["food","cultural"],
+    niches: ["foodie","mom"],
     culture: "chinese",
     foodContent: ["Dumpling making", "Cantonese cooking", "Chinese pantry hauls", "Hot pot prep", "Dim sum at home"],
+    videos: [
+      { title: "Making 200 dumplings for Lunar New Year 🥟", views: "390K", platform: "tiktok", color: "#a07820" },
+      { title: "Dim sum brunch at home — full spread", views: "240K", platform: "youtube", color: "#e8401c" },
+      { title: "My Chinese pantry haul — what I always buy", views: "175K", platform: "tiktok", color: "#1a4f8a" }
+    ],
     photo: "https://i.pravatar.cc/100?img=40",
     campaigns: ["all","lunar","springpicnic","mothersday","holidayseason","thanksgiving"],
     matchScore: 94,
@@ -1814,9 +1997,14 @@ const INFLUENCERS = [
     engagement: "19.2%",
     avgViews: "60K",
     costEst: "$100–250",
-    niches: ["food","cultural","lifestyle"],
+    niches: ["foodie","lifestyle"],
     culture: "mexican",
     foodContent: ["Homemade tortillas", "Regional Mexican cooking", "Specialty chiles", "Mole from scratch", "Mexican pantry"],
+    videos: [
+      { title: "Oaxacan mole negro from scratch 🫙", views: "110K", platform: "tiktok", color: "#c06820" },
+      { title: "Finding the rarest chiles in LA", views: "78K", platform: "instagram", color: "#e8401c" },
+      { title: "My Mexican pantry — every ingredient explained", views: "62K", platform: "tiktok", color: "#1a7a4a" }
+    ],
     photo: "https://i.pravatar.cc/100?img=58",
     campaigns: ["all","memorial","springpicnic","backtoschool","mothersday"],
     matchScore: 91,
@@ -1836,9 +2024,14 @@ const INFLUENCERS = [
     engagement: "16.2%",
     avgViews: "28K",
     costEst: "$100–250",
-    niches: ["food","wellness"],
+    niches: ["foodie","wellness"],
     culture: null,
     foodContent: ["Wellness food", "Healthy delivery reviews", "Nutritious meal unboxings"],
+    videos: [
+      { title: "Healthy delivery options in SF — rated 🥗", views: "48K", platform: "instagram", color: "#1a7a4a" },
+      { title: "My weekly nutritious meal unboxing", views: "32K", platform: "tiktok", color: "#469CCB" },
+      { title: "Anti-inflammatory meals I order every week", views: "28K", platform: "instagram", color: "#6b3fa0" }
+    ],
     photo: "https://i.pravatar.cc/100?img=32",
     campaigns: ["all","springpicnic","backtoschool","mothersday","thanksgiving"],
     matchScore: 89,
@@ -1851,7 +2044,14 @@ const INFLUENCERS = [
 let activeCampaign = 'all';
 let activeCulture = 'all';
 let activeFilters = { platform: 'all', size: 'all', niche: 'all' };
+let minEngagement = 1;
 let selectedIds = new Set();
+
+function updateEngFilter(val) {
+  minEngagement = parseFloat(val);
+  document.getElementById('engVal').textContent = val + '%';
+  renderCards(getFiltered());
+}
 
 function getFiltered() {
   return INFLUENCERS.filter(inf => {
@@ -1860,6 +2060,8 @@ function getFiltered() {
     if (activeFilters.platform !== 'all' && !inf.platforms.includes(activeFilters.platform)) return false;
     if (activeFilters.size !== 'all' && inf.size !== activeFilters.size) return false;
     if (activeFilters.niche !== 'all' && !inf.niches.includes(activeFilters.niche)) return false;
+    const eng = parseFloat(inf.engagement.replace('%', ''));
+    if (eng < minEngagement) return false;
     return true;
   });
 }
@@ -1881,7 +2083,10 @@ function renderCards(data) {
   grid.innerHTML = data.map((inf, i) => `
     <div class="influencer-card card-anim ${selectedIds.has(inf.id) ? 'selected' : ''}"
          id="card-${inf.id}" onclick="toggleSelect(${inf.id})" style="animation-delay:${i*0.05}s">
-      <div class="match-badge ${inf.matchScore >= 90 ? 'match-high' : 'match-med'}">${inf.matchScore}% match</div>
+      <div style="position:absolute;top:14px;right:14px;display:flex;align-items:center;gap:8px;">
+        <button class="contact-btn" onclick="openOutreach(event, ${inf.id})">✉ Contact</button>
+        <div class="match-badge ${inf.matchScore >= 90 ? 'match-high' : 'match-med'}" style="position:static;">${inf.matchScore}% match</div>
+      </div>
 
       ${inf.culture ? `<div class="cultural-identity-badge">🌏 ${getCultureLabel(inf.culture)}</div>` : ''}
 
@@ -1915,8 +2120,33 @@ function renderCards(data) {
         ${inf.foodContent.map(f => `<span class="food-tag">🍴 ${f}</span>`).join('')}
       </div>` : ''}
 
+      ${inf.videos ? `
+      <div class="video-thumbnails">
+        <div class="video-thumb-main" style="background:${inf.videos[0].color};">
+          <div class="vt-platform ${inf.videos[0].platform}">${inf.videos[0].platform === 'tiktok' ? '<svg width="9" height="9" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.84 1.56V6.8a4.85 4.85 0 0 1-1.07-.11z"/></svg>' : inf.videos[0].platform === 'instagram' ? '<svg width="9" height="9" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>' : '<svg width="9" height="9" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>'}</div>
+          <div class="vt-play"><svg width="10" height="10" viewBox="0 0 24 24" fill="#333"><polygon points="8,5 19,12 8,19"/></svg></div>
+          <div class="vt-overlay">
+            <div class="vt-title">${inf.videos[0].title}</div>
+            <div class="vt-views">${inf.videos[0].views} views</div>
+          </div>
+        </div>
+        <div class="video-thumb-side">
+          ${inf.videos.slice(1).map(v => `
+          <div class="video-thumb-sm" style="background:${v.color};">
+            <div class="vt-platform ${v.platform}">${v.platform === 'tiktok' ? '<svg width="9" height="9" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.84 1.56V6.8a4.85 4.85 0 0 1-1.07-.11z"/></svg>' : v.platform === 'instagram' ? '<svg width="9" height="9" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>' : '<svg width="9" height="9" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>'}</div>
+            <div class="vt-play-sm"><svg width="7" height="7" viewBox="0 0 24 24" fill="#333"><polygon points="8,5 19,12 8,19"/></svg></div>
+            <div class="vt-overlay">
+              <div class="vt-title-sm">${v.title}</div>
+              <div class="vt-views-sm">${v.views} views</div>
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>` : ''}
+
       <div class="card-why">💡 <strong>Why this creator:</strong> ${inf.why}</div>
-      <button class="outreach-btn" onclick="openOutreach(event, ${inf.id})">✉ Generate Outreach Message</button>
+      <div class="card-actions">
+        <button class="outreach-btn" onclick="openOutreach(event, ${inf.id})">✦ Generate Outreach Message</button>
+      </div>
     </div>
   `).join('');
 }
@@ -2055,7 +2285,10 @@ document.addEventListener('click', function(e) {
 
 function toggleFilter(el, type, val) {
   const group = document.getElementById(type + '-filters');
-  group.querySelectorAll('.filter-option').forEach(o => { o.classList.remove('active'); o.querySelector('.filter-check').textContent = ''; });
+  group.querySelectorAll('.filter-option').forEach(o => {
+    o.classList.remove('active');
+    o.querySelector('.filter-check').textContent = '';
+  });
   el.classList.add('active');
   el.querySelector('.filter-check').textContent = '✓';
   activeFilters[type] = val;
@@ -2206,6 +2439,22 @@ When the user describes a campaign, recommend 2-3 specific creators with brief r
   document.getElementById('aiBtnText').textContent = '✦ Match';
 }
 
+function buildFallbackOutreach(inf) {
+  const cultureMap = {
+    korean: 'Korean', chinese: 'Chinese', mexican: 'Mexican',
+    indian: 'Indian', japanese: 'Japanese'
+  };
+  const culture = cultureMap[inf.culture] || 'authentic ethnic';
+  const campaignMap = {
+    lunar: 'Lunar New Year', valentines: "Valentine's Day", springpicnic: 'Spring Picnic',
+    mothersday: "Mother's Day", memorial: 'Memorial Day', fourthjuly: '4th of July',
+    backtoschool: 'Back to School', thanksgiving: 'Thanksgiving', holidayseason: 'Holiday Season'
+  };
+  const campaign = inf.campaigns.filter(c => c !== 'all').map(c => campaignMap[c]).filter(Boolean)[0] || 'upcoming';
+  const food = inf.foodContent ? inf.foodContent[0] : 'food content';
+  return `Hi ${inf.name.split(' ')[0]}! We're Weee!, a food grocery delivery company focused on bringing hard-to-find and authentic ${culture} ingredients and food products to customers across the US — and your ${food} content is a perfect fit for what we're building.\n\nI'd love to collaborate on a sponsored ${campaign} video or post. We can offer Weee! credits, free groceries, or monetary compensation depending on what works best for you.\n\nWould love to connect!`;
+}
+
 async function openOutreach(e, id) {
   e.stopPropagation();
   const inf = INFLUENCERS.find(i => i.id === id);
@@ -2225,15 +2474,20 @@ async function openOutreach(e, id) {
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1000,
-        system: `You write concise, warm, personalized influencer outreach DMs for a food delivery app that specializes in authentic cultural ingredients and cuisine. Keep under 110 words. Sound human and genuine, not corporate. Mention their specific content, the cultural food angle if relevant, the audience benefit, and a clear CTA. No subject line needed. ${cultureContext}`,
-        messages: [{ role: "user", content: `Write an outreach DM for ${inf.name} (${inf.handle}), a ${inf.size}-influencer with ${inf.followers} followers. Their food content: ${(inf.foodContent||[]).join(', ')}. Cultural background: ${inf.culture || 'general'}. Campaign: ${inf.campaigns.filter(c=>c!=='all').join(', ')}. Template to loosely base on: "${inf.outreachTemplate}"` }]
+        system: `You write personalized influencer outreach messages on behalf of Weee!, an online Asian grocery delivery company focused on bringing hard-to-find and authentic ethnic ingredients and food products to customers across the US.
+
+Use this structure and tone as your guide:
+"Hi [influencer name], We're Weee!, a food grocery delivery company focused on bringing hard-to-find and authentic [cultural] ingredients and food products to customers — and your content is a perfect fit for what we're building. I'd love to collaborate on a sponsored [campaign] video or post. We can offer Weee! credits, free groceries, or monetary compensation depending on what works best for you. Would love to connect!"
+
+Keep it under 100 words. Sound warm, genuine, and human — not corporate. Personalize by referencing 1-2 specific things about their actual content. Always mention Weee! by name. ${cultureContext}`,
+        messages: [{ role: "user", content: `Write an outreach message for ${inf.name} (${inf.handle}), a ${inf.size}-influencer with ${inf.followers} followers on ${inf.platforms.join(' and ')}. Their food content includes: ${(inf.foodContent||[]).join(', ')}. Cultural market: ${inf.culture || 'general'}. Best campaign fit: ${inf.campaigns.filter(c=>c!=='all').join(', ')}.` }]
       })
     });
     const data = await response.json();
-    const text = data.content?.map(b => b.text || '').join('') || inf.outreachTemplate;
+    const text = data.content?.map(b => b.text || '').join('') || buildFallbackOutreach(inf);
     document.getElementById('modalTextarea').value = text;
   } catch(e) {
-    document.getElementById('modalTextarea').value = inf.outreachTemplate;
+    document.getElementById('modalTextarea').value = buildFallbackOutreach(inf);
   }
 
   document.getElementById('modalLoading').style.display = 'none';
