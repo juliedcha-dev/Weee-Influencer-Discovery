@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creator Profile — Weee! Influencer Discovery</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f0f6fb;--surface:#fff;--border:#ccdde9;--border2:#aac8db;
+  --ink:#0f1923;--muted:#5a7a96;--accent:#469CCB;--accent2:#f5a623;
+  --green:#1a7a4a;--green-bg:#e8f5ee;--red:#e8401c;--blue:#469CCB;
+  --blue-bg:#d6eaf6;--purple:#6b3fa0;--tag-bg:#e4f0f8;
+  --radius:14px;--shadow:0 2px 12px rgba(15,25,35,.08);--shadow-lg:0 8px 32px rgba(15,25,35,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
+nav{position:sticky;top:0;z-index:100;background:#469CCB;border-bottom:1px solid rgba(255,255,255,.15);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-left{display:flex;align-items:center;gap:16px}
+.nav-back{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;padding:6px 14px;border-radius:100px;text-decoration:none;transition:all .18s;cursor:pointer}
+.nav-back:hover{background:rgba(255,255,255,.22)}
+.nav-title{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;color:#fff}
+.nav-sub{font-size:12px;color:rgba(255,255,255,.6)}
+.creator-switcher-wrap{position:relative}
+.creator-switcher-btn{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);color:#fff;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;padding:7px 14px;border-radius:10px;cursor:pointer;transition:all .18s;min-width:220px;justify-content:space-between}
+.creator-switcher-btn:hover{background:rgba(255,255,255,.2)}
+.switcher-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;color:#fff;font-weight:700}
+.creator-switcher-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:260px;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;box-shadow:var(--shadow-lg);z-index:200;overflow:hidden;display:none}
+.creator-switcher-menu.open{display:block;animation:fadeDown .15s ease}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.switcher-item{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;transition:background .12s;border:none;background:none;width:100%;text-align:left;font-family:'Instrument Sans',sans-serif}
+.switcher-item:hover{background:var(--tag-bg)}
+.switcher-item.active{background:rgba(70,156,203,.08)}
+.switcher-item-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;color:#fff}
+.switcher-item-name{font-size:13px;font-weight:600;color:var(--ink)}
+.switcher-item-handle{font-size:11px;color:var(--muted)}
+.switcher-item-score{margin-left:auto;background:var(--green-bg);color:var(--green);font-family:'Bricolage Grotesque',sans-serif;font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px}
+.hero-header{background:linear-gradient(135deg,#0f1923 0%,#1a2535 100%);padding:32px 40px 0;position:relative;overflow:hidden}
+.hero-header::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(70,156,203,.15) 0%,transparent 70%);pointer-events:none}
+.hero-top{display:flex;align-items:flex-start;gap:24px;margin-bottom:28px;position:relative;z-index:1;flex-wrap:wrap}
+.hero-avatar-wrap{position:relative;flex-shrink:0}
+.hero-avatar{width:88px;height:88px;border-radius:50%;border:3px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:36px;color:#fff;overflow:hidden;background:#1a2535}
+.hero-avatar img{width:100%;height:100%;object-fit:cover}
+.hero-verified{position:absolute;bottom:2px;right:2px;width:22px;height:22px;border-radius:50%;background:#469CCB;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;border:2px solid #0f1923}
+.hero-info{flex:1;min-width:200px}
+.hero-name{font-family:'Bricolage Grotesque',sans-serif;font-size:28px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.1}
+.hero-handle{font-size:15px;color:rgba(255,255,255,.5);margin-top:3px}
+.hero-tags{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.hero-tag{font-family:'Bricolage Grotesque',sans-serif;font-size:11px;font-weight:700;padding:4px 12px;border-radius:100px;letter-spacing:.04em;text-transform:uppercase}
+.tag-culture{background:rgba(245,166,35,.2);color:#f5a623;border:1px solid rgba(245,166,35,.3)}
+.tag-auth{background:rgba(26,122,74,.2);color:#4ade80;border:1px solid rgba(26,122,74,.3)}
+.tag-location{background:rgba(70,156,203,.15);color:#93c8e8;border:1px solid rgba(70,156,203,.25)}
+.hero-right{display:flex;flex-direction:column;align-items:flex-end;gap:12px;flex-shrink:0}
+.match-score-hero{display:flex;flex-direction:column;align-items:center;background:rgba(26,122,74,.15);border:1px solid rgba(26,122,74,.3);border-radius:14px;padding:12px 20px}
+.match-score-num{font-family:'Bricolage Grotesque',sans-serif;font-size:36px;font-weight:800;color:#4ade80;line-height:1}
+.match-score-label{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.hero-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-shortlist{display:flex;align-items:center;gap:6px;background:var(--accent2);color:#1a1714;font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;padding:8px 16px;border-radius:100px;border:none;cursor:pointer;transition:all .18s;box-shadow:0 2px 10px rgba(245,166,35,.35)}
+.btn-shortlist:hover{background:#e8961a;transform:translateY(-1px)}
+.btn-outline{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.25);font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;padding:8px 16px;border-radius:100px;cursor:pointer;transition:all .18s}
+.btn-outline:hover{background:rgba(255,255,255,.18)}
+.platform-stats{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.08);position:relative;z-index:1;flex-wrap:wrap}
+.pstat{display:flex;align-items:center;gap:12px;padding:16px 28px;border-right:1px solid rgba(255,255,255,.08);flex:1;min-width:130px}
+.pstat:last-child{border-right:none}
+.pstat-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.pstat-val{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;color:#fff}
+.pstat-label{font-size:11px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em}
+.pstat-eng{color:#4ade80}
+.tabs-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;display:flex;gap:0;position:sticky;top:60px;z-index:90}
+.tab-btn{padding:14px 20px;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .18s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.tab-btn:hover{color:var(--ink)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-panel{display:none;padding:28px 40px 48px}
+.tab-panel.active{display:block}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.sidebar-layout{display:grid;grid-template-columns:1fr 340px;gap:20px}
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:22px 24px}
+.card-title{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.07em;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.card-title-dot{width:7px;height:7px;border-radius:50%}
+.why-box{background:linear-gradient(135deg,#f8fbff 0%,#eef5fb 100%);border:1.5px solid var(--border);border-radius:var(--radius);padding:24px 28px;margin-bottom:20px}
+.why-label{font-family:'Bricolage Grotesque',sans-serif;font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.why-text{font-size:14px;color:var(--ink);line-height:1.75}
+.match-factor{margin-bottom:16px}
+.match-factor:last-child{margin-bottom:0}
+.mf-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.mf-label{font-size:13px;font-weight:600;color:var(--ink)}
+.mf-score{font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:800;color:var(--green)}
+.mf-bar-track{height:7px;background:var(--bg);border-radius:100px;overflow:hidden}
+.mf-bar-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,#469CCB,#1a7a4a);transition:width 1s cubic-bezier(.4,0,.2,1)}
+.sparkline-wrap{position:relative;height:120px}
+.sparkline-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:6px}
+canvas.sparkline{width:100%;height:120px}
+.freq-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
+.freq-day{text-align:center}
+.freq-day-label{font-size:9px;color:var(--muted);margin-bottom:4px}
+.freq-dots{display:flex;flex-direction:column;gap:3px;align-items:center}
+.freq-dot{width:10px;height:10px;border-radius:3px}
+.tag-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.topic-tag{font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:600;padding:5px 12px;border-radius:100px;border:1.5px solid;cursor:default;transition:transform .15s}
+.topic-tag:hover{transform:scale(1.05)}
+.bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.bar-row:last-child{margin-bottom:0}
+.bar-row-label{font-size:13px;color:var(--ink);width:100px;flex-shrink:0}
+.bar-track{flex:1;height:8px;background:var(--bg);border-radius:100px;overflow:hidden}
+.bar-fill{height:100%;border-radius:100px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.bar-pct{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;width:36px;text-align:right;color:var(--ink)}
+.gender-chart{display:flex;align-items:center;gap:24px;margin-top:8px}
+.donut-wrap{position:relative;width:100px;height:100px;flex-shrink:0}
+.donut-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut-pct{font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800;color:var(--ink);line-height:1}
+.donut-sub{font-size:10px;color:var(--muted)}
+.gender-legend{display:flex;flex-direction:column;gap:8px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:13px}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.zone-callout{border-radius:var(--radius);padding:16px 20px;display:flex;align-items:center;gap:14px;margin-top:8px}
+.zone-callout.green{background:var(--green-bg);border:1.5px solid rgba(26,122,74,.2)}
+.zone-callout.amber{background:#fff8e6;border:1.5px solid rgba(180,120,0,.2)}
+.zone-icon{font-size:24px;flex-shrink:0}
+.zone-title{font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:800}
+.zone-callout.green .zone-title{color:var(--green)}
+.zone-callout.amber .zone-title{color:#b47800}
+.zone-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.state-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.state-name{font-size:13px;color:var(--ink);width:120px;flex-shrink:0}
+.state-bar-track{flex:1;height:6px;background:var(--bg);border-radius:100px;overflow:hidden}
+.state-bar-fill{height:100%;background:var(--accent);border-radius:100px;transition:width 1s}
+.state-pct{font-size:12px;color:var(--muted);width:36px;text-align:right}
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.video-thumb{border-radius:10px;overflow:hidden;border:1.5px solid var(--border);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.video-thumb:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.video-thumb-img{height:100px;display:flex;align-items:center;justify-content:center;font-size:32px;position:relative}
+.video-thumb-play{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.55);color:#fff;border-radius:6px;padding:2px 7px;font-size:10px;font-weight:700;font-family:'Bricolage Grotesque',sans-serif}
+.video-platform-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.5);color:#fff;border-radius:5px;padding:2px 7px;font-size:9px;font-weight:700;font-family:'Bricolage Grotesque',sans-serif;text-transform:uppercase}
+.video-thumb-body{padding:10px 12px}
+.video-thumb-title{font-size:12px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:4px}
+.video-thumb-views{font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;color:var(--accent)}
+.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.ag-cell{padding:14px 16px;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+.ag-cell:nth-child(even){border-right:none}
+.ag-cell:nth-last-child(-n+2){border-bottom:none}
+.ag-label{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.ag-val{font-size:13px;color:var(--ink);font-weight:500}
+.food-keyword-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.fkw{background:rgba(232,64,28,.08);border:1px solid rgba(232,64,28,.2);color:var(--red);font-size:12px;font-weight:600;padding:3px 10px;border-radius:100px}
+.campaign-card{border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px}
+.campaign-card:last-child{margin-bottom:0}
+.cc-header{background:linear-gradient(135deg,#0f1923 0%,#1a2535 100%);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.cc-name{font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:700;color:#fff}
+.cc-date{font-size:12px;color:rgba(255,255,255,.5)}
+.cc-badge{background:rgba(26,122,74,.2);color:#4ade80;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;font-family:'Bricolage Grotesque',sans-serif}
+.cc-stats{display:flex;gap:0}
+.cc-stat{flex:1;padding:14px 20px;border-right:1px solid var(--border);text-align:center}
+.cc-stat:last-child{border-right:none}
+.cc-stat-val{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;color:var(--ink)}
+.cc-stat-label{font-size:11px;color:var(--muted)}
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--border);border-radius:2px}
+.tl-item{position:relative;margin-bottom:16px}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{position:absolute;left:-21px;top:5px;width:12px;height:12px;border-radius:50%;border:2px solid var(--surface)}
+.tl-dot.sent{background:var(--accent)}
+.tl-dot.replied{background:var(--green)}
+.tl-dot.call{background:var(--accent2)}
+.tl-dot.pending{background:var(--border2)}
+.tl-status{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.tl-status.sent{color:var(--accent)}
+.tl-status.replied{color:var(--green)}
+.tl-status.call{color:#b07a00}
+.tl-status.pending{color:var(--muted)}
+.tl-date{font-size:11px;color:var(--muted)}
+.tl-note{font-size:13px;color:var(--ink);margin-top:3px}
+.relationship-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:100px;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700}
+.rb-warm{background:var(--green-bg);color:var(--green);border:1.5px solid rgba(26,122,74,.2)}
+.rb-new{background:var(--blue-bg);color:var(--accent);border:1.5px solid rgba(70,156,203,.2)}
+.note-input-box{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:20px}
+.note-input{width:100%;border:none;background:none;outline:none;font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--ink);resize:none;min-height:70px}
+.note-input::placeholder{color:var(--muted)}
+.note-input-footer{display:flex;justify-content:flex-end;margin-top:10px}
+.btn-add-note{background:var(--accent);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;padding:8px 20px;border-radius:100px;border:none;cursor:pointer;transition:opacity .18s}
+.btn-add-note:hover{opacity:.85}
+.note-item{border-bottom:1px solid var(--border);padding:16px 0;animation:fadeIn .3s ease}
+.note-item:last-child{border-bottom:none}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.note-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.note-author-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+.note-author{font-size:13px;font-weight:600;color:var(--ink)}
+.note-date{font-size:12px;color:var(--muted);margin-left:auto}
+.note-body{font-size:14px;color:var(--ink);line-height:1.6;padding-left:36px}
+.status-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.ctrl-label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;font-family:'Bricolage Grotesque',sans-serif}
+.ctrl-select{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235a7a96' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;transition:border-color .2s}
+.ctrl-select:focus{border-color:var(--accent)}
+.quick-actions{display:flex;gap:10px;flex-wrap:wrap}
+.qa-btn{display:flex;align-items:center;gap:6px;background:var(--surface);border:1.5px solid var(--border);color:var(--ink);font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:700;padding:8px 16px;border-radius:100px;cursor:pointer;transition:all .18s}
+.qa-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--blue-bg)}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,12,10,.6);backdrop-filter:blur(8px);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border-radius:20px;width:100%;max-width:520px;box-shadow:0 24px 80px rgba(0,0,0,.2);transform:translateY(20px) scale(.97);transition:transform .25s cubic-bezier(.34,1.56,.64,1);overflow:hidden}
+.modal-overlay.open .modal{transform:translateY(0) scale(1)}
+.modal-top{background:linear-gradient(135deg,#1a1714 0%,#2d2520 100%);padding:24px 28px;display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-family:'Bricolage Grotesque',sans-serif;font-size:17px;font-weight:800;color:#fff}
+.modal-close{background:none;border:none;color:rgba(255,255,255,.5);font-size:20px;cursor:pointer;padding:0 4px}
+.modal-body{padding:22px 28px}
+.modal-textarea{width:100%;min-height:160px;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;resize:vertical;transition:border-color .2s}
+.modal-textarea:focus{border-color:var(--accent)}
+.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+.btn-copy{background:var(--accent);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;padding:10px 22px;border-radius:100px;border:none;cursor:pointer;transition:opacity .18s}
+.btn-copy:hover{opacity:.85}
+.modal-loading{padding:40px;text-align:center;color:var(--muted);font-size:14px}
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .hero-header{padding:24px 20px 0}
+  .tabs-bar{padding:0 20px;overflow-x:auto}
+  .tab-panel{padding:20px 20px 40px}
+  .two-col,.three-col,.sidebar-layout{grid-template-columns:1fr}
+  .video-grid{grid-template-columns:1fr 1fr}
+  .analysis-grid{grid-template-columns:1fr}
+  .ag-cell{border-right:none}
+  .status-controls{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-left">
+    <a class="nav-back" href="index.html">← Discovery</a>
+    <div>
+      <div class="nav-title">Creator Profile</div>
+      <div class="nav-sub">Weee! Influencer Discovery</div>
+    </div>
+  </div>
+  <div class="creator-switcher-wrap">
+    <button class="creator-switcher-btn" onclick="toggleSwitcher()">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="switcher-avatar" id="switcherAvatar" style="background:#e8401c">🥢</div>
+        <span id="switcherName">Jisu Park</span>
+      </div>
+      <span style="font-size:10px;color:rgba(255,255,255,.6)">▼</span>
+    </button>
+    <div class="creator-switcher-menu" id="switcherMenu"></div>
+  </div>
+</nav>
+
+<div class="hero-header">
+  <div class="hero-top">
+    <div class="hero-avatar-wrap">
+      <div class="hero-avatar" id="heroAvatar"></div>
+      <div class="hero-verified">✓</div>
+    </div>
+    <div class="hero-info">
+      <div class="hero-name" id="heroName"></div>
+      <div class="hero-handle" id="heroHandle"></div>
+      <div class="hero-tags" id="heroTags"></div>
+    </div>
+    <div class="hero-right">
+      <div class="match-score-hero">
+        <div class="match-score-num" id="heroMatchScore"></div>
+        <div class="match-score-label">Match Score</div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn-shortlist" onclick="shortlistCreator()">⭐ Shortlist</button>
+        <button class="btn-outline" onclick="openOutreachModal()">✉ Outreach</button>
+        <button class="btn-outline">＋ Campaign</button>
+      </div>
+    </div>
+  </div>
+  <div class="platform-stats" id="platformStats"></div>
+</div>
+
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('overview',this)">🧭 Overview</button>
+  <button class="tab-btn" onclick="switchTab('audience',this)">👥 Audience</button>
+  <button class="tab-btn" onclick="switchTab('content',this)">🎬 Content</button>
+  <button class="tab-btn" onclick="switchTab('history',this)">📋 Weee! History</button>
+  <button class="tab-btn" onclick="switchTab('notes',this)">💬 Notes & Status</button>
+</div>
+
+<!-- OVERVIEW -->
+<div class="tab-panel active" id="tab-overview">
+  <div class="why-box">
+    <div class="why-label">✦ Why this creator for Weee?</div>
+    <div class="why-text" id="whyText"></div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--green)"></span>Match Score Breakdown</div>
+      <div id="matchFactors"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--accent)"></span>Engagement & Views (9 months)</div>
+      <div class="sparkline-wrap"><canvas class="sparkline" id="sparklineCanvas"></canvas></div>
+      <div class="sparkline-labels" id="sparklineLabels"></div>
+    </div>
+  </div>
+  <div style="height:20px"></div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--accent2)"></span>Post Frequency</div>
+      <div class="freq-grid" id="freqGrid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--purple)"></span>Content Topic Tags</div>
+      <div class="tag-cloud" id="tagCloud"></div>
+    </div>
+  </div>
+</div>
+
+<!-- AUDIENCE -->
+<div class="tab-panel" id="tab-audience">
+  <div class="two-col">
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title"><span class="card-title-dot" style="background:var(--accent)"></span>Gender Split</div>
+        <div class="gender-chart">
+          <div class="donut-wrap">
+            <canvas id="donutCanvas" width="100" height="100"></canvas>
+            <div class="donut-label"><div class="donut-pct" id="donutPct"></div><div class="donut-sub">Female</div></div>
+          </div>
+          <div class="gender-legend" id="genderLegend"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-title-dot" style="background:var(--accent2)"></span>Age Distribution</div>
+        <div id="ageBars"></div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title"><span class="card-title-dot" style="background:var(--purple)"></span>Cultural/Ethnic Affinity</div>
+        <div id="ethnicBars"></div>
+      </div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title"><span class="card-title-dot" style="background:var(--green)"></span>Top States</div>
+        <div id="stateRows"></div>
+      </div>
+      <div id="zoneCallout"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="tab-panel" id="tab-content">
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-title"><span class="card-title-dot" style="background:var(--red)"></span>Top Performing Content</div>
+    <div class="video-grid" id="videoGrid"></div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--accent)"></span>Content Analysis</div>
+      <div class="analysis-grid" id="analysisGrid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--red)"></span>Food Keywords</div>
+      <div class="food-keyword-tags" id="foodKeywords"></div>
+      <div style="height:16px"></div>
+      <div class="card-title"><span class="card-title-dot" style="background:var(--accent)"></span>Platform Breakdown</div>
+      <div id="platformBreakdown"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div class="tab-panel" id="tab-history">
+  <div class="sidebar-layout">
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title"><span class="card-title-dot" style="background:var(--accent2)"></span>Past Campaigns</div>
+        <div id="campaignCards"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-title-dot" style="background:var(--accent)"></span>Outreach Timeline</div>
+        <div class="timeline" id="outreachTimeline"></div>
+      </div>
+    </div>
+    <div class="card" style="align-self:start">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--green)"></span>Relationship Summary</div>
+      <div id="relationshipSummary"></div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTES -->
+<div class="tab-panel" id="tab-notes">
+  <div class="sidebar-layout">
+    <div>
+      <div class="note-input-box">
+        <textarea class="note-input" id="noteInput" placeholder="Add a team note about this creator..."></textarea>
+        <div class="note-input-footer"><button class="btn-add-note" onclick="addNote()">Add Note</button></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-title-dot" style="background:var(--accent)"></span>Team Notes</div>
+        <div id="notesFeed"></div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title"><span class="card-title-dot" style="background:var(--accent2)"></span>Status & Assignment</div>
+        <div class="status-controls">
+          <div><div class="ctrl-label">Status</div>
+            <select class="ctrl-select"><option>🟡 Identified</option><option>📨 Outreach Sent</option><option>💬 In Conversation</option><option>🤝 Deal in Progress</option><option>✅ Active Partner</option><option>⏸ On Hold</option></select>
+          </div>
+          <div><div class="ctrl-label">Assign To</div>
+            <select class="ctrl-select"><option>— Unassigned —</option><option>Sarah K. (Partnerships)</option><option>Marcus T. (Marketing)</option><option>Jenny L. (Growth)</option><option>Alex R. (Brand)</option></select>
+          </div>
+          <div><div class="ctrl-label">Add to Campaign</div>
+            <select class="ctrl-select"><option>— Select Campaign —</option><option>🎉 Lunar New Year 2026</option><option>💝 Valentine's Day</option><option>🌸 Spring Picnic</option><option>🌸 Mother's Day</option><option>🏖 Memorial Day</option><option>🎆 4th of July</option><option>🎒 Back to School</option><option>🦃 Thanksgiving</option><option>🎄 Holiday Season</option></select>
+          </div>
+          <div><div class="ctrl-label">Priority</div>
+            <select class="ctrl-select"><option>🔴 High Priority</option><option>🟡 Medium Priority</option><option>🟢 Low Priority</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="card-title-dot" style="background:var(--green)"></span>Quick Actions</div>
+        <div class="quick-actions">
+          <button class="qa-btn" onclick="openOutreachModal()">✉ Send Outreach</button>
+          <button class="qa-btn">📅 Schedule Call</button>
+          <button class="qa-btn">📄 Export Brief</button>
+          <button class="qa-btn">🔗 Copy Profile Link</button>
+          <button class="qa-btn">📊 Add to Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="outreachOverlay">
+  <div class="modal">
+    <div class="modal-top">
+      <div class="modal-title" id="modalTitle">Generate Outreach</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-loading" id="modalLoading">✦ Generating personalized message...</div>
+      <div id="modalContent" style="display:none">
+        <textarea class="modal-textarea" id="modalTextarea"></textarea>
+        <div class="modal-footer"><button class="btn-copy" onclick="copyOutreach()">📋 Copy Message</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const INFLUENCERS=[
+  {id:101,name:"Jisu Park",handle:"@jisueats",emoji:"🥢",avatarBg:"#e8401c",platforms:["tiktok","youtube"],size:"micro",followers:"72K",engagement:"9.4%",avgViews:"380K",costEst:"$700–1,200",niches:["foodie","mom"],culture:"korean",foodContent:["Kimchi making","Doenjang jjigae","Korean grocery hauls","Banchan recipes"],videos:[{title:"Making kimchi from scratch 🥬",views:"2.1M",platform:"tiktok",color:"#e8401c"},{title:"Full banchan spread for Mom's birthday",views:"890K",platform:"youtube",color:"#1a7a4a"},{title:"Korean grocery haul (everything from Weee!)",views:"540K",platform:"tiktok",color:"#6b3fa0"}],photo:"https://i.pravatar.cc/100?img=47",campaigns:["all","lunar","backtoschool","mothersday","holidayseason"],matchScore:99,location:"Los Angeles, CA",why:"Jisu's Korean grocery haul and banchan recipe series regularly hits 300K+ views on TikTok. Her audience is deeply Korean-American diaspora — exactly the users who would order gochujang, fresh perilla leaves, and Korean beef cuts through your platform. Her 'making kimchi from scratch' series has over 2M total views.",outreachTemplate:"Jisu! Your banchan series is genuinely one of the best on TikTok — the kimchi video hit different. We're launching a food delivery app that specializes in Korean ingredients and K-food restaurants, and we'd love to partner with you to show your audience how easy it is to get authentic ingredients delivered. Would love to chat about a collab — free pantry stocking included!"},
+  {id:102,name:"Kevin Cho",handle:"@kevinchoeats",emoji:"🍖",avatarBg:"#1a7a4a",platforms:["youtube","instagram"],size:"mid",followers:"185K",engagement:"5.2%",avgViews:"120K",costEst:"$2,000–3,500",niches:["foodie","lifestyle"],culture:"korean",foodContent:["Korean BBQ reviews","KBBQ at home","Tteokbokki","Korean fried chicken"],videos:[{title:"KBBQ night at home — full setup guide",views:"320K",platform:"youtube",color:"#b8401a"},{title:"Best tteokbokki I've ever made 🌶️",views:"180K",platform:"instagram",color:"#e8401c"},{title:"Korean fried chicken vs delivery — who wins?",views:"210K",platform:"youtube",color:"#1a4f8a"}],photo:"https://i.pravatar.cc/100?img=12",campaigns:["all","lunar","springpicnic","backtoschool","thanksgiving"],matchScore:96,location:"New York, NY",why:"Kevin's Korean BBQ content reaches a broad audience of both Korean-Americans and non-Korean food enthusiasts. His 'KBBQ at home' series is perfect for promoting marinated meat and specialty ingredient delivery.",outreachTemplate:"Kevin — the KBBQ at home videos are what got me hooked. We're building a food delivery service focused on authentic Korean ingredients, and your audience is exactly who we want to reach. We'd love to work on a sponsored 'full KBBQ night at home, delivered' video. We'll cover all the ingredients + flat fee."},
+  {id:103,name:"Mina Yoon",handle:"@minasmadeit",emoji:"🍜",avatarBg:"#6b3fa0",platforms:["tiktok","instagram"],size:"nano",followers:"8.4K",engagement:"17.8%",avgViews:"52K",costEst:"$150–300",niches:["foodie","dorm"],culture:"korean",foodContent:["Korean dorm cooking","Ramyeon upgrades","Tteok recipes","Korean convenience snacks"],videos:[{title:"Ramyeon upgrade that changed my life 🍜",views:"95K",platform:"tiktok",color:"#6b3fa0"},{title:"Dorm room Korean feast under $10",views:"62K",platform:"tiktok",color:"#e8401c"},{title:"Rating every Korean convenience snack",views:"48K",platform:"instagram",color:"#1a7a4a"}],photo:"https://i.pravatar.cc/100?img=45",campaigns:["all","backtoschool","valentines","lunar","springpicnic"],matchScore:94,location:"San Jose, CA",why:"Mina's 17.8% engagement rate is extraordinary — her college-focused Korean cooking content resonates powerfully with Korean-American students who miss home cooking and want shortcuts.",outreachTemplate:"Mina!! The ramyeon upgrades are genius, seriously — your audience loves you for a reason. We're launching a food delivery app targeting Korean-American students who want real Korean ingredients and food fast. We'd love to feature you as a campus ambassador with your own promo code."},
+  {id:104,name:"Soyeon Han",handle:"@soyeonkitchen",emoji:"🥗",avatarBg:"#1a4f8a",platforms:["youtube","instagram","tiktok"],size:"micro",followers:"43K",engagement:"8.1%",avgViews:"95K",costEst:"$500–900",niches:["foodie","wellness","mom"],culture:"korean",foodContent:["Korean wellness food","Fermented foods","Doenjang","Temple food"],videos:[{title:"Korean temple food — healing from the inside",views:"140K",platform:"youtube",color:"#1a4f8a"},{title:"How I make doenjang jjigae every week",views:"88K",platform:"tiktok",color:"#1a7a4a"},{title:"Fermented foods for gut health 🥒",views:"72K",platform:"instagram",color:"#6b3fa0"}],photo:"https://i.pravatar.cc/100?img=49",campaigns:["all","lunar","springpicnic","mothersday","holidayseason"],matchScore:92,location:"San Francisco, CA",why:"Soyeon focuses on the health and wellness angle of Korean food — fermented banchan, jook, temple-style vegetables — reaching an audience of health-conscious Korean and non-Korean Americans who value quality sourcing.",outreachTemplate:"Soyeon! Your fermented food content is so educational and beautiful. We're launching a food delivery service focused on authentic, quality Korean ingredients and we think your audience would love having access to the good stuff delivered to their door."},
+  {id:1,name:"Maya Chen",handle:"@mayaeats",emoji:"🍜",avatarBg:"#d4631a",platforms:["tiktok","instagram"],size:"micro",followers:"84K",engagement:"6.2%",avgViews:"210K",costEst:"$800–1,200",niches:["foodie","lifestyle"],culture:"chinese",foodContent:["Delivery unboxings","Restaurant reviews","Quick weeknight meals"],videos:[{title:"Unboxing my entire weekly grocery delivery 📦",views:"380K",platform:"tiktok",color:"#d4631a"},{title:"Best Chinese delivery in SF — ranked",views:"210K",platform:"tiktok",color:"#1a4f8a"},{title:"15-minute weeknight noodles using delivery",views:"160K",platform:"instagram",color:"#1a7a4a"}],photo:"https://i.pravatar.cc/100?img=44",campaigns:["all","lunar","valentines","springpicnic","holidayseason"],matchScore:95,location:"San Francisco, CA",why:"Maya's TikTok food content averages 210K views — well above her follower count, signaling strong virality. Her delivery unboxing series resonates perfectly with first-order campaigns and her SF audience overlaps with your target delivery zones.",outreachTemplate:"Hi Maya! We're launching a food delivery app in SF and would love to partner with you for our launch — your delivery content is exactly what we need. Happy to discuss a paid collab with free credits for your audience!"},
+  {id:2,name:"Jordan Torres",handle:"@jordanliveson",emoji:"🎓",avatarBg:"#2a5fa8",platforms:["tiktok","instagram","youtube"],size:"micro",followers:"52K",engagement:"8.4%",avgViews:"180K",costEst:"$500–900",niches:["dorm","lifestyle"],culture:"mexican",foodContent:["Late-night food runs","Student meal prep","Cheap eats reviews"],videos:[{title:"2am food run tier list 🌙",views:"290K",platform:"tiktok",color:"#2a5fa8"},{title:"Meal prepping on a college budget",views:"180K",platform:"youtube",color:"#1a7a4a"},{title:"Best cheap eats in Berkeley — full guide",views:"130K",platform:"instagram",color:"#e8401c"}],photo:"https://i.pravatar.cc/100?img=15",campaigns:["all","backtoschool","fourthjuly","memorial","springpicnic"],matchScore:92,location:"Berkeley, CA",why:"Jordan's college lifestyle content reaches an 18–24 audience — ideal for your student referral campaign. His referral-style content performs exceptionally well with strong ties to the Berkeley campus community.",outreachTemplate:"Hey Jordan! We're building a food delivery app for students and want you as our first Berkeley campus ambassador. Exclusive promo code, flat rate + free meals for a month. Interested?"},
+  {id:3,name:"DeShawn Morales",handle:"@deshawnlatenight",emoji:"🌙",avatarBg:"#5a3a8a",platforms:["tiktok"],size:"micro",followers:"38K",engagement:"11.2%",avgViews:"320K",costEst:"$400–700",niches:["dorm","lifestyle","foodie"],culture:null,foodContent:["Late-night snacks","Fast food reviews","Delivery hauls"],videos:[{title:"Every delivery app at midnight — reviewed",views:"580K",platform:"tiktok",color:"#5a3a8a"},{title:"Late night snack haul (I spent too much)",views:"340K",platform:"tiktok",color:"#e8401c"},{title:"Fast food at 3am tier list 🌙",views:"290K",platform:"tiktok",color:"#1a4f8a"}],photo:"https://i.pravatar.cc/100?img=8",campaigns:["all","fourthjuly","springpicnic","backtoschool","thanksgiving"],matchScore:93,location:"Austin, TX",why:"DeShawn's 11.2% engagement rate is exceptional. His late-night food content hits at exactly the right moment when delivery orders spike — perfect for a launch buzz campaign.",outreachTemplate:"DeShawn! The late night snack TikToks are elite. We're launching a food delivery app and you're exactly who we want to kick things off. Free food + flat rate + your audience gets $10 off."},
+  {id:4,name:"Sofia Reyes",handle:"@sofiafreestyle",emoji:"✨",avatarBg:"#2a7a52",platforms:["instagram","tiktok"],size:"nano",followers:"9.2K",engagement:"14.5%",avgViews:"45K",costEst:"$150–300",niches:["lifestyle","dorm"],culture:"mexican",foodContent:["Mexican home cooking","Tortilla making","Salsa recipes","Street food"],videos:[{title:"Making tortillas from scratch like abuela 🫓",views:"78K",platform:"tiktok",color:"#2a7a52"},{title:"My family's salsa verde recipe (finally!)",views:"52K",platform:"instagram",color:"#e8401c"},{title:"Mexican street food at home 🌮",views:"41K",platform:"tiktok",color:"#c06820"}],photo:"https://i.pravatar.cc/100?img=56",campaigns:["all","mothersday","fourthjuly","backtoschool","springpicnic"],matchScore:88,location:"San Diego, CA",why:"Sofia's nano-influencer status means hyper-engaged followers who trust her like a friend — ideal for referral campaigns. Her authentic Mexican cooking content reaches a tight-knit community that values cultural food sourcing.",outreachTemplate:"Sofia! Your content feels so real. We're building a food delivery app and want to test a referral program with creators like you — super low effort, pay per sign-up, and your audience gets $10 off."},
+  {id:5,name:"Priya Nair",handle:"@priyacooks",emoji:"🌶️",avatarBg:"#c0522a",platforms:["instagram","youtube"],size:"mid",followers:"210K",engagement:"3.8%",avgViews:"95K",costEst:"$2,000–3,500",niches:["foodie","wellness","mom"],culture:"indian",foodContent:["South Indian recipes","Dosa from scratch","Curry leaf cooking","Lentil dishes"],videos:[{title:"Perfect dosa batter — the secret ratio",views:"180K",platform:"youtube",color:"#c0522a"},{title:"South Indian thali from scratch 🍛",views:"140K",platform:"instagram",color:"#1a7a4a"},{title:"Every lentil dish my mom taught me",views:"95K",platform:"youtube",color:"#6b3fa0"}],photo:"https://i.pravatar.cc/100?img=41",campaigns:["all","springpicnic","mothersday","backtoschool","holidayseason"],matchScore:87,location:"Los Angeles, CA",why:"Priya's large Instagram following skews 25–35 and values quality food. Her South Indian cooking content reaches Indian-American audiences actively seeking specialty ingredients (curry leaves, fresh coconut, specialty lentils) via delivery.",outreachTemplate:"Hi Priya! Your South Indian recipe content is beautiful and so educational. We're launching a delivery service with authentic Indian pantry staples and would love a paid partnership — fully your voice and format."},
+  {id:6,name:"Tyler Kim",handle:"@tylerhungry",emoji:"🍕",avatarBg:"#b8401a",platforms:["tiktok","instagram","youtube"],size:"micro",followers:"67K",engagement:"7.9%",avgViews:"250K",costEst:"$700–1,100",niches:["foodie","dorm","lifestyle"],culture:"korean",foodContent:["Korean-American fusion","Delivery challenges","Food reviews","Korean snacks"],videos:[{title:"I only ate delivery for 7 days straight 📦",views:"480K",platform:"tiktok",color:"#b8401a"},{title:"Korean snack tier list — every flavor ranked",views:"320K",platform:"youtube",color:"#e8401c"},{title:"Korean-American fusion tacos (you need this)",views:"250K",platform:"instagram",color:"#1a4f8a"}],photo:"https://i.pravatar.cc/100?img=11",campaigns:["all","lunar","fourthjuly","backtoschool","memorial","holidayseason"],matchScore:97,location:"New York, NY",why:"Tyler is a triple-platform creator with strong reach on TikTok, Instagram, and YouTube. His 'I only ate delivery for a week' challenge format is tailor-made for a launch campaign, and his Korean-American background gives him natural authority for Korean food content.",outreachTemplate:"Tyler!! The 'only delivery for a week' videos are genius — we want to be part of the next one. We're launching a food delivery app and would love to be your featured app. We'll cover all food costs + flat fee + bonus at 500K views."},
+  {id:7,name:"Yuki Tanaka",handle:"@yukicooks_jp",emoji:"🍱",avatarBg:"#1a5a8a",platforms:["instagram","youtube","tiktok"],size:"micro",followers:"55K",engagement:"7.3%",avgViews:"140K",costEst:"$600–1,000",niches:["foodie","lifestyle","mom"],culture:"japanese",foodContent:["Bento making","Onigiri varieties","Japanese curry","Ramen from scratch"],videos:[{title:"Building the perfect bento box 🍱",views:"260K",platform:"instagram",color:"#1a5a8a"},{title:"Ramen from scratch — 12 hour broth",views:"195K",platform:"youtube",color:"#e8401c"},{title:"Japanese pantry essentials you need at home",views:"140K",platform:"tiktok",color:"#1a7a4a"}],photo:"https://i.pravatar.cc/100?img=48",campaigns:["all","lunar","springpicnic","mothersday","holidayseason"],matchScore:95,location:"Seattle, WA",why:"Yuki's bento and pantry content reaches Japanese and Japanese-American audiences who are highly motivated to source authentic ingredients. Her 'Japanese pantry essentials' series drives strong product discovery and positions delivery as the easiest way to stock up.",outreachTemplate:"Yuki! Your bento content is some of the most beautiful food content on the platform — and so practical. We're launching a delivery service with authentic Japanese pantry staples and would love to partner for a 'stock your Japanese pantry' style video. Free pantry haul + paid collab — would you be interested?"},
+  {id:8,name:"Lin Wei",handle:"@linweikitchen",emoji:"🥟",avatarBg:"#a07820",platforms:["youtube","tiktok"],size:"micro",followers:"91K",engagement:"6.8%",avgViews:"200K",costEst:"$900–1,500",niches:["foodie","mom"],culture:"chinese",foodContent:["Dumpling making","Cantonese cooking","Chinese pantry hauls","Hot pot prep"],videos:[{title:"Making 200 dumplings for Lunar New Year 🥟",views:"390K",platform:"tiktok",color:"#a07820"},{title:"Dim sum brunch at home — full spread",views:"240K",platform:"youtube",color:"#e8401c"},{title:"My Chinese pantry haul — what I always buy",views:"175K",platform:"tiktok",color:"#1a4f8a"}],photo:"https://i.pravatar.cc/100?img=40",campaigns:["all","lunar","springpicnic","mothersday","holidayseason","thanksgiving"],matchScore:94,location:"San Gabriel, CA",why:"Lin's dumpling and Cantonese cooking content is deeply authentic — her audience actively seeks quality Chinese pantry ingredients. Her 'dim sum at home' series is a natural fit for promoting Chinese ingredient delivery.",outreachTemplate:"Lin! Your dumpling-making videos are absolutely incredible — the technique content alone brings in so many saves. We're launching a food delivery service with authentic Chinese pantry ingredients and would love to feature you for a 'full dim sum brunch, delivered' concept. Flat fee + free ingredients — interested in a chat?"},
+  {id:9,name:"Rosa Mendoza",handle:"@rosamakestacos",emoji:"🌮",avatarBg:"#c06820",platforms:["tiktok","instagram"],size:"nano",followers:"7.1K",engagement:"19.2%",avgViews:"60K",costEst:"$100–250",niches:["foodie","lifestyle"],culture:"mexican",foodContent:["Homemade tortillas","Regional Mexican cooking","Specialty chiles","Mole from scratch"],videos:[{title:"Oaxacan mole negro from scratch 🫙",views:"110K",platform:"tiktok",color:"#c06820"},{title:"Finding the rarest chiles in LA",views:"78K",platform:"instagram",color:"#e8401c"},{title:"My Mexican pantry — every ingredient explained",views:"62K",platform:"tiktok",color:"#1a7a4a"}],photo:"https://i.pravatar.cc/100?img=58",campaigns:["all","memorial","springpicnic","backtoschool","mothersday"],matchScore:91,location:"East Los Angeles, CA",why:"Rosa's 19.2% engagement rate is among the highest in our database. Her deeply authentic Mexican regional cooking reaches an audience that actively sources specialty Mexican ingredients. Perfect for demonstrating your specialty pantry delivery.",outreachTemplate:"Rosa! Your mole content is genuinely one of a kind — the level of care you put into sourcing the right chiles is exactly what we're about. We're launching a food delivery service with authentic Mexican pantry ingredients and you're who we want to feature first."},
+  {id:10,name:"Aisha Okafor",handle:"@aishaeats.sf",emoji:"🥘",avatarBg:"#1a7a4a",platforms:["instagram","tiktok"],size:"nano",followers:"6.8K",engagement:"16.2%",avgViews:"28K",costEst:"$100–250",niches:["foodie","wellness"],culture:null,foodContent:["Wellness food","Healthy delivery reviews","Nutritious meal unboxings"],videos:[{title:"Healthy delivery options in SF — rated 🥗",views:"48K",platform:"instagram",color:"#1a7a4a"},{title:"My weekly nutritious meal unboxing",views:"32K",platform:"tiktok",color:"#469CCB"},{title:"Anti-inflammatory meals I order every week",views:"28K",platform:"instagram",color:"#6b3fa0"}],photo:"https://i.pravatar.cc/100?img=32",campaigns:["all","springpicnic","backtoschool","mothersday","thanksgiving"],matchScore:89,location:"San Francisco, CA",why:"Aisha's 16% engagement rate is exceptional — her small but highly loyal SF food community responds intensely to her recommendations. Ideal for wellness-forward campaigns highlighting healthy delivery options.",outreachTemplate:"Aisha! Your SF food content is some of the most authentic I've seen — your followers clearly trust your recommendations. We're launching in SF and would love a paid partnership highlighting our healthy restaurant options."}
+];
+
+function getAudienceData(inf){
+  const cultureAffinities={korean:[["Korean/Korean-American","62%",62],["East Asian","18%",18],["Gen. Food Enthusiast","12%",12],["Other","8%",8]],chinese:[["Chinese/Chinese-American","58%",58],["East Asian","20%",20],["Gen. Food Enthusiast","14%",14],["Other","8%",8]],japanese:[["Japanese/Japanese-American","55%",55],["East Asian","22%",22],["Gen. Food Enthusiast","15%",15],["Other","8%",8]],indian:[["Indian/Indian-American","61%",61],["South Asian","17%",17],["Gen. Food Enthusiast","14%",14],["Other","8%",8]],mexican:[["Mexican/Mexican-American","59%",59],["Latinx","19%",19],["Gen. Food Enthusiast","14%",14],["Other","8%",8]]};
+  const statesByLocation={"Los Angeles, CA":[["California","52%",52],["New York","12%",12],["Texas","8%",8],["Washington","6%",6],["Illinois","5%",5]],"San Francisco, CA":[["California","58%",58],["Washington","10%",10],["New York","9%",9],["Texas","7%",7],["Oregon","5%",5]],"New York, NY":[["New York","44%",44],["New Jersey","14%",14],["California","12%",12],["Pennsylvania","8%",8],["Connecticut","5%",5]],"Berkeley, CA":[["California","61%",61],["Washington","9%",9],["New York","8%",8],["Texas","6%",6],["Oregon","4%",4]],"Austin, TX":[["Texas","48%",48],["California","14%",14],["Florida","9%",9],["New York","8%",8],["Georgia","5%",5]],"San Diego, CA":[["California","54%",54],["Arizona","12%",12],["Texas","9%",9],["Nevada","7%",7],["Washington","5%",5]],"San Jose, CA":[["California","59%",59],["Washington","10%",10],["New York","8%",8],["Texas","7%",7],["Oregon","5%",5]],"Seattle, WA":[["Washington","50%",50],["California","16%",16],["Oregon","11%",11],["New York","8%",8],["Texas","6%",6]],"San Gabriel, CA":[["California","60%",60],["Washington","9%",9],["New York","9%",9],["Texas","7%",7],["Illinois","5%",5]],"East Los Angeles, CA":[["California","56%",56],["Texas","12%",12],["New York","9%",9],["Arizona","8%",8],["Illinois","6%",6]]};
+  const femaleBase={foodie:62,lifestyle:58,dorm:45,wellness:70,mom:78};
+  const femalePct=femaleBase[inf.niches[0]]||55;
+  const zoneOverlap=["Los Angeles, CA","San Francisco, CA","San Jose, CA","Berkeley, CA","San Gabriel, CA","East Los Angeles, CA","San Diego, CA","Seattle, WA"].includes(inf.location)?84:51;
+  return{femalePct,malePct:100-femalePct,ages:[["13–17","4%",4],["18–24","32%",32],["25–34","38%",38],["35–44","17%",17],["45+","9%",9]],ethnicity:cultureAffinities[inf.culture]||[["White/Non-Hispanic","38%",38],["Asian-American","28%",28],["Latinx","18%",18],["Black/African-American","10%",10],["Other","6%",6]],states:statesByLocation[inf.location]||[["California","40%",40],["New York","15%",15],["Texas","12%",12],["Washington","8%",8],["Illinois","6%",6]],zoneOverlap};
+}
+
+function getHistoryData(inf){
+  if(inf.matchScore<92)return{campaigns:[],timeline:[{type:'pending',label:'Pending',date:'Not yet contacted',note:'No outreach sent yet.'}],relationship:'new'};
+  return{campaigns:[{name:'Lunar New Year 2025',date:'Jan–Feb 2025',reach:'480K',orders:'1,240',roi:'4.2×'},{name:'Back to School 2024',date:'Aug 2024',reach:'310K',orders:'890',roi:'3.8×'}],timeline:[{type:'sent',label:'Outreach Sent',date:'Oct 12, 2024',note:'Initial DM sent via Instagram.'},{type:'replied',label:'Replied',date:'Oct 14, 2024',note:'Creator responded positively, requested rate card.'},{type:'call',label:'Call Scheduled',date:'Oct 18, 2024',note:'30-min intro call completed. Agreed on content brief.'},{type:'replied',label:'Contract Signed',date:'Oct 24, 2024',note:'Partnership agreement signed. 2-post campaign.'}],relationship:'warm'};
+}
+
+const notesStore={};
+function getInitialNotes(inf){
+  if(inf.matchScore>=95)return[{author:'Sarah K.',color:'#e8401c',date:'Mar 10, 2026',text:'High priority for Spring campaign. Strong cultural fit, very responsive to DMs.'},{author:'Marcus T.',color:'#469CCB',date:'Feb 28, 2026',text:'Previous collab ROI was 4×. Recommend increasing budget for next campaign.'}];
+  if(inf.matchScore>=88)return[{author:'Jenny L.',color:'#1a7a4a',date:'Mar 5, 2026',text:'Good fit for referral program. Audience very engaged and trusting.'}];
+  return[];
+}
+
+let currentCreatorId=101;
+function getCurrentCreator(){return INFLUENCERS.find(i=>i.id===currentCreatorId)}
+
+function buildSwitcherMenu(){
+  document.getElementById('switcherMenu').innerHTML=INFLUENCERS.map(inf=>`
+    <button class="switcher-item ${inf.id===currentCreatorId?'active':''}" onclick="selectCreator(${inf.id})">
+      <div class="switcher-item-avatar" style="background:${inf.avatarBg}">${inf.emoji}</div>
+      <div><div class="switcher-item-name">${inf.name}</div><div class="switcher-item-handle">${inf.handle}</div></div>
+      <div class="switcher-item-score">${inf.matchScore}</div>
+    </button>`).join('');
+}
+
+function toggleSwitcher(){document.getElementById('switcherMenu').classList.toggle('open')}
+document.addEventListener('click',e=>{if(!e.target.closest('.creator-switcher-wrap'))document.getElementById('switcherMenu').classList.remove('open')});
+function selectCreator(id){currentCreatorId=id;document.getElementById('switcherMenu').classList.remove('open');renderAll()}
+function switchTab(name,btn){document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');btn.classList.add('active')}
+
+function renderAll(){
+  const inf=getCurrentCreator();
+  buildSwitcherMenu();
+  document.getElementById('switcherAvatar').style.background=inf.avatarBg;
+  document.getElementById('switcherAvatar').textContent=inf.emoji;
+  document.getElementById('switcherName').textContent=inf.name;
+  renderHero(inf);renderOverview(inf);renderAudience(inf);renderContent(inf);renderHistory(inf);renderNotes(inf);
+}
+
+function renderHero(inf){
+  const av=document.getElementById('heroAvatar');
+  av.style.background=inf.avatarBg;
+  av.innerHTML=`<img src="${inf.photo}" onerror="this.style.display='none';this.parentElement.insertAdjacentText('beforeend','${inf.emoji}')" alt="${inf.name}">`;
+  document.getElementById('heroName').textContent=inf.name;
+  document.getElementById('heroHandle').textContent=inf.handle+' · '+inf.location;
+  document.getElementById('heroMatchScore').textContent=inf.matchScore;
+  const cL={korean:'🇰🇷 Korean',chinese:'🇨🇳 Chinese',mexican:'🇲🇽 Mexican',indian:'🇮🇳 Indian',japanese:'🇯🇵 Japanese'};
+  document.getElementById('heroTags').innerHTML=(inf.culture?`<span class="hero-tag tag-culture">${cL[inf.culture]}</span>`:'')+`<span class="hero-tag tag-auth">✓ Authenticity Verified</span><span class="hero-tag tag-location">📍 ${inf.location}</span>`;
+  const pC={tiktok:'#000',instagram:'linear-gradient(45deg,#f09433,#dc2743,#bc1888)',youtube:'#ff0000'};
+  const pI={tiktok:'TT',instagram:'IG',youtube:'YT'};
+  document.getElementById('platformStats').innerHTML=`
+    <div class="pstat"><div class="pstat-icon" style="background:rgba(70,156,203,.15);font-size:16px">👥</div><div><div class="pstat-val">${inf.followers}</div><div class="pstat-label">Followers</div></div></div>
+    <div class="pstat"><div class="pstat-icon" style="background:rgba(26,122,74,.15);font-size:16px">📈</div><div><div class="pstat-val pstat-eng">${inf.engagement}</div><div class="pstat-label">Engagement</div></div></div>
+    <div class="pstat"><div class="pstat-icon" style="background:rgba(245,166,35,.15);font-size:16px">👁</div><div><div class="pstat-val">${inf.avgViews}</div><div class="pstat-label">Avg Views</div></div></div>
+    <div class="pstat"><div class="pstat-icon" style="background:rgba(107,63,160,.15);font-size:16px">💰</div><div><div class="pstat-val" style="font-size:14px">${inf.costEst}</div><div class="pstat-label">Est. Cost</div></div></div>
+    ${inf.platforms.map(p=>`<div class="pstat"><div class="pstat-icon" style="background:${pC[p]};color:#fff">${pI[p]}</div><div><div class="pstat-val" style="font-size:13px;text-transform:capitalize">${p}</div><div class="pstat-label">Platform</div></div></div>`).join('')}`;
+}
+
+function renderOverview(inf){
+  document.getElementById('whyText').textContent=inf.why;
+  const zones=["Los Angeles, CA","San Francisco, CA","San Jose, CA","Berkeley, CA","San Gabriel, CA","East Los Angeles, CA","San Diego, CA","Seattle, WA"];
+  const factors=[{label:'Cultural Audience Alignment',score:Math.min(100,inf.matchScore+1)},{label:'Food Content Relevance',score:Math.min(100,inf.matchScore-1)},{label:'Engagement Quality',score:Math.min(100,Math.round(parseFloat(inf.engagement)*5.2))},{label:'Delivery Zone Overlap',score:zones.includes(inf.location)?84:51}];
+  document.getElementById('matchFactors').innerHTML=factors.map(f=>`<div class="match-factor"><div class="mf-top"><span class="mf-label">${f.label}</span><span class="mf-score">${f.score}%</span></div><div class="mf-bar-track"><div class="mf-bar-fill" style="width:${f.score}%"></div></div></div>`).join('');
+  drawSparkline(inf);
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const eng=parseFloat(inf.engagement);
+  document.getElementById('freqGrid').innerHTML=days.map(d=>{
+    const n=eng>12?3:eng>7?2:1;
+    const dots=Array.from({length:3},(_,j)=>`<div class="freq-dot" style="background:${j<n?'#469CCB':'#e4f0f8'}"></div>`).join('');
+    return`<div class="freq-day"><div class="freq-day-label">${d}</div><div class="freq-dots">${dots}</div></div>`;
+  }).join('');
+  const tc=['#e8401c','#469CCB','#1a7a4a','#6b3fa0','#a07820','#1a4f8a','#c06820'];
+  document.getElementById('tagCloud').innerHTML=[...(inf.foodContent||[]),...inf.niches].map((t,i)=>{const c=tc[i%tc.length];return`<span class="topic-tag" style="color:${c};border-color:${c}22;background:${c}10">${t}</span>`}).join('');
+}
+
+function drawSparkline(inf){
+  const canvas=document.getElementById('sparklineCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.offsetWidth||400,H=120;
+  canvas.width=W;canvas.height=H;
+  const months=['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+  const base=parseFloat(inf.engagement);
+  const pts=months.map((_,i)=>base*(0.7+Math.sin(i*0.9+inf.id)*0.3+i*0.02));
+  const min=Math.min(...pts)*0.85,max=Math.max(...pts)*1.1;
+  const toY=v=>H-10-((v-min)/(max-min))*(H-20);
+  const toX=i=>(i/(pts.length-1))*(W-20)+10;
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'rgba(70,156,203,.25)');grad.addColorStop(1,'rgba(70,156,203,0)');
+  ctx.beginPath();pts.forEach((v,i)=>i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v)));
+  ctx.lineTo(toX(pts.length-1),H);ctx.lineTo(toX(0),H);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  ctx.beginPath();ctx.strokeStyle='#469CCB';ctx.lineWidth=2.5;ctx.lineJoin='round';
+  pts.forEach((v,i)=>i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v)));ctx.stroke();
+  pts.forEach((v,i)=>{ctx.beginPath();ctx.arc(toX(i),toY(v),3.5,0,Math.PI*2);ctx.fillStyle='#469CCB';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke()});
+  document.getElementById('sparklineLabels').innerHTML=months.map(m=>`<span>${m}</span>`).join('');
+}
+
+function renderAudience(inf){
+  const data=getAudienceData(inf);
+  const c=document.getElementById('donutCanvas'),ctx=c.getContext('2d');
+  ctx.clearRect(0,0,100,100);
+  const angles=[data.femalePct/100*2*Math.PI,(100-data.femalePct)/100*2*Math.PI];
+  let start=-Math.PI/2;
+  ['#469CCB','#f5a623'].forEach((col,i)=>{ctx.beginPath();ctx.arc(50,50,40,start,start+angles[i]);ctx.strokeStyle=col;ctx.lineWidth=14;ctx.stroke();start+=angles[i]});
+  document.getElementById('donutPct').textContent=data.femalePct+'%';
+  document.getElementById('genderLegend').innerHTML=`<div class="legend-item"><div class="legend-dot" style="background:#469CCB"></div>Female — ${data.femalePct}%</div><div class="legend-item"><div class="legend-dot" style="background:#f5a623"></div>Male — ${data.malePct}%</div><div class="legend-item"><div class="legend-dot" style="background:#ccdde9"></div>Non-binary — 2%</div>`;
+  document.getElementById('ageBars').innerHTML=data.ages.map(([l,p,n])=>`<div class="bar-row"><div class="bar-row-label">${l}</div><div class="bar-track"><div class="bar-fill" style="width:${n}%;background:#469CCB"></div></div><div class="bar-pct">${p}</div></div>`).join('');
+  const ec=['#e8401c','#f5a623','#6b3fa0','#469CCB','#1a7a4a'];
+  document.getElementById('ethnicBars').innerHTML=data.ethnicity.map(([l,p,n],i)=>`<div class="bar-row"><div class="bar-row-label" style="font-size:12px">${l}</div><div class="bar-track"><div class="bar-fill" style="width:${n}%;background:${ec[i]}"></div></div><div class="bar-pct">${p}</div></div>`).join('');
+  document.getElementById('stateRows').innerHTML=data.states.map(([s,p,n])=>`<div class="state-row"><div class="state-name">${s}</div><div class="state-bar-track"><div class="state-bar-fill" style="width:${n}%"></div></div><div class="state-pct">${p}</div></div>`).join('');
+  const isGreen=data.zoneOverlap>=70;
+  document.getElementById('zoneCallout').innerHTML=`<div class="zone-callout ${isGreen?'green':'amber'}"><div class="zone-icon">${isGreen?'✅':'⚠️'}</div><div><div class="zone-title">Weee! Delivery Zone Overlap: ${data.zoneOverlap}%</div><div class="zone-sub">${isGreen?'Strong overlap with Weee! delivery zones. High audience conversion potential.':'Moderate overlap. Consider supplementing with digital-first campaign mechanics.'}</div></div></div>`;
+}
+
+function renderContent(inf){
+  const pC={tiktok:'rgba(0,0,0,.8)',instagram:'linear-gradient(45deg,#f09433,#dc2743)',youtube:'#ff0000'};
+  const allV=[...inf.videos,...inf.videos].slice(0,6);
+  document.getElementById('videoGrid').innerHTML=allV.map(v=>`<div class="video-thumb"><div class="video-thumb-img" style="background:${v.color}18"><span style="font-size:28px">${inf.emoji}</span><div class="video-platform-badge" style="background:${pC[v.platform]||'#333'}">${v.platform}</div><div class="video-thumb-play">▶ ${v.views}</div></div><div class="video-thumb-body"><div class="video-thumb-title">${v.title}</div><div class="video-thumb-views">${v.views} views</div></div></div>`).join('');
+  const eng=parseFloat(inf.engagement);
+  const sentiment=eng>12?'Highly positive':eng>7?'Positive':'Neutral–Positive';
+  const format=inf.platforms.includes('tiktok')?'Short-form video (15–90s)':'Long-form video + Reels';
+  const consistency=eng>10?'5–7× per week':eng>6?'3–5× per week':'1–3× per week';
+  const brandStyle=inf.size==='nano'?'Organic mention, story-style':inf.size==='micro'?'Integrated mention + CTA':'Dedicated sponsored post';
+  document.getElementById('analysisGrid').innerHTML=`<div class="ag-cell"><div class="ag-label">Primary Format</div><div class="ag-val">${format}</div></div><div class="ag-cell"><div class="ag-label">Best Topic</div><div class="ag-val">${(inf.foodContent||[])[0]||'Food content'}</div></div><div class="ag-cell"><div class="ag-label">Posting Consistency</div><div class="ag-val">${consistency}</div></div><div class="ag-cell"><div class="ag-label">Brand Mention Style</div><div class="ag-val">${brandStyle}</div></div><div class="ag-cell"><div class="ag-label">Comment Sentiment</div><div class="ag-val">${sentiment}</div></div><div class="ag-cell"><div class="ag-label">Top Platform</div><div class="ag-val" style="text-transform:capitalize">${inf.platforms[0]}</div></div>`;
+  document.getElementById('foodKeywords').innerHTML=(inf.foodContent||[]).map(k=>`<span class="fkw">${k}</span>`).join('');
+  const pColors={tiktok:'#000',instagram:'#c13584',youtube:'#ff0000'};
+  const pct=Math.round(100/inf.platforms.length);
+  document.getElementById('platformBreakdown').innerHTML=inf.platforms.map(p=>`<div class="bar-row" style="margin-bottom:8px"><div class="bar-row-label" style="text-transform:capitalize;font-size:12px">${p}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${pColors[p]||'#469CCB'}"></div></div><div class="bar-pct">${pct}%</div></div>`).join('');
+}
+
+function renderHistory(inf){
+  const data=getHistoryData(inf);
+  document.getElementById('campaignCards').innerHTML=data.campaigns.length===0?`<div style="color:var(--muted);font-size:14px;padding:12px 0">No previous campaigns with this creator yet.</div>`:data.campaigns.map(c=>`<div class="campaign-card"><div class="cc-header"><div><div class="cc-name">${c.name}</div><div class="cc-date">${c.date}</div></div><div class="cc-badge">Completed</div></div><div class="cc-stats"><div class="cc-stat"><div class="cc-stat-val">${c.reach}</div><div class="cc-stat-label">Reach</div></div><div class="cc-stat"><div class="cc-stat-val">${c.orders}</div><div class="cc-stat-label">Orders</div></div><div class="cc-stat"><div class="cc-stat-val">${c.roi}</div><div class="cc-stat-label">ROI</div></div></div></div>`).join('');
+  document.getElementById('outreachTimeline').innerHTML=data.timeline.map(t=>`<div class="tl-item"><div class="tl-dot ${t.type}"></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:2px"><span class="tl-status ${t.type}">${t.label}</span><span class="tl-date">${t.date}</span></div><div class="tl-note">${t.note}</div></div>`).join('');
+  const isWarm=data.relationship==='warm';
+  document.getElementById('relationshipSummary').innerHTML=`<div class="relationship-badge ${isWarm?'rb-warm':'rb-new'}" style="margin-bottom:16px">${isWarm?'🤝 Warm Relationship':'🆕 First Contact'}</div><div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px">${isWarm?`${inf.name.split(' ')[0]} is an established partner. Previous campaigns have performed above benchmark. Recommended for priority outreach.`:'No prior relationship. Recommend a warm intro via DM referencing their specific content before pitching a collaboration.'}</div><div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Recommended First Step</div><div style="font-size:13px;color:var(--ink)">${isWarm?'📅 Re-engage with new campaign brief':'✉ Send personalized cold outreach'}</div>`;
+}
+
+function renderNotes(inf){
+  const key=inf.id;
+  if(!notesStore[key])notesStore[key]=getInitialNotes(inf);
+  const ac=['#e8401c','#469CCB','#1a7a4a','#6b3fa0','#a07820'];
+  document.getElementById('notesFeed').innerHTML=notesStore[key].length===0?`<div style="color:var(--muted);font-size:14px;padding:12px 0">No notes yet. Add the first one above!</div>`:notesStore[key].map((n,i)=>`<div class="note-item"><div class="note-meta"><div class="note-author-dot" style="background:${n.color||ac[i%ac.length]}">${n.author[0]}</div><div class="note-author">${n.author}</div><div class="note-date">${n.date}</div></div><div class="note-body">${n.text}</div></div>`).join('');
+}
+
+function addNote(){
+  const inp=document.getElementById('noteInput');
+  const text=inp.value.trim();if(!text)return;
+  const inf=getCurrentCreator();
+  if(!notesStore[inf.id])notesStore[inf.id]=[];
+  notesStore[inf.id].unshift({author:'You',color:'#469CCB',date:'Just now',text});
+  inp.value='';renderNotes(inf);
+}
+
+function shortlistCreator(){
+  const btn=document.querySelector('.btn-shortlist');
+  btn.textContent='✓ Shortlisted!';btn.style.background='#1a7a4a';btn.style.color='#fff';
+  setTimeout(()=>{btn.textContent='⭐ Shortlist';btn.style.background='';btn.style.color=''},2000);
+}
+
+function openOutreachModal(){
+  const inf=getCurrentCreator();
+  document.getElementById('modalTitle').textContent='Outreach → '+inf.name;
+  document.getElementById('modalLoading').style.display='block';
+  document.getElementById('modalContent').style.display='none';
+  document.getElementById('outreachOverlay').classList.add('open');
+  fetch('/.netlify/functions/gemini',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({systemPrompt:`You write personalized influencer outreach messages on behalf of Weee!, an online Asian grocery delivery company. Keep it under 100 words. Sound warm and human.`,userMessage:`Write an outreach message for ${inf.name} (${inf.handle}), a ${inf.size}-influencer with ${inf.followers} followers. Their food content includes: ${(inf.foodContent||[]).join(', ')}. Cultural market: ${inf.culture||'general'}.`})})
+    .then(r=>r.json()).then(d=>{document.getElementById('modalTextarea').value=d.text||inf.outreachTemplate})
+    .catch(()=>{document.getElementById('modalTextarea').value=inf.outreachTemplate})
+    .finally(()=>{document.getElementById('modalLoading').style.display='none';document.getElementById('modalContent').style.display='block'});
+}
+
+function closeModal(){document.getElementById('outreachOverlay').classList.remove('open')}
+document.getElementById('outreachOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('outreachOverlay'))closeModal()});
+function copyOutreach(){
+  navigator.clipboard.writeText(document.getElementById('modalTextarea').value).then(()=>{
+    const btn=document.querySelector('.btn-copy');btn.textContent='✓ Copied!';setTimeout(()=>{btn.textContent='📋 Copy Message'},2000)
+  });
+}
+
+const urlParams=new URLSearchParams(window.location.search);
+const paramId=parseInt(urlParams.get('id'));
+if(paramId&&INFLUENCERS.find(i=>i.id===paramId))currentCreatorId=paramId;
+renderAll();
+</script>
+</body>
+</html>
