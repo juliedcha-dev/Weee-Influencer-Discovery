@@ -2562,6 +2562,7 @@ document.getElementById('modalOverlay').addEventListener('click', function(e) { 
 document.getElementById('aiPromptInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') runAISearch(); });
 
 renderCards(INFLUENCERS);
+if (new URLSearchParams(window.location.search).get("tool") === "true") showTool();
 updateClearBtn();
 
 </script>
