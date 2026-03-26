@@ -2144,7 +2144,7 @@ function renderCards(data) {
             ${inf.photo ? `<img src="${inf.photo}" alt="${inf.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none';this.parentElement.innerHTML='${inf.name.split(' ').map(n=>n[0]).join('')}';" />` : inf.name.split(' ').map(n=>n[0]).join('')}
           </div>
         <div class="card-info">
-          <div class="influencer-name"><a href="creator.html?id=${inf.id}" onclick="event.stopPropagation();" style="color:inherit;text-decoration:none;border-bottom:2px solid transparent;transition:border-color 0.15s;" onmouseover="this.style.borderBottomColor='#469CCB'" onmouseout="this.style.borderBottomColor='transparent'">${inf.name}</a></div>
+          <div class="influencer-name">${inf.name}</div>
           <div class="influencer-handle">${inf.handle} · ${inf.location}</div>
           <div class="platform-tags">
             ${inf.platforms.map(p => `<span class="ptag ${p}">${p.charAt(0).toUpperCase()+p.slice(1)}</span>`).join('')}
@@ -2563,6 +2563,9 @@ document.getElementById('aiPromptInput').addEventListener('keydown', function(e)
 
 renderCards(INFLUENCERS);
 updateClearBtn();
+
+// Auto-open tool page if redirected from creator profile
+if (new URLSearchParams(window.location.search).get('tool') === 'true') showTool();
 
 </script>
 </body>
