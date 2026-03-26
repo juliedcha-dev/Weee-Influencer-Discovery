@@ -290,8 +290,12 @@ canvas.sparkline{width:100%;height:120px}
     </div>
     <div class="card">
       <div class="card-title"><span class="card-title-dot" style="background:var(--accent)"></span>Engagement & Views (9 months)</div>
-      <div class="sparkline-wrap"><canvas class="sparkline" id="sparklineCanvas"></canvas></div>
-      <div class="sparkline-labels" id="sparklineLabels"></div>
+      <div style="position:relative;padding-top:16px">
+        <div style="position:absolute;left:0;top:20px;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.07em;writing-mode:vertical-rl;transform:rotate(180deg)">Overall Engagement Rate</div>
+        <div class="sparkline-wrap"><canvas class="sparkline" id="sparklineCanvas"></canvas></div>
+        <div style="padding-top:8px;padding-left:50px;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.07em">Months</div>
+        <div class="sparkline-labels" id="sparklineLabels" style="padding-left:50px"></div>
+      </div>
     </div>
   </div>
   <div style="height:20px"></div>
@@ -557,7 +561,7 @@ function drawSparkline(inf){
   const pts=months.map((_,i)=>base*(0.7+Math.sin(i*0.9+inf.id)*0.3+i*0.02));
   const min=Math.min(...pts)*0.85,max=Math.max(...pts)*1.1;
   const toY=v=>H-10-((v-min)/(max-min))*(H-20);
-  const toX=i=>(i/(pts.length-1))*(W-20)+10;
+  const toX=i=>(i/(pts.length-1))*(W-60)+50;
   
   // Draw Y-axis grid lines and labels
   ctx.strokeStyle='rgba(204,221,233,.2)';ctx.lineWidth=1;
@@ -565,7 +569,7 @@ function drawSparkline(inf){
   for(let i=0;i<=ySteps;i++){
     const val=min+(max-min)*(i/ySteps);
     const y=toY(val);
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(50,y);ctx.lineTo(W,y);ctx.stroke();
   }
   
   // Draw Y-axis labels
@@ -573,7 +577,7 @@ function drawSparkline(inf){
   for(let i=0;i<=ySteps;i++){
     const val=min+(max-min)*(i/ySteps);
     const y=toY(val);
-    ctx.fillText(val.toFixed(1)+'%',35,y+4);
+    ctx.fillText(val.toFixed(1)+'%',42,y+4);
   }
   
   const grad=ctx.createLinearGradient(0,0,0,H);
