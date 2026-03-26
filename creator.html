@@ -92,15 +92,10 @@ nav{position:sticky;top:0;z-index:100;background:#469CCB;border-bottom:1px solid
 .sparkline-wrap{position:relative;height:120px}
 .sparkline-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:6px}
 canvas.sparkline{width:100%;height:120px}
-.freq-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:12px}
-.freq-day{text-align:center}
-.freq-day-label{font-size:11px;font-weight:600;color:var(--ink);margin-bottom:10px;letter-spacing:.03em}
-.freq-dots{display:flex;flex-direction:column;gap:4px;align-items:center}
-.freq-dot{width:12px;height:12px;border-radius:4px;transition:all .2s}
-.freq-dot:hover{transform:scale(1.15)}
-.freq-legend{display:flex;gap:20px;justify-content:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:12px}
-.freq-legend-item{display:flex;align-items:center;gap:6px}
-.freq-legend-dot{width:12px;height:12px;border-radius:4px}
+.freq-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.freq-stat-card{background:linear-gradient(135deg,rgba(70,156,203,.08),rgba(26,122,74,.08));border:1.5px solid var(--border);border-radius:10px;padding:16px 14px;text-align:center}
+.freq-stat-value{font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800;color:var(--accent);margin-bottom:4px}
+.freq-stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
 .tag-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .topic-tag{font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:600;padding:5px 12px;border-radius:100px;border:1.5px solid;cursor:default;transition:transform .15s}
 .topic-tag:hover{transform:scale(1.05)}
@@ -537,14 +532,12 @@ function renderOverview(inf){
   const factors=[{label:'Cultural Audience Alignment',score:Math.min(100,inf.matchScore+1)},{label:'Food Content Relevance',score:Math.min(100,inf.matchScore-1)},{label:'Engagement Quality',score:Math.min(100,Math.round(parseFloat(inf.engagement)*5.2))},{label:'Delivery Zone Overlap',score:zones.includes(inf.location)?84:51}];
   document.getElementById('matchFactors').innerHTML=factors.map(f=>`<div class="match-factor"><div class="mf-top"><span class="mf-label">${f.label}</span><span class="mf-score">${f.score}%</span></div><div class="mf-bar-track"><div class="mf-bar-fill" style="width:${f.score}%"></div></div></div>`).join('');
   drawSparkline(inf);
-  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const eng=parseFloat(inf.engagement);
-  const freqLabel=eng>12?'Very High (5–7×/week)':eng>7?'High (3–5×/week)':'Moderate (1–3×/week)';
-  document.getElementById('freqGrid').innerHTML=days.map(d=>{
-    const n=eng>12?3:eng>7?2:1;
-    const dots=Array.from({length:3},(_,j)=>`<div class="freq-dot" style="background:${j<n?'#469CCB':'#d4eaf8'}" title="${j<n?'Active':'Inactive'}"></div>`).join('');
-    return`<div class="freq-day"><div class="freq-day-label">${d}</div><div class="freq-dots">${dots}</div></div>`;
-  }).join('')+`<div style="grid-column:1/-1;text-align:center;margin-top:6px;font-size:12px;font-weight:600;color:var(--ink)">${freqLabel}</div>`;
+  const postsPerWeek=eng>12?'5–7':eng>7?'3–5':'1–3';
+  const consistency=eng>12?95:eng>7?75:50;
+  const activityLevel=eng>12?'Very High':eng>7?'High':'Moderate';
+  const peakDays=eng>12?5:eng>7?4:2;
+  document.getElementById('freqGrid').innerHTML=`<div class="freq-stat-card"><div class="freq-stat-value">${postsPerWeek}</div><div class="freq-stat-label">Posts/Week</div></div><div class="freq-stat-card"><div class="freq-stat-value">${consistency}%</div><div class="freq-stat-label">Consistency</div></div><div class="freq-stat-card"><div class="freq-stat-value">${activityLevel}</div><div class="freq-stat-label">Activity Level</div></div><div class="freq-stat-card"><div class="freq-stat-value">${peakDays}</div><div class="freq-stat-label">Peak Days</div></div>`;
   const tc=['#e8401c','#469CCB','#1a7a4a','#6b3fa0','#a07820','#1a4f8a','#c06820'];
   document.getElementById('tagCloud').innerHTML=[...(inf.foodContent||[]),...inf.niches].map((t,i)=>{const c=tc[i%tc.length];return`<span class="topic-tag" style="color:${c};border-color:${c}22;background:${c}10">${t}</span>`}).join('');
 }
