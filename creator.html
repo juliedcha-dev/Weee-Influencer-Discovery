@@ -639,7 +639,7 @@ function renderAudience(inf){
   document.getElementById('ethnicBars').innerHTML=data.ethnicity.map(([l,p,n],i)=>`<div class="bar-row"><div class="bar-row-label" style="font-size:12px">${l}</div><div class="bar-track"><div class="bar-fill" style="width:${n}%;background:${ec[i]}"></div></div><div class="bar-pct">${p}</div></div>`).join('');
   document.getElementById('stateRows').innerHTML=data.states.map(([s,p,n])=>`<div class="state-row"><div class="state-name">${s}</div><div class="state-bar-track"><div class="state-bar-fill" style="width:${n}%"></div></div><div class="state-pct">${p}</div></div>`).join('');
   const isGreen=data.zoneOverlap>=70;
-  document.getElementById('zoneCallout').innerHTML=`<div class="zone-callout ${isGreen?'green':'amber'}"><div class="zone-icon">${isGreen?'✅':'⚠️'}</div><div><div class="zone-title">Weee! Delivery Zone Overlap: ${data.zoneOverlap}%</div><div class="zone-sub">${isGreen?'Strong overlap with Weee! delivery zones. High audience conversion potential.':'Low delivery zone overlap. Focus on building online awareness rather than local orders.'}</div></div></div>`;
+  document.getElementById('zoneCallout').innerHTML=`<div class="zone-callout ${isGreen?'green':'amber'}"><div class="zone-icon">${isGreen?'✅':'⚠️'}</div><div><div class="zone-title">Weee! Delivery Zone Overlap: ${data.zoneOverlap}%</div><div class="zone-sub">${isGreen?'Strong local reach. Ideal for driving real orders in Weee! delivery areas.':'Low delivery zone overlap. Focus on building online awareness rather than local orders.'}</div></div></div>`;
 }
 
 function renderContent(inf){
