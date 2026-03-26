@@ -478,8 +478,9 @@ function getHistoryData(inf){
 
 const notesStore={};
 function getInitialNotes(inf){
-  if(inf.matchScore>=95)return[{author:'Sarah K.',color:'#e8401c',date:'Mar 10, 2026',text:'High priority for Spring campaign. Strong cultural fit, very responsive to DMs.'},{author:'Marcus T.',color:'#469CCB',date:'Feb 28, 2026',text:'Previous collab ROI was 4×. Recommend increasing budget for next campaign.'}];
-  if(inf.matchScore>=88)return[{author:'Jenny L.',color:'#1a7a4a',date:'Mar 5, 2026',text:'Good fit for referral program. Audience very engaged and trusting.'}];
+  const teamName=inf.primaryTeam?`${inf.primaryTeam} Team`:'Team';
+  if(inf.matchScore>=95)return[{author:teamName,color:'#e8401c',date:'Mar 10, 2026',text:'High priority for Spring campaign. Strong cultural fit, very responsive to DMs.'},{author:teamName,color:'#469CCB',date:'Feb 28, 2026',text:'Previous collab ROI was 4×. Recommend increasing budget for next campaign.'}];
+  if(inf.matchScore>=88)return[{author:teamName,color:'#1a7a4a',date:'Mar 5, 2026',text:'Good fit for referral program. Audience very engaged and trusting.'}];
   return[];
 }
 
@@ -557,6 +558,24 @@ function drawSparkline(inf){
   const min=Math.min(...pts)*0.85,max=Math.max(...pts)*1.1;
   const toY=v=>H-10-((v-min)/(max-min))*(H-20);
   const toX=i=>(i/(pts.length-1))*(W-20)+10;
+  
+  // Draw Y-axis grid lines and labels
+  ctx.strokeStyle='rgba(204,221,233,.2)';ctx.lineWidth=1;
+  const ySteps=4;
+  for(let i=0;i<=ySteps;i++){
+    const val=min+(max-min)*(i/ySteps);
+    const y=toY(val);
+    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
+  }
+  
+  // Draw Y-axis labels
+  ctx.fillStyle='#5a7a96';ctx.font='11px "Instrument Sans"';ctx.textAlign='right';
+  for(let i=0;i<=ySteps;i++){
+    const val=min+(max-min)*(i/ySteps);
+    const y=toY(val);
+    ctx.fillText(val.toFixed(1)+'%',-8,y+4);
+  }
+  
   const grad=ctx.createLinearGradient(0,0,0,H);
   grad.addColorStop(0,'rgba(70,156,203,.25)');grad.addColorStop(1,'rgba(70,156,203,0)');
   ctx.beginPath();pts.forEach((v,i)=>i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v)));
@@ -565,6 +584,41 @@ function drawSparkline(inf){
   pts.forEach((v,i)=>i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v)));ctx.stroke();
   pts.forEach((v,i)=>{ctx.beginPath();ctx.arc(toX(i),toY(v),3.5,0,Math.PI*2);ctx.fillStyle='#469CCB';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke()});
   document.getElementById('sparklineLabels').innerHTML=months.map(m=>`<span>${m}</span>`).join('');
+  
+  // Add engagement tooltips
+  const engagementData=months.map((m,i)=>{
+    const engRate=parseFloat(inf.engagement);
+    const views=Math.round(parseFloat(inf.avgViews.replace('K',''))*1000*(0.8+Math.random()*0.4));
+    const likes=Math.round(views*engRate/100);
+    const comments=Math.round(likes*0.15);
+    const savesShares=Math.round(likes*0.2);
+    return{month:m,views:views.toLocaleString(),likes:likes.toLocaleString(),comments:comments.toLocaleString(),savesShares:savesShares.toLocaleString()};
+  });
+  
+  let tooltip=document.getElementById('sparklineTooltip');
+  if(!tooltip){
+    tooltip=document.createElement('div');
+    tooltip.id='sparklineTooltip';
+    tooltip.style.cssText='position:absolute;background:#0f1923;color:#fff;padding:10px 14px;border-radius:8px;font-size:12px;z-index:50;display:none;border:1px solid rgba(70,156,203,.3);line-height:1.6;white-space:nowrap';
+    canvas.parentElement.style.position='relative';
+    canvas.parentElement.appendChild(tooltip);
+  }
+  
+  canvas.addEventListener('mousemove',(e)=>{
+    const rect=canvas.getBoundingClientRect();
+    const x=e.clientX-rect.left;
+    const dotSpacing=W/8;
+    let closestIdx=-1,minDist=20;
+    pts.forEach((v,i)=>{if(Math.abs(toX(i)-x)<minDist){minDist=Math.abs(toX(i)-x);closestIdx=i;}});
+    if(closestIdx>=0){
+      const data=engagementData[closestIdx];
+      tooltip.innerHTML=`<strong>${data.month}</strong><div style="margin-top:6px;font-size:11px">👁 Views: ${data.views}<br>❤️ Likes: ${data.likes}<br>💬 Comments: ${data.comments}<br>💾 Saves+Shares: ${data.savesShares}</div>`;
+      tooltip.style.display='block';
+      tooltip.style.left=(toX(closestIdx)-tooltip.offsetWidth/2)+'px';
+      tooltip.style.top='-68px';
+    }else{tooltip.style.display='none';}
+  });
+  canvas.addEventListener('mouseleave',()=>{tooltip.style.display='none';});
 }
 
 function renderAudience(inf){
@@ -586,7 +640,7 @@ function renderAudience(inf){
 
 function renderContent(inf){
   const pC={tiktok:'rgba(0,0,0,.8)',instagram:'linear-gradient(45deg,#f09433,#dc2743)',youtube:'#ff0000'};
-  const allV=[...inf.videos,...inf.videos].slice(0,6);
+  const allV=inf.videos.slice(0,6);
   document.getElementById('videoGrid').innerHTML=allV.map(v=>`<div class="video-thumb"><div class="video-thumb-img" style="background:${v.color}18"><span style="font-size:28px">${inf.emoji}</span><div class="video-platform-badge" style="background:${pC[v.platform]||'#333'}">${v.platform}</div><div class="video-thumb-play">▶ ${v.views}</div></div><div class="video-thumb-body"><div class="video-thumb-title">${v.title}</div><div class="video-thumb-views">${v.views} views</div></div></div>`).join('');
   const eng=parseFloat(inf.engagement);
   const sentiment=eng>12?'Highly positive':eng>7?'Positive':'Neutral–Positive';
@@ -603,7 +657,7 @@ function renderContent(inf){
 function renderHistory(inf){
   const data=getHistoryData(inf);
   const teamEmojis={korean:'🇰🇷',chinese:'🇨🇳',mexican:'🇲🇽',indian:'🇮🇳',japanese:'🇯🇵'};
-  document.getElementById('campaignCards').innerHTML=data.campaigns.length===0?`<div style="color:var(--muted);font-size:14px;padding:12px 0">No previous campaigns with this creator yet.</div>`:data.campaigns.map(c=>`<div class="campaign-card"><div class="cc-header"><div><div class="cc-name">${c.name}</div><div class="cc-date">${c.date}</div>${c.team?`<div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px">${teamEmojis[c.team.toLowerCase()]||'•'} ${c.team} Team</div>`:''}</div><div class="cc-badge">Completed</div></div><div class="cc-stats"><div class="cc-stat"><div class="cc-stat-val">${c.reach}</div><div class="cc-stat-label">Reach</div></div><div class="cc-stat"><div class="cc-stat-val">${c.orders}</div><div class="cc-stat-label">Orders</div></div><div class="cc-stat"><div class="cc-stat-val">${c.roi}</div><div class="cc-stat-label">ROI</div></div></div></div>`).join('');
+  document.getElementById('campaignCards').innerHTML=data.campaigns.length===0?`<div style="color:var(--muted);font-size:14px;padding:12px 0">No previous campaigns with this creator yet.</div>`:data.campaigns.map(c=>`<div class="campaign-card"><div class="cc-header"><div><div class="cc-name">${c.name} ${c.team?`<span style="font-size:10px;color:rgba(255,255,255,.6);margin-left:8px">${teamEmojis[c.team.toLowerCase()]||'•'} ${c.team} Team</span>`:''}</div><div class="cc-date">${c.date}</div></div><div class="cc-badge">Completed</div></div><div class="cc-stats"><div class="cc-stat"><div class="cc-stat-val">${c.reach}</div><div class="cc-stat-label">Reach</div></div><div class="cc-stat"><div class="cc-stat-val">${c.orders}</div><div class="cc-stat-label">Orders</div></div><div class="cc-stat"><div class="cc-stat-val">${c.roi}</div><div class="cc-stat-label">ROI</div></div></div></div>`).join('');
   document.getElementById('outreachTimeline').innerHTML=data.timeline.map(t=>`<div class="tl-item"><div class="tl-dot ${t.type}"></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:2px"><span class="tl-status ${t.type}">${t.label}</span><span class="tl-date">${t.date}</span></div><div class="tl-note">${t.note}</div></div>`).join('');
   const isWarm=data.relationship==='warm';
   const teamHTML=data.team?`<div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:12px;margin-bottom:6px">Team Owner</div><div style="font-size:13px;color:var(--ink);margin-bottom:16px">${inf.teamContact?`${inf.teamContact.name} — ${data.team} Team`:`${data.team} Team`}</div>`:'';
